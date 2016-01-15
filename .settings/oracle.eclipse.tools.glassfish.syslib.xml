@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<system-libraries>
+    <library path="/home/alexandre/Documentos/eclipse/servidores/glassfish4/glassfish/modules/jersey-server.jar" source="/home/alexandre/.m2/repository/org/glassfish/jersey/core/jersey-server/2.10.4/jersey-server-2.10.4-sources.jar"/>
+</system-libraries>

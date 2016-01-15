@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+<!-- ESSE PERSISTENCE-UNIT só funciona local -->
+	<persistence-unit name="easy-game-local" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>br.com.easygame.entity.Usuario</class>
+		<class>br.com.easygame.entity.Jogador</class>
+		<class>br.com.easygame.entity.Equipe</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="eclipselink.logging.level" value="FINE" />
+			<property name="eclipselink.target-database" value="MySQL" />
+			<property name="eclipselink.id-validation" value="NULL" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/easy_game" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="@le0877" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+		</properties>
+	</persistence-unit>
+	
+	<!-- ESSE PERSISTENCE-UNIT só funciona no SERVIDOR porque usa jdbc/cardapio, que é um recurso que ta dentro do servidor -->
+	<persistence-unit name="easy-game" transaction-type="JTA">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>jdbc/easy-game</jta-data-source>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<properties>
+			<property name="eclipselink.logging.level" value="FINE" />
+			<property name="eclipselink.target-database" value="MySQL" />
+			<property name="eclipselink.id-validation" value="NULL" />
+		</properties>
+	</persistence-unit>
+	
+</persistence>
