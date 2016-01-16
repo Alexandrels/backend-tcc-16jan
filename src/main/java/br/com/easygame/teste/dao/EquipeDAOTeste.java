@@ -63,7 +63,7 @@ public class EquipeDAOTeste {
 		equipeDAO.salvar(equipe);
 
 	}
-
+//teste commit do linux
 	@Test
 	public void salvarEquipeComJogadores() {
 		Equipe equipe = new Equipe();
