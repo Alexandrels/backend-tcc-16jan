@@ -27,8 +27,8 @@ public class Local implements Serializable {
 	private String nomeLocal;
 	@Column(name = "endereco")
 	private String endereco;
-	@Column(name = "nome_proprietario")
-	private String nomeProprietario;
+	@Column(name = "proprietario")
+	private String proprietario;
 
 	public Local() {
 	}
@@ -65,19 +65,42 @@ public class Local implements Serializable {
 	}
 
 
-	public String getNomeProprietario() {
-		return nomeProprietario;
+	public String getProprietario() {
+		return proprietario;
 	}
 
 
-	public void setNomeProprietario(String nomeProprietario) {
-		this.nomeProprietario = nomeProprietario;
+	public void setProprietario(String proprietario) {
+		this.proprietario = proprietario;
 	}
 
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
 
 
-
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Local other = (Local) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 	
 
 }

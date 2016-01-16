@@ -42,6 +42,7 @@ public class UsuarioDAO {
 	public void salvar(Usuario usuario) {
 		entityManager.persist(usuario);
 	}
+	
 
 	public void editar(Usuario usuario) {
 		entityManager.merge(usuario);

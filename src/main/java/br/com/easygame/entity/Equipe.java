@@ -45,6 +45,8 @@ public class Equipe implements Serializable {
 	
 	
 	
+	
+	
 	public Equipe() {
 		// TODO Auto-generated constructor stub
 	}

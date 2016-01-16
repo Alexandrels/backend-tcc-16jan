@@ -7,7 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
+import org.apache.commons.collections4.CollectionUtils;
+
+import br.com.easygame.entity.Equipe;
+import br.com.easygame.entity.Usuario;
 import br.com.easygame.entity.UsuarioEquipe;
 import br.com.easygame.entity.UsuarioEquipe;
 
@@ -27,19 +32,38 @@ public class UsuarioEquipeDAO {
 
 	}
 
-	// um detalhe que esqueci, sempre que usar um EntityManager, depois de
-	// utilizar ele SEMPRE tem que
-	// fechar ele, se não fechar ele fica mantendo uma conexão com o banco
-	// preza, então o correto é fazer
-	// do jeito que vou fazer aqui
 	public void salvar(UsuarioEquipe usuarioEquipe) {
-		entityManager.persist(usuarioEquipe);// usa o entityManager pra fazer a
-										// operação no banco
+		entityManager.persist(usuarioEquipe);
+	}
+
+	public void salvar(List<UsuarioEquipe> listaUsuarioEquipe) {
+		if (CollectionUtils.isNotEmpty(listaUsuarioEquipe)) {
+			for (UsuarioEquipe usuarioEquipe : listaUsuarioEquipe) {
+				salvar(usuarioEquipe);
+			}
+		}
 	}
 
 	public void editar(UsuarioEquipe usuarioEquipe) {
-		entityManager.merge(usuarioEquipe);// usa o entityManager pra fazer a operação
-									// no banco
+		entityManager.merge(usuarioEquipe);
+	}
+
+	/**
+	 * Listar {@link Usuario} jogador da {@link Equipe}
+	 */
+	public List<UsuarioEquipe> listar(Equipe equipe) {
+		try {
+			// cria um entityManager
+			StringBuilder jpql = new StringBuilder("SELECT u FROM UsuarioEquipe u ")
+					.append(" WHERE u.equipe = :equipe ");
+			TypedQuery<UsuarioEquipe> tq = entityManager.createQuery(jpql.toString(), UsuarioEquipe.class);
+			tq.setParameter("equipe", equipe);
+			List<UsuarioEquipe> resultList = tq.getResultList();
+
+			return resultList;
+		} catch (Exception e) {
+			return new ArrayList<UsuarioEquipe>();
+		}
 	}
 
 	// aqui um exemplo de como listar todos os usuarios
@@ -57,7 +81,7 @@ public class UsuarioEquipeDAO {
 	public UsuarioEquipe pesquisarPorId(Long id) {
 		return entityManager.find(UsuarioEquipe.class, id);
 	}
-	
+
 	public void flush() {
 		entityManager.flush();
 	}

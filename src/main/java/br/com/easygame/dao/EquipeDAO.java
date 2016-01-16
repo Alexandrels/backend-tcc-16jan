@@ -57,4 +57,8 @@ public class EquipeDAO {
 	public Equipe pesquisarPorId(Long id) {
 		return entityManager.find(Equipe.class, id);
 	}
+	
+	public void flush() {
+		entityManager.flush();
+	}
 }

@@ -2,9 +2,11 @@ package br.com.easygame.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -46,34 +48,29 @@ public class Evento implements Serializable {
 	@Column(name = "tipo")
 	private TipoEvento tipoEvento;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "evento_has_local", joinColumns = {
-			@JoinColumn(referencedColumnName = "id_evento") }, inverseJoinColumns = {
-					@JoinColumn(referencedColumnName = "id_local") })
+	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinTable(name = "evento_has_local", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_local") })
 	private List<Local> locais = new ArrayList<Local>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "evento_has_equipe", joinColumns = {
-			@JoinColumn(referencedColumnName = "id_evento") }, inverseJoinColumns = {
-					@JoinColumn(referencedColumnName = "id_equipe") })
+	@JoinTable(name = "evento_has_equipe", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_equipe") })
 	private List<Equipe> equipes = new ArrayList<Equipe>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "evento_has_notificacao", joinColumns = {
-			@JoinColumn(referencedColumnName = "id_evento") }, inverseJoinColumns = {
-					@JoinColumn(referencedColumnName = "id_notificacao") })
+			@JoinColumn(name = "id_evento") }, inverseJoinColumns = { @JoinColumn(name = "id_notificacao") })
 	private List<Notificacao> notificacoes = new ArrayList<Notificacao>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "evento_has_usuario", joinColumns = {
-			@JoinColumn(referencedColumnName = "id_evento") }, inverseJoinColumns = {
-					@JoinColumn(referencedColumnName = "id_usuario") })
+	@JoinTable(name = "evento_has_usuario", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_usuario") })
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "evento_has_recorrencia", joinColumns = {
-			@JoinColumn(referencedColumnName = "id_evento") }, inverseJoinColumns = {
-					@JoinColumn(referencedColumnName = "id_recorrencia") })
+			@JoinColumn(name = "id_evento") }, inverseJoinColumns = { @JoinColumn(name = "id_recorrencia") })
 	private List<Recorrencia> recorrencias = new ArrayList<Recorrencia>();
 
 	@ManyToOne
@@ -155,6 +152,47 @@ public class Evento implements Serializable {
 	public void setRecorrencias(List<Recorrencia> recorrencias) {
 		this.recorrencias = recorrencias;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public void adicionarEquipes(List<Equipe> equipes) {
+		if (getEquipes() == null) {
+			setEquipes(new ArrayList<Equipe>());
+		}
+		getEquipes().addAll(equipes);
+	}
+
+	public void adcionarEquipe(Equipe equipe) {
+		adicionarEquipes(Arrays.asList(equipe));
+	}
+
+	public void adicionarUsuarios(List<Usuario> usuarios) {
+		if (getUsuarios() == null) {
+			setUsuarios(new ArrayList<Usuario>());
+		}
+		getUsuarios().addAll(usuarios);
+	}
+
+	public void adicionarUsuario(Usuario usuario) {
+		adicionarUsuarios(Arrays.asList(usuario));
+	}
+	public void adicionarLocais(List<Local> locais) {
+		if (getLocais() == null) {
+			setLocais(new ArrayList<Local>());
+		}
+		getLocais().addAll(locais);
+	}
+
+	public void adicionarLocal(Local local) {
+		adicionarLocais(Arrays.asList(local));
+	}
+	
 
 	@Override
 	public int hashCode() {

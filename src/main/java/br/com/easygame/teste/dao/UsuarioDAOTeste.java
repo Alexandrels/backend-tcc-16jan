@@ -1,7 +1,6 @@
-package br.com.easygame.teste;
+package br.com.easygame.teste.dao;
 
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
-import javax.json.JsonValue;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
@@ -20,10 +18,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.easygame.dao.EquipeDAO;
-import br.com.easygame.dao.JogadorDAO;
 import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Equipe;
-import br.com.easygame.entity.Jogador;
 import br.com.easygame.entity.Usuario;
 import br.com.easygame.enuns.SimNao;
 import br.com.easygame.enuns.TipoPosicao;
@@ -32,7 +28,6 @@ import br.com.easygame.enuns.TipoUsuario;
 public class UsuarioDAOTeste {
 	private EntityManager entityManager;
 	private EquipeDAO equipeDAO;
-	private JogadorDAO jogadorDAO;
 	private int cont = 0;
 	private UsuarioDAO usuarioDAO;
 
@@ -42,13 +37,12 @@ public class UsuarioDAOTeste {
 		entityManager.getTransaction().begin();
 
 		equipeDAO = new EquipeDAO(entityManager);
-		jogadorDAO = new JogadorDAO(entityManager);
 		usuarioDAO = new UsuarioDAO(entityManager);
 	}
 
 	@After
 	public void depois() {
-		entityManager.getTransaction().commit();
+	entityManager.getTransaction().commit();
 		//entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
@@ -56,10 +50,10 @@ public class UsuarioDAOTeste {
 	@Test
 	public void salvarUsuarioTipoJogador() {
 		Usuario usuario = new Usuario();
-		usuario.setNome("Guardiola");
-		usuario.setApelido("Pepe");
+		usuario.setNome("Murici");
+		usuario.setApelido("Murici");
 		usuario.setFacebook(SimNao.NAO);
-		usuario.setLogin("pepe");
+		usuario.setLogin("murici");
 		usuario.setTipoPosicao(TipoPosicao.EXTRA_CAMPO);
 		usuario.setSenha("1");
 		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.TECNICO));

@@ -7,8 +7,13 @@
 	<persistence-unit name="easy-game-local" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>br.com.easygame.entity.Usuario</class>
-		<class>br.com.easygame.entity.Jogador</class>
 		<class>br.com.easygame.entity.Equipe</class>
+		<class>br.com.easygame.entity.Evento</class>
+		<class>br.com.easygame.entity.Local</class>
+		<class>br.com.easygame.entity.Notificacao</class>
+		<class>br.com.easygame.entity.Recorrencia</class>
+		<class>br.com.easygame.entity.UsuarioEquipe</class>
+		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />

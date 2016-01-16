@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import br.com.easygame.dao.EquipeDAO;
 import br.com.easygame.dao.UsuarioDAO;
-import br.com.easygame.entity.Jogador;
 import br.com.easygame.entity.Usuario;
 import br.com.easygame.enuns.SimNao;
 import br.com.easygame.enuns.TipoPosicao;
@@ -50,12 +49,6 @@ public class UsuarioServiceTeste {
 		entityManager.close();
 	}
 
-	@Test
-	public void editarJogador() {
-		Jogador jogador = new Jogador(1l);
-		System.out.println("Jogador " + jogador.toString());
-
-	}
 
 	@Test
 	public void cadastrarUsuarioTecnico() throws Exception {
