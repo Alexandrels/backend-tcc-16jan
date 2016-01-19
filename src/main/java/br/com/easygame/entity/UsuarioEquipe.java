@@ -26,7 +26,7 @@ import br.com.easygame.enuns.TipoPosicao;
  */
 @Table(name = "usuario_has_equipe")
 @Entity
-public class UsuarioEquipe implements Serializable{
+public class UsuarioEquipe implements Serializable {
 
 	/**
 	 * 
@@ -37,10 +37,10 @@ public class UsuarioEquipe implements Serializable{
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name="id_usuario")
+	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 	@ManyToOne
-	@JoinColumn(name="id_equipe")
+	@JoinColumn(name = "id_equipe")
 	private Equipe equipe;
 	@Enumerated
 	@Column(name = "posicao")
@@ -48,53 +48,64 @@ public class UsuarioEquipe implements Serializable{
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_contratacao")
 	private Date dataContratacao;
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
 	public Equipe getEquipe() {
 		return equipe;
 	}
+
 	public void setEquipe(Equipe equipe) {
 		this.equipe = equipe;
 	}
+
 	public TipoPosicao getPosicao() {
 		return posicao;
 	}
+
 	public void setPosicao(TipoPosicao posicao) {
 		this.posicao = posicao;
 	}
+
 	public Date getDataContratacao() {
 		return dataContratacao;
 	}
+
 	public void setDataContratacao(Date dataContratacao) {
 		this.dataContratacao = dataContratacao;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((equipe == null) ? 0 : equipe.hashCode());
+		result = prime * result + ((posicao == null) ? 0 : posicao.hashCode());
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof UsuarioEquipe))
 			return false;
 		UsuarioEquipe other = (UsuarioEquipe) obj;
 		if (equipe == null) {
 			if (other.equipe != null)
 				return false;
 		} else if (!equipe.equals(other.equipe))
+			return false;
+		if (posicao != other.posicao)
 			return false;
 		if (usuario == null) {
 			if (other.usuario != null)
@@ -103,8 +114,5 @@ public class UsuarioEquipe implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
+
 }

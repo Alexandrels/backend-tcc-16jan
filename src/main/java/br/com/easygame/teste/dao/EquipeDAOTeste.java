@@ -63,29 +63,22 @@ public class EquipeDAOTeste {
 		equipeDAO.salvar(equipe);
 
 	}
-//teste commit do linux
+
+	// teste commit do linux
 	@Test
 	public void salvarEquipeComJogadores() {
 		Equipe equipe = new Equipe();
-		equipe.setNome("Barcelona");
+		equipe.setNome("Clube do Remo");
 		equipe.setDataFundacao(LocalDate.now().toDate());
-		equipeDAO.salvar(equipe);
-		equipeDAO.flush();
 
 		List<Usuario> jogadores = usuarioDAO.listar(TipoUsuario.JOGADOR);
-		List<UsuarioEquipe> listaUsuarioEquipe = new ArrayList<>();
 		if (CollectionUtils.isNotEmpty(jogadores)) {
 			for (Usuario usuario : jogadores) {
-				UsuarioEquipe usuarioEquipe = new UsuarioEquipe();
-				usuarioEquipe.setEquipe(equipe);
-				usuarioEquipe.setUsuario(usuario);
-				usuarioEquipe.setPosicao(usuario.getTipoPosicao());
-				usuarioEquipe.setDataContratacao(LocalDate.now().toDate());
-
-				listaUsuarioEquipe.add(usuarioEquipe);
+				equipe.adicionarUsuario(usuario, usuario.getTipoPosicao());
 			}
-			usuarioEquipeDAO.salvar(listaUsuarioEquipe);
 		}
+		equipeDAO.salvar(equipe);
+		equipeDAO.flush();
 
 	}
 

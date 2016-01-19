@@ -1,17 +1,20 @@
 package br.com.easygame.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.json.JsonException;
 import javax.json.JsonObject;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,20 +40,17 @@ public class Equipe implements Serializable {
 
 	@Column(name = "nome")
 	private String nome;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_fundacao")
 	private Date dataFundacao;
-	
-	
-	
-	
-	
-	
+
+	@OneToMany(mappedBy = "equipe", cascade = { CascadeType.ALL })
+	private List<UsuarioEquipe> listUsuarioEquipe = new ArrayList<>();
+
 	public Equipe() {
 		// TODO Auto-generated constructor stub
 	}
-
 
 	public Long getId() {
 		return id;
@@ -68,16 +68,21 @@ public class Equipe implements Serializable {
 		this.nome = nome;
 	}
 
-
 	public Date getDataFundacao() {
 		return dataFundacao;
 	}
-
 
 	public void setDataFundacao(Date dataFundacao) {
 		this.dataFundacao = dataFundacao;
 	}
 
+	public List<UsuarioEquipe> getListUsuarioEquipe() {
+		return listUsuarioEquipe;
+	}
+
+	public void setListUsuarioEquipe(List<UsuarioEquipe> listUsuarioEquipe) {
+		this.listUsuarioEquipe = listUsuarioEquipe;
+	}
 
 	@Override
 	public int hashCode() {
@@ -104,6 +109,17 @@ public class Equipe implements Serializable {
 		return true;
 	}
 
+	public void adicionarUsuario(Usuario usuario, TipoPosicao posicao) {
+		UsuarioEquipe usuarioEquipe = new UsuarioEquipe();
+		usuarioEquipe.setDataContratacao(new Date());
+		usuarioEquipe.setEquipe(this);
+		usuarioEquipe.setPosicao(posicao);
+		usuarioEquipe.setUsuario(usuario);
+		if (!listUsuarioEquipe.contains(usuarioEquipe)) {
+			listUsuarioEquipe.add(usuarioEquipe);
+		}
+
+	}
 
 	public Equipe toEquipe(JsonObject jsonObject) {
 		Equipe equipe = new Equipe();
