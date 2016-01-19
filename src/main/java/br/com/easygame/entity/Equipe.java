@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonException;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,11 +22,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.LocalDate;
 
 import br.com.easygame.entity.Evento;
 import br.com.easygame.enuns.SimNao;
 import br.com.easygame.enuns.TipoPosicao;
+import br.com.easygame.util.DataUtils;
 
 @Table(name = "equipe")
 @Entity
@@ -121,6 +126,24 @@ public class Equipe implements Serializable {
 
 	}
 
+	public JsonObject toJSON() {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		if (getId() != null) {
+			builder.add("id", getId());
+		}
+		builder.add("nome", getNome())
+				.add("data_fundacao", DataUtils.formatarDate(getDataFundacao(), "dd/MM/yyyy"));
+		if(CollectionUtils.isNotEmpty(getListUsuarioEquipe())){
+			JsonArrayBuilder arrayUsuarioEquipe = Json.createArrayBuilder();
+			for (UsuarioEquipe usuarioEquipe : listUsuarioEquipe) {
+				arrayUsuarioEquipe.add(usuarioEquipe.toJSON());
+			}
+			builder.add("listaUsuarioEquipe", arrayUsuarioEquipe);
+		}
+				
+		return builder.build();
+	}
+	
 	public Equipe toEquipe(JsonObject jsonObject) {
 		Equipe equipe = new Equipe();
 		try {
