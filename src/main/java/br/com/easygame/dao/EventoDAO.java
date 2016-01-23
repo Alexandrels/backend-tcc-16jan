@@ -27,6 +27,12 @@ public class EventoDAO {
 	public EventoDAO() {
 
 	}
+	
+	public void apagar(Evento evento) {
+		String sql = "delete from evento_has_equipe where id_equipe = ?";
+		entityManager.createNativeQuery(sql).setParameter(1, evento.getId());
+		entityManager.remove(evento);
+	}
 
 	// um detalhe que esqueci, sempre que usar um EntityManager, depois de
 	// utilizar ele SEMPRE tem que

@@ -2,13 +2,10 @@ package br.com.easygame.teste.service.entity;
 
 import java.util.Arrays;
 
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 
 import org.junit.Test;
 
-import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Usuario;
 import br.com.easygame.enuns.SimNao;
 import br.com.easygame.enuns.TipoPosicao;

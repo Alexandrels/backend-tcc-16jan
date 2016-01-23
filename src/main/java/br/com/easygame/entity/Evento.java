@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,11 +23,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.joda.time.LocalDate;
+
 import br.com.easygame.enuns.TipoEvento;
+import br.com.easygame.util.DataUtils;
 
 @Entity
 @Table(name = "evento")
@@ -48,17 +58,17 @@ public class Evento implements Serializable {
 	@Column(name = "tipo")
 	private TipoEvento tipoEvento;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "evento_has_local", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_local") })
-	private List<Local> locais = new ArrayList<Local>();
+	private Local local;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "evento_has_equipe", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_equipe") })
 	private List<Equipe> equipes = new ArrayList<Equipe>();
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "evento_has_notificacao", joinColumns = {
 			@JoinColumn(name = "id_evento") }, inverseJoinColumns = { @JoinColumn(name = "id_notificacao") })
 	private List<Notificacao> notificacoes = new ArrayList<Notificacao>();
@@ -113,14 +123,6 @@ public class Evento implements Serializable {
 		this.tipoEvento = tipoEvento;
 	}
 
-	public List<Local> getLocais() {
-		return locais;
-	}
-
-	public void setLocais(List<Local> locais) {
-		this.locais = locais;
-	}
-
 	public List<Equipe> getEquipes() {
 		return equipes;
 	}
@@ -161,6 +163,14 @@ public class Evento implements Serializable {
 		this.usuario = usuario;
 	}
 
+	public Local getLocal() {
+		return local;
+	}
+
+	public void setLocal(Local local) {
+		this.local = local;
+	}
+
 	public void adicionarEquipes(List<Equipe> equipes) {
 		if (getEquipes() == null) {
 			setEquipes(new ArrayList<Equipe>());
@@ -182,17 +192,7 @@ public class Evento implements Serializable {
 	public void adicionarUsuario(Usuario usuario) {
 		adicionarUsuarios(Arrays.asList(usuario));
 	}
-	public void adicionarLocais(List<Local> locais) {
-		if (getLocais() == null) {
-			setLocais(new ArrayList<Local>());
-		}
-		getLocais().addAll(locais);
-	}
 
-	public void adicionarLocal(Local local) {
-		adicionarLocais(Arrays.asList(local));
-	}
-	
 
 	@Override
 	public int hashCode() {
@@ -219,28 +219,64 @@ public class Evento implements Serializable {
 		return true;
 	}
 
-	// public static Equipe toEquipe(String json) {
-	// Equipe equipe = new Equipe();
-	//
-	// JsonReader jsonReader = Json.createReader(new StringReader(json));
-	// JsonObject jsonObject = jsonReader.readObject();
-	// if (!jsonObject.containsKey("nome")) {
-	// throw new IllegalArgumentException("Atributo 'nome' é obrigatório");
-	// }
-	// String nome = jsonObject.getString("nome");
-	//
-	// equipe.setNome(nome);
-	// equipe.setJogadores(new ArrayList<Jogador>());
-	// if (!jsonObject.getJsonArray("jogadores").isEmpty()) {
-	// for (JsonValue jogadorJson : jsonObject.getJsonArray("jogadores")) {
-	// JsonReader reader = Json.createReader(new
-	// StringReader(jogadorJson.toString()));
-	// JsonObject objeto = reader.readObject();
-	// Jogador jogador = new Jogador(Long.valueOf(objeto.getString("id")));
-	// equipe.adicionarJogador(jogador);
-	// }
-	// }
-	// return equipe;
-	// }
+	public JsonObject toJSON() {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		if (getId() != null) {
+			builder.add("id", getId());
+		}
+		builder.add("descricao", getDescricao())
 
+		.add("data_hora", DataUtils.formatarDate(getDataHora(), "dd/MM/yyyy HH:mm:ss"))
+				.add("tipo", getTipoEvento().ordinal()).add("usuario", getUsuario().toJSON());
+		if (getLocal() != null) {
+			//avaliar os demais ralcionamentos parecidos, que podem ou não ter o relacionamento
+			builder.add("local", getLocal().toJSON());
+		}
+		if (CollectionUtils.isNotEmpty(getEquipes())) {
+			JsonArrayBuilder arrayEquipes = Json.createArrayBuilder();
+			for (Equipe equipe : getEquipes()) {
+				arrayEquipes.add(equipe.getId());
+			}
+			builder.add("equipes", arrayEquipes);
+		}
+		if (CollectionUtils.isNotEmpty(getUsuarios())) {
+			JsonArrayBuilder arrayUsuarios = Json.createArrayBuilder();
+			for (Usuario usuario : getUsuarios()) {
+				arrayUsuarios.add(usuario.getId());
+			}
+			builder.add("usuarios", arrayUsuarios);
+		}
+
+		return builder.build();
+	}
+
+	public Evento toEvento(JsonObject jsonObject) {
+		Evento evento = new Evento();
+
+		if (jsonObject.containsKey("id")) {
+			evento.setId(Long.valueOf(jsonObject.get("id").toString()));
+		}
+		evento.setDescricao(jsonObject.getString("descricao"));
+		String dataHora = jsonObject.getString("dataHora");
+		LocalDate parseLocalDate = DataUtils.parseLocalDate(dataHora, "dd/MM/yyyy HH:mm:ss");
+		evento.setDataHora(parseLocalDate.toDate());
+		evento.setUsuario(getUsuario().toUsuario(jsonObject.getJsonObject("usuario")));
+		evento.setTipoEvento(TipoEvento.values()[jsonObject.getInt("tipo")]);
+		evento.setLocal(new Local().toLocal(jsonObject.getJsonObject("local")));
+		JsonArray arrayEquipes = jsonObject.getJsonArray("equipes");
+		for (int i = 0; i < arrayEquipes.size(); i++) {
+			JsonObject idEquipe = arrayEquipes.getJsonObject(i);
+			//as coisas que ja estiverem no banco do aparelho não reciso manndar tudo no json
+			Equipe equipe = new Equipe(Long.valueOf(idEquipe.toString()));
+			evento.adcionarEquipe(equipe);
+		}
+		JsonArray arrayUsuarios = jsonObject.getJsonArray("usuarios");
+		for (int i = 0; i < arrayUsuarios.size(); i++) {
+			JsonObject idUsuario = arrayUsuarios.getJsonObject(i);
+			new Usuario(Long.valueOf(idUsuario.getString("id")));
+		}
+
+		return evento;
+
+	}
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonException;
 import javax.json.JsonObject;
@@ -16,7 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -25,8 +27,6 @@ import javax.persistence.TemporalType;
 import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.LocalDate;
 
-import br.com.easygame.entity.Evento;
-import br.com.easygame.enuns.SimNao;
 import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.util.DataUtils;
 
@@ -43,6 +43,7 @@ public class Equipe implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
+
 	@Column(name = "nome")
 	private String nome;
 
@@ -52,10 +53,18 @@ public class Equipe implements Serializable {
 
 	@OneToMany(mappedBy = "equipe", cascade = { CascadeType.ALL })
 	private List<UsuarioEquipe> listUsuarioEquipe = new ArrayList<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
 
 	public Equipe() {
 		// TODO Auto-generated constructor stub
 	}
+	public Equipe(Long id) {
+		this.id = id;
+	}
+	
 
 	public Long getId() {
 		return id;
@@ -131,19 +140,18 @@ public class Equipe implements Serializable {
 		if (getId() != null) {
 			builder.add("id", getId());
 		}
-		builder.add("nome", getNome())
-				.add("data_fundacao", DataUtils.formatarDate(getDataFundacao(), "dd/MM/yyyy"));
-		if(CollectionUtils.isNotEmpty(getListUsuarioEquipe())){
+		builder.add("nome", getNome()).add("data_fundacao", DataUtils.formatarDate(getDataFundacao(), "dd/MM/yyyy"));
+		if (CollectionUtils.isNotEmpty(getListUsuarioEquipe())) {
 			JsonArrayBuilder arrayUsuarioEquipe = Json.createArrayBuilder();
 			for (UsuarioEquipe usuarioEquipe : listUsuarioEquipe) {
 				arrayUsuarioEquipe.add(usuarioEquipe.toJSON());
 			}
 			builder.add("listaUsuarioEquipe", arrayUsuarioEquipe);
 		}
-				
+
 		return builder.build();
 	}
-	
+
 	public Equipe toEquipe(JsonObject jsonObject) {
 		Equipe equipe = new Equipe();
 		try {
@@ -153,6 +161,11 @@ public class Equipe implements Serializable {
 			equipe.setNome(jsonObject.getString("nome"));
 			String dataFundacao = jsonObject.getString("dataFundacao");
 			equipe.setDataFundacao(new LocalDate(dataFundacao).toDate());
+			JsonArray arrayUsuarioEquipe = jsonObject.getJsonArray("arrayUsuarioEquipe");
+			for (int i = 0; i < arrayUsuarioEquipe.size(); i++) {
+				JsonObject jsonUsuarioEquipe = arrayUsuarioEquipe.getJsonObject(i);
+			}
+
 			return equipe;
 		} catch (JsonException e) {
 			throw new RuntimeException("Erro ao ler JSON de Usuario", e);

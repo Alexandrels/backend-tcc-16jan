@@ -4,7 +4,6 @@ package br.com.easygame.entity;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.Date;
-import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -14,7 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,8 +39,8 @@ public class Notificacao implements Serializable {
 
 	@Column(name = "notificado")
 	private SimNao notiifcado;
-	@ManyToMany(mappedBy = "notificacoes")
-	private List<Evento> eventos;
+	@ManyToOne
+	private Evento evento;
 
 	public Notificacao() {
 	}
@@ -68,6 +67,14 @@ public class Notificacao implements Serializable {
 
 	public void setNotiifcado(SimNao notiifcado) {
 		this.notiifcado = notiifcado;
+	}
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 	}
 
 	@Override

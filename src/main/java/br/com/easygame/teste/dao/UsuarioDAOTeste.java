@@ -42,8 +42,8 @@ public class UsuarioDAOTeste {
 
 	@After
 	public void depois() {
-	entityManager.getTransaction().commit();
-		//entityManager.getTransaction().rollback();
+		entityManager.getTransaction().commit();
+		// entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
 
@@ -60,6 +60,29 @@ public class UsuarioDAOTeste {
 		usuarioDAO.salvar(usuario);
 		usuarioDAO.flush();
 		System.out.println(usuario.toJSON());
+	}
+
+	public JsonObject criarJSONUsuario() {
+		Usuario usuario = new Usuario();
+		usuario.setNome("Cristiano");
+		usuario.setApelido("Fuba");
+		usuario.setFacebook(SimNao.NAO);
+		usuario.setLogin("fuba");
+		usuario.setTipoPosicao(TipoPosicao.ATACANTE);
+		usuario.setSenha("1");
+		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.JOGADOR));
+		return usuario.toJSON();
+
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void salvarUsuarioTipoJogadorComJson() {
+		JsonObject jsonUsuario = criarJSONUsuario();
+		usuarioDAO.salvar(new Usuario().toUsuario(jsonUsuario));
+		usuarioDAO.flush();
 	}
 
 	@Test
@@ -108,15 +131,18 @@ public class UsuarioDAOTeste {
 			if (nome != null) {
 				Equipe equipe = new Equipe();
 				equipe.setNome(nome);
-//				equipe.setJogadores(new ArrayList<Jogador>());
-//				if (!jsonObject.getJsonArray("jogadores").isEmpty()) {
-//					for (JsonValue jogadorJson : jsonObject.getJsonArray("jogadores")) {
-//						JsonReader reader = Json.createReader(new StringReader(jogadorJson.toString()));
-//						JsonObject objeto = reader.readObject();
-//						Jogador jogador = jogadorDAO.pesquisarPorId(Long.valueOf(objeto.getString("id")));
-//						equipe.getJogadores().add(jogador);
-//					}
-//				}
+				// equipe.setJogadores(new ArrayList<Jogador>());
+				// if (!jsonObject.getJsonArray("jogadores").isEmpty()) {
+				// for (JsonValue jogadorJson :
+				// jsonObject.getJsonArray("jogadores")) {
+				// JsonReader reader = Json.createReader(new
+				// StringReader(jogadorJson.toString()));
+				// JsonObject objeto = reader.readObject();
+				// Jogador jogador =
+				// jogadorDAO.pesquisarPorId(Long.valueOf(objeto.getString("id")));
+				// equipe.getJogadores().add(jogador);
+				// }
+				// }
 				equipeDAO.salvar(equipe);
 				System.out.println("Equipe salva " + equipe.toString());
 			}
@@ -131,6 +157,5 @@ public class UsuarioDAOTeste {
 		Usuario usuario = usuarioDAO.pesquisarPorId(1l);
 		System.out.println(usuario.toString());
 	}
-
 
 }

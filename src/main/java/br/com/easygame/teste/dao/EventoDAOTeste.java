@@ -57,7 +57,7 @@ public class EventoDAOTeste {
 
 		Evento evento = new Evento();
 		evento.setUsuario(usuario);
-		evento.adicionarLocal(local);
+		evento.setLocal(local);
 		evento.setDataHora(LocalDateTime.now().toDate());
 		evento.setDescricao("Vaiter churrasco depois do jogo");
 		evento.adcionarEquipe(equipe);
