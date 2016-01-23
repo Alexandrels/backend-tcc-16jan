@@ -14,6 +14,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Usuario;
 import br.com.easygame.entity.UsuarioEquipe;
+import br.com.easygame.enuns.SimNao;
 import br.com.easygame.entity.UsuarioEquipe;
 
 /**
@@ -58,6 +59,21 @@ public class UsuarioEquipeDAO {
 					.append(" WHERE u.equipe = :equipe ");
 			TypedQuery<UsuarioEquipe> tq = entityManager.createQuery(jpql.toString(), UsuarioEquipe.class);
 			tq.setParameter("equipe", equipe);
+			List<UsuarioEquipe> resultList = tq.getResultList();
+
+			return resultList;
+		} catch (Exception e) {
+			return new ArrayList<UsuarioEquipe>();
+		}
+	}
+	
+	public List<UsuarioEquipe> listarUsuariosConvitesPendentes() {
+		try {
+			// cria um entityManager
+			StringBuilder jpql = new StringBuilder("SELECT u FROM UsuarioEquipe u ")
+					.append(" WHERE u.pendente = :sim ");
+			TypedQuery<UsuarioEquipe> tq = entityManager.createQuery(jpql.toString(), UsuarioEquipe.class);
+			tq.setParameter("sim", SimNao.SIM);
 			List<UsuarioEquipe> resultList = tq.getResultList();
 
 			return resultList;

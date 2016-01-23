@@ -28,13 +28,13 @@ import br.com.easygame.entity.UsuarioEquipe;
 import br.com.easygame.enuns.TipoPosicao;
 
 public class UsuarioEquipeDAOTeste {
-
+	
 	private EntityManager entityManager;
 	private EquipeDAO equipeDAO;
 	private UsuarioDAO usuarioDAO;
 	private UsuarioEquipeDAO usuarioEquipeDAO;
 	private int cont = 0;
-
+	
 	@Before
 	public void antes() {
 		entityManager = Persistence.createEntityManagerFactory("easy-game-local").createEntityManager();
@@ -43,29 +43,29 @@ public class UsuarioEquipeDAOTeste {
 		equipeDAO = new EquipeDAO(entityManager);
 		usuarioEquipeDAO = new UsuarioEquipeDAO(entityManager);
 	}
-
+	
 	@After
 	public void depois() {
 		entityManager.getTransaction().commit();
 		// entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
-
+	
 	@Test
 	public void salvarUsuarioEquipe() {
 		UsuarioEquipe usuarioEquipe = new UsuarioEquipe();
 		Equipe equipe = equipeDAO.pesquisarPorId(2l);
 		Usuario usuario = usuarioDAO.pesquisarPorId(5l);
-
+		
 		usuarioEquipe.setEquipe(equipe);
 		usuarioEquipe.setUsuario(usuario);
 		usuarioEquipe.setDataContratacao(LocalDate.now().toDate());
 		usuarioEquipe.setPosicao(TipoPosicao.ZAGUEIRO);
-
+		
 		usuarioEquipeDAO.salvar(usuarioEquipe);
 		usuarioEquipeDAO.flush();
 	}
-
+	
 	@Test
 	public void listarJogadoresDaEquipe() {
 		Equipe equipe = equipeDAO.pesquisarPorId(4l);
@@ -75,12 +75,22 @@ public class UsuarioEquipeDAOTeste {
 			for (UsuarioEquipe jogador : jogadores) {
 				System.out.println(
 						"Nome: " + jogador.getUsuario().getNome() + " Posição: " + jogador.getPosicao().getDescricao());
-
+						
 			}
-
+			
 		}
 	}
-
+	
+	@Test
+	public void listarJogadoresConvitesPendetes() {
+		List<UsuarioEquipe> pendentes = usuarioEquipeDAO.listarUsuariosConvitesPendentes();
+		System.out.println("Convites pendentes");
+		for (UsuarioEquipe usuarioEquipe : pendentes) {
+			System.out.println(
+					String.format("Jogador: %s Time: %s", usuarioEquipe.getUsuario().getNome(), usuarioEquipe.getEquipe().getNome()));
+		}
+	}
+	
 	@Test
 	public void lerObjetoJsonComArrayDentro() {
 		try {
@@ -98,7 +108,7 @@ public class UsuarioEquipeDAOTeste {
 				}
 			}
 			timeJson.add("jogadores", jogadoresJson.build());
-
+			
 			JsonReader jsonReader = Json.createReader(new StringReader(timeJson.build().toString()));
 			JsonObject jsonObject = jsonReader.readObject();
 			String nome = jsonObject.getString("nome");
@@ -118,10 +128,10 @@ public class UsuarioEquipeDAOTeste {
 				equipeDAO.salvar(equipe);
 				System.out.println("Equipe salva " + equipe.toString());
 			}
-
+			
 		} catch (JsonException e) {
 			System.out.println(e.getStackTrace());
 		}
 	}
-
+	
 }

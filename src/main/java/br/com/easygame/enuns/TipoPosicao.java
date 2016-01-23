@@ -9,7 +9,8 @@ package br.com.easygame.enuns;
  */
 public enum TipoPosicao {
 
-	ATACANTE("Atacante"), GOLEIRO("Goleiro"), 
+	ATACANTE("Atacante"), 
+	GOLEIRO("Goleiro"), 
 	MEIO_CAMPO("Meio Campo"), 
 	LATERAL("Lateral"), 
 	VOLANTE("Volante"), 

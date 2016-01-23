@@ -28,7 +28,7 @@ import br.com.easygame.util.DataUtils;
 
 /**
  * @author Alexandre
- *		
+ * 		
  */
 @Table(name = "usuario_has_equipe")
 @Entity
@@ -54,6 +54,11 @@ public class UsuarioEquipe implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_contratacao")
 	private Date dataContratacao;
+	@Column(name = "pendente")
+	private SimNao pendente;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_convite")
+	private Date dataConvite;
 	
 	public Usuario getUsuario() {
 		return usuario;
@@ -95,6 +100,22 @@ public class UsuarioEquipe implements Serializable {
 		this.id = id;
 	}
 	
+	public SimNao getPendente() {
+		return pendente;
+	}
+
+	public void setPendente(SimNao pendente) {
+		this.pendente = pendente;
+	}
+
+	public Date getDataConvite() {
+		return dataConvite;
+	}
+
+	public void setDataConvite(Date dataConvite) {
+		this.dataConvite = dataConvite;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -107,17 +128,28 @@ public class UsuarioEquipe implements Serializable {
 	
 	public JsonObject toJSON() {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
+		if (getId() != null) {
+			builder.add("id", getId());
+		}
 		builder.add("usuario", getUsuario().getId())
 				.add("equipe", getEquipe().getId())
 				.add("posicao", getPosicao().ordinal())
-				.add("dataContratacao", DataUtils.formatarDate(getDataContratacao(), "dd/MM/yyy"))
-				.add("id", getId());
+				.add("dataContratacao", DataUtils.formatarDate(getDataContratacao(), "dd/MM/yyy"));
 				
 		return builder.build();
 	}
 	
-	public Usuario toUsuarioEquipe(JsonObject jsonObject) {
-		return usuario;
+	public UsuarioEquipe toUsuarioEquipe(JsonObject jsonObject) {
+		UsuarioEquipe usuarioEquipe = new UsuarioEquipe();
+		if (jsonObject.containsKey("id")) {
+			usuarioEquipe.setId(Long.valueOf(jsonObject.getInt("id")));
+		}
+		usuarioEquipe.setUsuario(new Usuario(Long.valueOf(jsonObject.getInt("usuario"))));
+		usuarioEquipe.setEquipe(new Equipe(Long.valueOf(jsonObject.getInt("equipe"))));
+		String dataContratacao = jsonObject.getString("dataContratacao");
+		usuarioEquipe.setPosicao(TipoPosicao.values()[jsonObject.getInt("posicao")]);
+		usuarioEquipe.setDataContratacao(DataUtils.parseDate(dataContratacao, "dd/MM/yyyy"));
+		return usuarioEquipe;
 		
 	}
 	

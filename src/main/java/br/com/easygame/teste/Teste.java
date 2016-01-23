@@ -17,6 +17,7 @@ import javax.json.JsonReader;
 import javax.json.JsonValue;
 
 import br.com.easygame.entity.util.ConverterData;
+import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.enuns.TipoUsuario;
 import javafx.util.converter.LocalDateTimeStringConverter;
 
@@ -57,8 +58,10 @@ public class Teste {
 //		LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
 //		System.out.println(dateTime);
 //		Timestamp timestamp = Timestamp.valueOf(dateTime);
-		Timestamp timestamp = new ConverterData("yyyy-MM-dd HH:mm:ss", "1986-04-08 12:30:25").dataStringToTimestamp();
-		System.out.println(timestamp);
+//		Timestamp timestamp = new ConverterData("yyyy-MM-dd HH:mm:ss", "1986-04-08 12:30:25").dataStringToTimestamp();
+//		System.out.println(timestamp);
+		int posicao = 5;
+		System.out.println(TipoPosicao.values()[posicao]);
 		
 		
 		

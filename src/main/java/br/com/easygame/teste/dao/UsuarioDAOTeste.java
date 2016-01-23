@@ -61,14 +61,22 @@ public class UsuarioDAOTeste {
 		usuarioDAO.flush();
 		System.out.println(usuario.toJSON());
 	}
+	@Test
+	public void alterarUsuarioComMaisTipos() {
+		Usuario usuario = usuarioDAO.pesquisarPorId(1l);
+		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.JOGADOR));
+		usuarioDAO.editar(usuario);
+		usuarioDAO.flush();
+		System.out.println(usuario.toJSON());
+	}
 
 	public JsonObject criarJSONUsuario() {
 		Usuario usuario = new Usuario();
-		usuario.setNome("Cristiano");
-		usuario.setApelido("Fuba");
+		usuario.setNome("Emerson");
+		usuario.setApelido("Grilo");
 		usuario.setFacebook(SimNao.NAO);
-		usuario.setLogin("fuba");
-		usuario.setTipoPosicao(TipoPosicao.ATACANTE);
+		usuario.setLogin("grilo");
+		usuario.setTipoPosicao(TipoPosicao.GOLEIRO);
 		usuario.setSenha("1");
 		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.JOGADOR));
 		return usuario.toJSON();
@@ -76,7 +84,8 @@ public class UsuarioDAOTeste {
 	}
 
 	/**
-	 * 
+	 * {"nome":"Cristiano","apelido":"Fuba","login":"fuba","senha":"1",
+	 * "latitude":0.0,"longitude":0.0,"facebook":0,"posicao":0,"tipoUsuario":"1;"}
 	 */
 	@Test
 	public void salvarUsuarioTipoJogadorComJson() { 
