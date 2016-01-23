@@ -79,7 +79,7 @@ public class UsuarioDAOTeste {
 	 * 
 	 */
 	@Test
-	public void salvarUsuarioTipoJogadorComJson() {
+	public void salvarUsuarioTipoJogadorComJson() { 
 		JsonObject jsonUsuario = criarJSONUsuario();
 		usuarioDAO.salvar(new Usuario().toUsuario(jsonUsuario));
 		usuarioDAO.flush();
