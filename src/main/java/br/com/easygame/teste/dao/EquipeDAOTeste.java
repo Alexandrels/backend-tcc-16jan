@@ -1,7 +1,6 @@
 package br.com.easygame.teste.dao;
 
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
@@ -20,14 +19,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.faces.util.CollectionsUtils;
-
 import br.com.easygame.dao.EquipeDAO;
 import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.dao.UsuarioEquipeDAO;
 import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Usuario;
-import br.com.easygame.entity.UsuarioEquipe;
 import br.com.easygame.enuns.TipoUsuario;
 
 public class EquipeDAOTeste {
