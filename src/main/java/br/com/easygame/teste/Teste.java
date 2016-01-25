@@ -2,24 +2,11 @@ package br.com.easygame.teste;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringReader;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
-
-import br.com.easygame.entity.util.ConverterData;
 import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.enuns.TipoUsuario;
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 public class Teste {
 
@@ -62,6 +49,8 @@ public class Teste {
 //		System.out.println(timestamp);
 		int posicao = 5;
 		System.out.println(TipoPosicao.values()[posicao]);
+//		Timestamp timestamp = new ConverterData("yyyy-MM-dd HH:mm:ss", "1986-04-08 12:30:25").dataStringToTimestamp();
+//		System.out.println(timestamp);
 		
 		
 		
