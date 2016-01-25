@@ -25,7 +25,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.joda.time.LocalDate;
 
 import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.util.DataUtils;

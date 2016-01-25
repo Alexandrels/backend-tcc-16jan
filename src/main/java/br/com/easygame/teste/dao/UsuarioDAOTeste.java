@@ -84,8 +84,12 @@ public class UsuarioDAOTeste {
 	}
 
 	/**
+<<<<<<< HEAD
+	 * teste 
+=======
 	 * {"nome":"Cristiano","apelido":"Fuba","login":"fuba","senha":"1",
 	 * "latitude":0.0,"longitude":0.0,"facebook":0,"posicao":0,"tipoUsuario":"1;"}
+>>>>>>> branch 'master' of https://github.com/yeahsistemas/backend-tcc-16jan.git
 	 */
 	@Test
 	public void salvarUsuarioTipoJogadorComJson() { 
