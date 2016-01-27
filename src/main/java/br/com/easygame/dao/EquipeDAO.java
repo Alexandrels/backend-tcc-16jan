@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
-import br.com.easygame.conexao.ProducerEntityManager;
 import br.com.easygame.entity.Equipe;
 
 /**
@@ -57,7 +57,22 @@ public class EquipeDAO {
 	public Equipe pesquisarPorId(Long id) {
 		return entityManager.find(Equipe.class, id);
 	}
-	
+
+	public boolean existeEquipe(Equipe equipe) {
+		try {
+			StringBuilder builder = new StringBuilder(" SELECT u.id FROM Equipe u ").append(" WHERE u.nome =  :nome")
+					.append(" AND u.usuario = :usuario ");
+			entityManager.createQuery(builder.toString(), Long.class).setParameter("nome", equipe.getNome())
+					.setParameter("usuario", equipe.getUsuario()).setMaxResults(1).getSingleResult();
+			return true;
+
+		} catch (NoResultException e) {
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	public void flush() {
 		entityManager.flush();
 	}

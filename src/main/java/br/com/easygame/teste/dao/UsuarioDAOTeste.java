@@ -72,10 +72,10 @@ public class UsuarioDAOTeste {
 
 	public JsonObject criarJSONUsuario() {
 		Usuario usuario = new Usuario();
-		usuario.setNome("Emerson");
-		usuario.setApelido("Grilo");
+		usuario.setNome("Joao");
+		usuario.setApelido("Joao");
 		usuario.setFacebook(SimNao.NAO);
-		usuario.setLogin("grilo");
+		usuario.setLogin("joao");
 		usuario.setTipoPosicao(TipoPosicao.GOLEIRO);
 		usuario.setSenha("1");
 		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.JOGADOR));
@@ -94,7 +94,9 @@ public class UsuarioDAOTeste {
 	@Test
 	public void salvarUsuarioTipoJogadorComJson() { 
 		JsonObject jsonUsuario = criarJSONUsuario();
-		usuarioDAO.salvar(new Usuario().toUsuario(jsonUsuario));
+		Usuario usuario = Usuario.toUsuario(jsonUsuario);
+		
+		usuarioDAO.salvar(usuario);
 		usuarioDAO.flush();
 	}
 

@@ -32,7 +32,7 @@ import br.com.easygame.util.DataUtils;
 @Table(name = "equipe")
 @Entity
 public class Equipe implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -41,71 +41,77 @@ public class Equipe implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
+
 	@Column(name = "nome")
 	private String nome;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_fundacao")
 	private Date dataFundacao;
-	
-	@OneToMany(mappedBy = "equipe", cascade = {
-			CascadeType.ALL
-	})
+
+	@OneToMany(mappedBy = "equipe", cascade = { CascadeType.ALL })
 	private List<UsuarioEquipe> listUsuarioEquipe = new ArrayList<>();
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-	
+
 	public Equipe() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Equipe(Long id) {
 		this.id = id;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public Date getDataFundacao() {
 		return dataFundacao;
 	}
-	
+
 	public void setDataFundacao(Date dataFundacao) {
 		this.dataFundacao = dataFundacao;
 	}
-	
+
 	public List<UsuarioEquipe> getListUsuarioEquipe() {
 		return listUsuarioEquipe;
 	}
-	
+
 	public void setListUsuarioEquipe(List<UsuarioEquipe> listUsuarioEquipe) {
 		this.listUsuarioEquipe = listUsuarioEquipe;
 	}
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
-	
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
+	public boolean naoAlterouNomeDaequipeDoUsuario(Equipe equipe) {
+		if (getNome().equals(equipe.getNome()) && getUsuario().equals(equipe.usuario)) {
+			return true;
+		}
+		return false;
+
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,7 +119,7 @@ public class Equipe implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -130,7 +136,7 @@ public class Equipe implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	public void adicionarUsuario(Usuario usuario, TipoPosicao posicao) {
 		UsuarioEquipe usuarioEquipe = new UsuarioEquipe();
 		usuarioEquipe.setDataContratacao(new Date());
@@ -140,38 +146,38 @@ public class Equipe implements Serializable {
 		if (!listUsuarioEquipe.contains(usuarioEquipe)) {
 			listUsuarioEquipe.add(usuarioEquipe);
 		}
-		
+
 	}
-	
+
 	public void adicionarUsuarioEquipe(UsuarioEquipe usuarioEquipe) {
 		if (getListUsuarioEquipe() == null) {
 			setListUsuarioEquipe(new ArrayList<UsuarioEquipe>());
 		}
+		usuarioEquipe.setEquipe(this);
 		getListUsuarioEquipe().add(usuarioEquipe);
 	}
-	
+
 	public JsonObject toJSON() {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		if (getId() != null) {
 			builder.add("id", getId());
 		}
-		builder.add("nome", getNome())
-				.add("dataFundacao", DataUtils.formatarDate(getDataFundacao(), "dd/MM/yyyy"))
+		builder.add("nome", getNome()).add("dataFundacao", DataUtils.formatarDate(getDataFundacao(), "dd/MM/yyyy"))
 				.add("usuario", getUsuario().getId());
 		if (CollectionUtils.isNotEmpty(getListUsuarioEquipe())) {
 			JsonArrayBuilder arrayUsuarioEquipe = Json.createArrayBuilder();
 			for (UsuarioEquipe usuarioEquipe : listUsuarioEquipe) {
 				arrayUsuarioEquipe.add(usuarioEquipe.toJSON());
 			}
-			builder.add("arrayUsuarioEquipe", arrayUsuarioEquipe);
+			builder.add("listaUsuarioEquipe", arrayUsuarioEquipe);
 		}
-		
+
 		return builder.build();
 	}
-	
-	public Equipe toEquipe(JsonObject jsonObject) {
-		Equipe equipe = new Equipe();
+
+	public static Equipe toEquipe(JsonObject jsonObject) {
 		try {
+			Equipe equipe = new Equipe();
 			if (jsonObject.containsKey("id")) {
 				equipe.setId(Long.valueOf(jsonObject.getInt("id")));
 			}
@@ -179,20 +185,19 @@ public class Equipe implements Serializable {
 			String dataFundacao = jsonObject.getString("dataFundacao");
 			equipe.setDataFundacao(DataUtils.parseDate(dataFundacao, "dd/MM/yyyy"));
 			equipe.setUsuario(new Usuario(Long.valueOf(jsonObject.getInt("usuario"))));
-			if (jsonObject.containsKey("arrayUsuarioEquipe")) {
-				JsonArray arrayUsuarioEquipe = jsonObject.getJsonArray("arrayUsuarioEquipe");
+			if (jsonObject.containsKey("listaUsuarioEquipe")) {
+				JsonArray arrayUsuarioEquipe = jsonObject.getJsonArray("listaUsuarioEquipe");
 				for (int i = 0; i < arrayUsuarioEquipe.size(); i++) {
 					JsonObject jsonUsuarioEquipe = arrayUsuarioEquipe.getJsonObject(i);
-					UsuarioEquipe usuarioEquipe = new UsuarioEquipe().toUsuarioEquipe(jsonUsuarioEquipe);
+					UsuarioEquipe usuarioEquipe = UsuarioEquipe.toUsuarioEquipe(jsonUsuarioEquipe);
 					equipe.adicionarUsuarioEquipe(usuarioEquipe);
 				}
 			}
-			
 			return equipe;
 		} catch (JsonException e) {
 			throw new RuntimeException("Erro ao ler JSON de Usuario", e);
 		}
-		
+
 	}
-	
+
 }

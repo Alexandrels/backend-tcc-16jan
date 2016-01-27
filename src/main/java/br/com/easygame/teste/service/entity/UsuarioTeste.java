@@ -40,7 +40,7 @@ public class UsuarioTeste {
 		JsonObject usuarioJSon = usuario.toJSON();
 		
 		Usuario usuarioNovo = new Usuario();
-		usuarioNovo = usuarioNovo.toUsuario(usuarioJSon);
+		usuarioNovo.toUsuario(usuarioJSon);
 		
 		System.out.println(usuarioNovo.toString());
 		

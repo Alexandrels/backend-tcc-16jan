@@ -116,4 +116,7 @@ public class UsuarioDAO {
 			return false;
 		}
 	}
+	public void joinTransaction() {
+		entityManager.joinTransaction();
+	}
 }

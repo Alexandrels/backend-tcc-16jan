@@ -27,12 +27,12 @@ import br.com.easygame.enuns.TipoUsuario;
 
 /**
  * @author mobilesys.alexandre
- * 		
+ * 
  */
 @Table(name = "usuario")
 @Entity
 public class Usuario implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -41,14 +41,14 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
+
 	public Usuario(Long id) {
 		this.id = id;
 	}
-	
+
 	public Usuario() {
 	}
-	
+
 	@Column(name = "login")
 	private String login;
 	@Column(name = "senha")
@@ -67,13 +67,13 @@ public class Usuario implements Serializable {
 	private String apelido;
 	@Column(name = "posicao")
 	private TipoPosicao tipoPosicao;
-	
+
 	@OneToMany(mappedBy = "usuario")
 	private List<Evento> eventos;
-	
+
 	@OneToMany(mappedBy = "usuario")
 	private List<Equipe> equipes;
-	
+
 	/*
 	 * um ou mais tipos
 	 */
@@ -92,7 +92,7 @@ public class Usuario implements Serializable {
 			this.tipoUsuario = builder.toString();
 		}
 	}
-	
+
 	public List<TipoUsuario> ajustaNovosTiposUsuarioComJaExistentes(List<TipoUsuario> novosTiposUsuario) {
 		List<TipoUsuario> tiposDoUsuario = recuperarTipoUsuario();
 		for (TipoUsuario novoTipoUsuario : novosTiposUsuario) {
@@ -101,9 +101,9 @@ public class Usuario implements Serializable {
 			}
 		}
 		return tiposDoUsuario;
-		
+
 	}
-	
+
 	/**
 	 * Recuperar um ou mais tipos desse usuario
 	 * 
@@ -116,103 +116,103 @@ public class Usuario implements Serializable {
 			tiposUsuarios.add(TipoUsuario.values()[Integer.valueOf(string)]);
 		}
 		return tiposUsuarios;
-		
+
 	}
-	
+
 	public List<TipoUsuario> tiposDoUsuario() {
-		
+
 		return null;
-		
+
 	}
-	
+
 	public SimNao getFacebook() {
 		return facebook;
 	}
-	
+
 	public void setFacebook(SimNao facebook) {
 		this.facebook = facebook;
 	}
-	
+
 	public String getApelido() {
 		return apelido;
 	}
-	
+
 	public void setApelido(String apelido) {
 		this.apelido = apelido;
 	}
-	
+
 	public String getLogin() {
 		return login;
 	}
-	
+
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	
+
 	public String getSenha() {
 		return senha;
 	}
-	
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Double getLatitude() {
 		return latitude;
 	}
-	
+
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
-	
+
 	public Double getLongitude() {
 		return longitude;
 	}
-	
+
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	
+
 	public String getTipoUsuario() {
 		return tipoUsuario;
 	}
-	
+
 	public void setTipoUsuario(String tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
-	
+
 	public TipoPosicao getTipoPosicao() {
 		return tipoPosicao;
 	}
-	
+
 	public void setTipoPosicao(TipoPosicao tipoPosicao) {
 		this.tipoPosicao = tipoPosicao;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public List<Equipe> getEquipes() {
 		return equipes;
 	}
-	
+
 	public void setEquipes(List<Equipe> equipes) {
 		this.equipes = equipes;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -220,7 +220,7 @@ public class Usuario implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -237,14 +237,14 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha + ", nome=" + nome + ", latitude="
 				+ latitude + ", longitude=" + longitude + ", tipoUsuario=" + tipoUsuario + ", facebook=" + facebook
 				+ ", apelido=" + apelido + ", tipoPosicao=" + tipoPosicao + "]";
 	}
-	
+
 	public JsonObject toJSON() {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		if (getId() != null) {
@@ -254,11 +254,11 @@ public class Usuario implements Serializable {
 				.add("latitude", getLatitude() != null ? getLatitude() : 0)
 				.add("longitude", getLongitude() != null ? getLongitude() : 0).add("facebook", getFacebook().ordinal())
 				.add("posicao", getTipoPosicao().ordinal()).add("tipoUsuario", getTipoUsuario());
-				
+
 		return builder.build();
 	}
-	
-	public Usuario toUsuario(JsonObject jsonObject) {
+
+	public static Usuario toUsuario(JsonObject jsonObject) {
 		Usuario usuario = new Usuario();
 		try {
 			if (jsonObject.containsKey("id")) {
@@ -273,11 +273,11 @@ public class Usuario implements Serializable {
 			usuario.setSenha(jsonObject.getString("senha"));
 			usuario.setTipoPosicao(TipoPosicao.values()[jsonObject.getInt("posicao")]);
 			usuario.setTipoUsuario(jsonObject.getString("tipoUsuario"));
-			return usuario;
 		} catch (JsonException e) {
 			throw new RuntimeException("Erro ao ler JSON de Usuario", e);
 		}
-		
+		return usuario;
+
 	}
-	
+
 }

@@ -28,12 +28,12 @@ import br.com.easygame.util.DataUtils;
 
 /**
  * @author Alexandre
- * 		
+ * 
  */
 @Table(name = "usuario_has_equipe")
 @Entity
 public class UsuarioEquipe implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -55,51 +55,51 @@ public class UsuarioEquipe implements Serializable {
 	@Column(name = "data_contratacao")
 	private Date dataContratacao;
 	@Column(name = "pendente")
-	private SimNao pendente;
+	private SimNao pendente = SimNao.SIM;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_convite")
 	private Date dataConvite;
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
-	
+
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	public Equipe getEquipe() {
 		return equipe;
 	}
-	
+
 	public void setEquipe(Equipe equipe) {
 		this.equipe = equipe;
 	}
-	
+
 	public TipoPosicao getPosicao() {
 		return posicao;
 	}
-	
+
 	public void setPosicao(TipoPosicao posicao) {
 		this.posicao = posicao;
 	}
-	
+
 	public Date getDataContratacao() {
 		return dataContratacao;
 	}
-	
+
 	public void setDataContratacao(Date dataContratacao) {
 		this.dataContratacao = dataContratacao;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public SimNao getPendente() {
 		return pendente;
 	}
@@ -125,34 +125,38 @@ public class UsuarioEquipe implements Serializable {
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
-	
+
 	public JsonObject toJSON() {
 		JsonObjectBuilder builder = Json.createObjectBuilder();
 		if (getId() != null) {
 			builder.add("id", getId());
 		}
-		builder.add("usuario", getUsuario().getId())
-				.add("equipe", getEquipe().getId())
-				.add("posicao", getPosicao().ordinal())
-				.add("dataContratacao", DataUtils.formatarDate(getDataContratacao(), "dd/MM/yyy"));
-				
+		builder.add("usuario", getUsuario().getId());
+		if (getEquipe().getId() != null) {
+			builder.add("equipe", getEquipe().getId());
+		}
+		builder.add("posicao", getPosicao().ordinal()).add("dataContratacao",
+				DataUtils.formatarDate(getDataContratacao(), "dd/MM/yyy"));
+
 		return builder.build();
 	}
-	
-	public UsuarioEquipe toUsuarioEquipe(JsonObject jsonObject) {
+
+	public static UsuarioEquipe toUsuarioEquipe(JsonObject jsonObject) {
 		UsuarioEquipe usuarioEquipe = new UsuarioEquipe();
 		if (jsonObject.containsKey("id")) {
 			usuarioEquipe.setId(Long.valueOf(jsonObject.getInt("id")));
 		}
 		usuarioEquipe.setUsuario(new Usuario(Long.valueOf(jsonObject.getInt("usuario"))));
-		usuarioEquipe.setEquipe(new Equipe(Long.valueOf(jsonObject.getInt("equipe"))));
+		if (jsonObject.containsKey("equipe")) {
+			usuarioEquipe.setEquipe(new Equipe(Long.valueOf(jsonObject.getInt("equipe"))));
+		}
 		String dataContratacao = jsonObject.getString("dataContratacao");
 		usuarioEquipe.setPosicao(TipoPosicao.values()[jsonObject.getInt("posicao")]);
 		usuarioEquipe.setDataContratacao(DataUtils.parseDate(dataContratacao, "dd/MM/yyyy"));
 		return usuarioEquipe;
-		
+
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -176,5 +180,5 @@ public class UsuarioEquipe implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

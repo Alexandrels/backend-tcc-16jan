@@ -107,7 +107,7 @@ public class UsuarioServiceTeste {
 			usuario.setTipoPosicao(TipoPosicao.MEIO_CAMPO);
 			usuario.setSenha("1");
 			usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.JOGADOR));
-			service.atualizarUsuario(usuario.getId().toString(), usuario.toJSON());
+			service.atualizarUsuario(usuario.getId(), usuario.toJSON());
 
 		} catch (WebApplicationException e) {
 			System.out.println(e.getResponse().getStatus());
@@ -119,7 +119,7 @@ public class UsuarioServiceTeste {
 	public void listarUsuarioPeloId() {
 		UsuarioService service = new UsuarioService(usuarioDAO);
 //		Usuario usuario = service.retornaUsuario(String.valueOf(1));
-		Usuario usuario = service.retornaUsuario(String.valueOf(133));
+		Usuario usuario = service.retornaUsuario(133l);
 		if (usuario != null) {
 			System.out.println(usuario.toString());
 		}
