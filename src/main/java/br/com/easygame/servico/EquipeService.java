@@ -59,8 +59,7 @@ public class EquipeService {
 	@Transactional
 	public Response cadastrarEquipe(JsonObject jsonObject) throws Exception {
 		Response response;
-		Equipe equipe = new Equipe();
-		equipe.toEquipe(jsonObject);
+		Equipe equipe = Equipe.toEquipe(jsonObject);
 		if (equipeDAO.existeEquipe(equipe)) {
 			throw new WebApplicationException(javax.ws.rs.core.Response.Status.CONFLICT);
 		}
@@ -73,10 +72,10 @@ public class EquipeService {
 
 	@GET
 	@Path("{id}")
-	public Equipe retornaEquipe(@PathParam("id") String id) {
-		Equipe equipe = equipeDAO.pesquisarPorId(Long.valueOf(id));
+	public JsonObject retornaEquipe(@PathParam("id") Long id) {
+		Equipe equipe = equipeDAO.pesquisarPorId(id);
 		if (equipe != null) {
-			return equipe;
+			return equipe.toJSON();
 		}
 
 		throw new WebApplicationException(javax.ws.rs.core.Response.Status.NOT_FOUND);
@@ -85,28 +84,26 @@ public class EquipeService {
 	@PUT
 	@Path("{id}")
 	@Transactional
-	public void atualizarEquipe(@PathParam("id") String id, JsonObject jsonObject) {
-		Equipe equipeBanco = retornaEquipe(id);
-		Equipe equipe = new Equipe();
-		equipe.toEquipe(jsonObject);
+	public void atualizarEquipe(@PathParam("id") Long id, JsonObject jsonObject) {
+		Equipe equipeBanco = equipeDAO.pesquisarPorId(id);
+		Equipe equipe = Equipe.toEquipe(jsonObject);
 		// TODO falta validar melhor se equipe ja nãoexiste mesmodepois de
 		// editar
 		if (!equipeBanco.naoAlterouNomeDaequipeDoUsuario(equipe)) {
-			equipeBanco.toEquipe(jsonObject);
+			equipe = equipeBanco;
 			if (equipeDAO.existeEquipe(equipeBanco)) {
 				throw new WebApplicationException(javax.ws.rs.core.Response.Status.CONFLICT);
 			}
 		}
-		equipeBanco.toEquipe(jsonObject);
-		equipeDAO.editar(equipeBanco);
+		equipeDAO.editar(equipe);
 		equipeDAO.flush();
 	}
 
 	@DELETE
 	@Path("{id}")
 	@Transactional
-	public void apagarEquipe(@PathParam("id") String id) {
-		Equipe equipeBanco = retornaEquipe(id);
+	public void apagarEquipe(@PathParam("id") Long id) {
+		Equipe equipeBanco = equipeDAO.pesquisarPorId(id);
 		// TODO falta criar o metodo de exclusão sócopiar do usuarioDAO
 
 	}

@@ -264,7 +264,7 @@ public class Evento implements Serializable {
 		return builder.build();
 	}
 	
-	public Evento toEvento(JsonObject jsonObject) {
+	public static Evento toEvento(JsonObject jsonObject) {
 		Evento evento = new Evento();
 		
 		if (jsonObject.containsKey("id")) {

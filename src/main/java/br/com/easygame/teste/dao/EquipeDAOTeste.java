@@ -114,8 +114,7 @@ public class EquipeDAOTeste {
 	@Test
 	public void salvarEquipeCOMJogadoresRecebeJSON() {
 		JsonObject jsonEquipe = criarEquipeCOMJogadoresJSON();
-		Equipe equipe = new Equipe();
-		equipe.toEquipe(jsonEquipe);
+		Equipe equipe = Equipe.toEquipe(jsonEquipe);
 		equipeDAO.editar(equipe);
 		equipeDAO.flush();
 
@@ -155,6 +154,8 @@ public class EquipeDAOTeste {
 		return equipe.toJSON();
 
 	}
+	
+	
 
 	@Test
 	public void listarEquipe() {

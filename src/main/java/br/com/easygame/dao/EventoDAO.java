@@ -6,11 +6,10 @@ package br.com.easygame.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import br.com.easygame.entity.Evento;
-import br.com.easygame.entity.UsuarioEquipe;
-import br.com.easygame.entity.UsuarioEquipe;
 
 /**
  * @author mobilesys.alexandre
@@ -20,6 +19,7 @@ public class EventoDAO {
 
 	EntityManager entityManager;
 
+	@Inject
 	public EventoDAO(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}

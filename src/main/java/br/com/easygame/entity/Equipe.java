@@ -200,4 +200,21 @@ public class Equipe implements Serializable {
 
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Equipe [id=");
+		builder.append(id);
+		builder.append(", nome=");
+		builder.append(nome);
+		builder.append(", dataFundacao=");
+		builder.append(dataFundacao);
+		builder.append(", listUsuarioEquipe=");
+		builder.append(listUsuarioEquipe);
+		builder.append(", usuario=");
+		builder.append(usuario);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

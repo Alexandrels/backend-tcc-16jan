@@ -6,10 +6,12 @@ package br.com.easygame.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import br.com.easygame.entity.Equipe;
+import br.com.easygame.entity.Usuario;
 
 /**
  * @author mobilesys.alexandre
@@ -19,6 +21,7 @@ public class EquipeDAO {
 
 	EntityManager entityManager;
 
+	@Inject
 	public EquipeDAO(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
@@ -55,7 +58,16 @@ public class EquipeDAO {
 	}
 
 	public Equipe pesquisarPorId(Long id) {
-		return entityManager.find(Equipe.class, id);
+		try {
+			StringBuilder builder = new StringBuilder("SELECT u FROM Equipe u ")
+					.append(" WHERE u.id = :id ");
+			return entityManager.createQuery(builder.toString(), Equipe.class)
+					.setParameter("id", id)
+					.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	public boolean existeEquipe(Equipe equipe) {
