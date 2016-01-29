@@ -42,6 +42,7 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import br.com.easygame.dao.EventoDAO;
 import br.com.easygame.entity.Evento;
+import br.com.easygame.enuns.StatusEvento;
 
 /**
  * @author Alexandre
@@ -84,7 +85,7 @@ public class AgendaService {
 
 	@GET
 	@Path("{id}")
-	public JsonObject retornaUsuario(@PathParam("id") Long id) {
+	public JsonObject retornaEvento(@PathParam("id") Long id) {
 		Evento evento = eventoDAO.pesquisarPorId(id);
 		if (evento != null) {
 			return evento.toJSON();
@@ -98,7 +99,9 @@ public class AgendaService {
 	@Transactional
 	public void atualizarEvento(@PathParam("id") Long id, JsonObject jsonObject) {
 		Evento eventoBanco = eventoDAO.pesquisarPorId(id);
-		eventoBanco = Evento.toEvento(jsonObject);
+		Evento evento = Evento.toEvento(jsonObject);
+		eventoBanco.setDescricao(evento.getDescricao());
+		// TODO falta imlementar o restante da trasnferencia da edição
 		eventoDAO.editar(eventoBanco);
 		eventoDAO.flush();
 	}
@@ -108,6 +111,11 @@ public class AgendaService {
 	@Transactional
 	public void apagarEvento(@PathParam("id") Long id) {
 		// TODO criar uma logica para avisar do cancelamento do evento
+		Evento evento = eventoDAO.pesquisarPorId(id);
+		if (evento != null) {
+			evento.setStatusEvento(StatusEvento.CANELADO);
+			eventoDAO.editar(evento);
+		}
 
 	}
 

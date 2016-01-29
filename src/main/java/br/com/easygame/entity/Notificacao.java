@@ -39,8 +39,6 @@ public class Notificacao implements Serializable {
 
 	@Column(name = "notificado")
 	private SimNao notiifcado;
-	@ManyToOne
-	private Evento evento;
 
 	public Notificacao() {
 	}
@@ -67,14 +65,6 @@ public class Notificacao implements Serializable {
 
 	public void setNotiifcado(SimNao notiifcado) {
 		this.notiifcado = notiifcado;
-	}
-
-	public Evento getEvento() {
-		return evento;
-	}
-
-	public void setEvento(Evento evento) {
-		this.evento = evento;
 	}
 
 	@Override

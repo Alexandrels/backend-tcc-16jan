@@ -67,7 +67,6 @@ public class EquipeDAO {
 		} catch (Exception e) {
 			return null;
 		}
-
 	}
 
 	public boolean existeEquipe(Equipe equipe) {

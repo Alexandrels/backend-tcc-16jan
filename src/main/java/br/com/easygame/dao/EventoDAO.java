@@ -9,7 +9,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Evento;
+import br.com.easygame.enuns.StatusEvento;
 
 /**
  * @author mobilesys.alexandre
@@ -27,7 +29,7 @@ public class EventoDAO {
 	public EventoDAO() {
 
 	}
-	
+
 	public void apagar(Evento evento) {
 		String sql = "delete from evento_has_equipe where id_equipe = ?";
 		entityManager.createNativeQuery(sql).setParameter(1, evento.getId());
@@ -53,16 +55,24 @@ public class EventoDAO {
 	public List<Evento> listar() {
 		try {
 			// cria um entityManager
-			StringBuilder builder = new StringBuilder("SELECT u FROM UsuarioEquipe u ");
+			StringBuilder builder = new StringBuilder("SELECT u FROM Evento u ")
+					.append(" WHERE u.statusEvento = :statusEvento");
 			// usa o entityManager
-			return entityManager.createQuery(builder.toString(), Evento.class).getResultList();
+			return entityManager.createQuery(builder.toString(), Evento.class)
+					.setParameter("statusEvento", StatusEvento.ATIVO)
+					.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<Evento>();
 		}
 	}
 
 	public Evento pesquisarPorId(Long id) {
-		return entityManager.find(Evento.class, id);
+		try {
+			StringBuilder builder = new StringBuilder("SELECT u FROM Evento u ").append(" WHERE u.id = :id ");
+			return entityManager.createQuery(builder.toString(), Evento.class).setParameter("id", id).getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public void flush() {

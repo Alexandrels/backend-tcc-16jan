@@ -25,37 +25,37 @@ public class EventoDAOTeste {
 	private EquipeDAO equipeDAO;
 	private UsuarioDAO usuarioDAO;
 	private EventoDAO eventoDAO;
-	
+
 	@Before
 	public void antes() {
 		entityManager = Persistence.createEntityManagerFactory("easy-game-local").createEntityManager();
 		entityManager.getTransaction().begin();
-		
+
 		equipeDAO = new EquipeDAO(entityManager);
 		usuarioDAO = new UsuarioDAO(entityManager);
 		eventoDAO = new EventoDAO(entityManager);
 	}
-	
+
 	@After
 	public void depois() {
 		entityManager.getTransaction().commit();
 		// entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
-	
+
 	@Test
 	public void salvarEvento() {
 		Local local = new Local();
-		local.setEndereco("Rua Da Bambulha");
+		local.setEndereco("Rua Da Cagurer");
 		local.setNomeLocal("Quandra Sport All");
 		local.setProprietario("Juarez");
-		
-		Equipe equipe = equipeDAO.pesquisarPorId(5l);
-		Usuario usuario = usuarioDAO.pesquisarPorId(5l);
-		
+
+		Equipe equipe = equipeDAO.pesquisarPorId(1l);
+		Usuario usuario = usuarioDAO.pesquisarPorId(1l);
+
 		List<Usuario> todos = usuarioDAO.listarTodos();
 		todos.remove(usuario);
-		
+
 		Evento evento = new Evento();
 		evento.setUsuario(usuario);
 		evento.setLocal(local);
@@ -64,40 +64,38 @@ public class EventoDAOTeste {
 		evento.adcionarEquipe(equipe);
 		evento.adicionarUsuarios(todos);
 		evento.setTipoEvento(TipoEvento.JOGO);
-		
+
 		eventoDAO.salvar(evento);
 		eventoDAO.flush();
-		
+
 	}
-	
+
 	/**
-	 * {"descricao":"Churrasco bom chimarrão!","data_hora":"23/01/2016 17:16:06","tipo":0,
-	 * "usuario":{"id":3,"nome":"Emerson","apelido":"Grilo","login":"grilo","senha":"1","latitude":0.0,
-	 * "longitude":0.0,"facebook":0,"posicao":1,"tipoUsuario":"1;"},
-	 * "local":{"nomeLocal":"Sitio Cerejeira","endereco":"Rua Padre Domingos Marine","proprietario":"Tiago"},
-	 * "equipes":[1],
-	 * "usuarios":[1,2]}
+	 * {"descricao":"Churrasco bom chimarrão!","dataHora":"28/01/2016 21:42:54"
+	 * ,"tipo":0,"usuario":3, "local":{"nomeLocal":"Sitio Cerejeira","endereco":
+	 * "Rua Padre Domingos Marine","proprietario":"Tiago"}, "equipes":[1],
+	 * "usuarios":[1,2,6]}
 	 */
 	@Test
 	public void salvarEventoRecebendoJson() {
 		JsonObject eventoJSON = criarJSONEvento();
-		eventoDAO.salvar(new Evento().toEvento(eventoJSON));
+		eventoDAO.salvar(Evento.toEvento(eventoJSON));
 		eventoDAO.flush();
-		
+
 	}
-	
+
 	public JsonObject criarJSONEvento() {
 		Local local = new Local();
-		local.setEndereco("Rua Padre Domingos Marine");
+		local.setEndereco("Rua Rui Puppi, 524");
 		local.setNomeLocal("Sitio Cerejeira");
 		local.setProprietario("Tiago");
-		
+
 		Equipe equipe = equipeDAO.pesquisarPorId(1l);
 		Usuario usuario = usuarioDAO.pesquisarPorId(3l);
-		
+
 		List<Usuario> todos = usuarioDAO.listarTodos();
 		todos.remove(usuario);
-		
+
 		Evento evento = new Evento();
 		evento.setUsuario(usuario);
 		evento.setLocal(local);
@@ -107,6 +105,18 @@ public class EventoDAOTeste {
 		evento.adicionarUsuarios(todos);
 		evento.setTipoEvento(TipoEvento.JOGO);
 		return evento.toJSON();
-		
+
+	}
+
+	@Test
+	public void listarEventoPorId() {
+		Evento evento = eventoDAO.pesquisarPorId(2l);
+		System.out.println(evento.toString());
+	}
+
+	@Test
+	public void listarEventos() {
+		List<Evento> listar = eventoDAO.listar();
+		System.out.println(listar.size());
 	}
 }
