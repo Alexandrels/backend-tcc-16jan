@@ -5,6 +5,7 @@ package br.com.easygame.teste.service;
 
 import java.util.Arrays;
 
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.ws.rs.WebApplicationException;
@@ -44,11 +45,10 @@ public class UsuarioServiceTeste {
 
 	@After
 	public void depois() {
-//		entityManager.getTransaction().commit();
+		// entityManager.getTransaction().commit();
 		entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
-
 
 	@Test
 	public void cadastrarUsuarioTecnico() throws Exception {
@@ -118,7 +118,7 @@ public class UsuarioServiceTeste {
 	@Test
 	public void listarUsuarioPeloId() {
 		UsuarioService service = new UsuarioService(usuarioDAO);
-//		Usuario usuario = service.retornaUsuario(String.valueOf(1));
+		// Usuario usuario = service.retornaUsuario(String.valueOf(1));
 		Usuario usuario = service.retornaUsuario(133l);
 		if (usuario != null) {
 			System.out.println(usuario.toString());
@@ -142,6 +142,14 @@ public class UsuarioServiceTeste {
 
 		System.out.println("Response: " + response.getEntity());
 		System.out.println("Response: " + response.getLocation());
+
+	}
+
+	@Test
+	public void listarUsuarioCoordenadas() {
+		UsuarioService service = new UsuarioService(usuarioDAO);
+		JsonObject coordenadas = service.listarCoordenadasUsuarios(0);
+		System.out.println(coordenadas.toString());
 
 	}
 

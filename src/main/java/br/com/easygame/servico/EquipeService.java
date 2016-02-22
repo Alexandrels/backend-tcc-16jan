@@ -32,6 +32,8 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import br.com.easygame.dao.EquipeDAO;
 import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Equipe;
+import br.com.easygame.entity.Usuario;
+import br.com.easygame.enuns.TipoPosicao;
 
 /**
  * @author Alexandre TEste de commit
@@ -124,6 +126,26 @@ public class EquipeService {
 			e.getCause();
 		}
 		return "não listou";
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("convite")
+	@Transactional
+	public void cadastrarUsuarioConvidado(JsonObject jsonObject) throws Exception {
+		Response response;
+		Long idEquipe = Long.valueOf(jsonObject.getInt("equipe"));
+		Long idUsuario = Long.valueOf(jsonObject.getInt("usuario"));
+		int posicaoConvite = jsonObject.getInt("posicaoConvite");
+		
+		Equipe equipe = equipeDAO.pesquisarPorId(idEquipe);
+		Usuario usuario = usuarioDAO.pesquisarPorId(idUsuario);
+		TipoPosicao tipoPosicao = TipoPosicao.values()[posicaoConvite];
+		
+		equipe.adicionarUsuario(usuario, tipoPosicao);
+		
+		equipeDAO.editar(equipe);
+		equipeDAO.flush();
 	}
 
 }

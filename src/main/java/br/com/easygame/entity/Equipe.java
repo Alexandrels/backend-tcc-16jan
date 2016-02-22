@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 
 import org.apache.commons.collections4.CollectionUtils;
 
+import br.com.easygame.enuns.SimNao;
 import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.util.DataUtils;
 
@@ -143,6 +144,8 @@ public class Equipe implements Serializable {
 		usuarioEquipe.setEquipe(this);
 		usuarioEquipe.setPosicao(posicao);
 		usuarioEquipe.setUsuario(usuario);
+		usuarioEquipe.setPendente(SimNao.SIM);
+		usuarioEquipe.setDataConvite(new Date());
 		if (!listUsuarioEquipe.contains(usuarioEquipe)) {
 			listUsuarioEquipe.add(usuarioEquipe);
 		}

@@ -74,6 +74,8 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy = "usuario")
 	private List<Equipe> equipes;
 
+	private String Telefone;
+
 	/*
 	 * um ou mais tipos
 	 */
@@ -213,6 +215,14 @@ public class Usuario implements Serializable {
 		this.equipes = equipes;
 	}
 
+	public String getTelefone() {
+		return Telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		Telefone = telefone;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -253,7 +263,21 @@ public class Usuario implements Serializable {
 		builder.add("nome", getNome()).add("apelido", getApelido()).add("login", getLogin()).add("senha", getSenha())
 				.add("latitude", getLatitude() != null ? getLatitude() : 0)
 				.add("longitude", getLongitude() != null ? getLongitude() : 0).add("facebook", getFacebook().ordinal())
-				.add("posicao", getTipoPosicao().ordinal()).add("tipoUsuario", getTipoUsuario());
+				.add("posicao", getTipoPosicao().ordinal()).add("tipoUsuario", getTipoUsuario())
+				.add("telefone", getTelefone());
+
+		return builder.build();
+	}
+
+	public JsonObject toUsuarioCoordenadasJSON() {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		if (getId() != null) {
+			builder.add("id", getId());
+		}
+		builder.add("nome", getNome()).add("apelido", getApelido()).add("apelido", getApelido())
+				.add("latitude", getLatitude() != null ? getLatitude() : 0)
+				.add("longitude", getLongitude() != null ? getLongitude() : 0)
+				.add("posicao", getTipoPosicao().ordinal()).add("telefone", getTelefone());
 
 		return builder.build();
 	}
@@ -273,6 +297,8 @@ public class Usuario implements Serializable {
 			usuario.setSenha(jsonObject.getString("senha"));
 			usuario.setTipoPosicao(TipoPosicao.values()[jsonObject.getInt("posicao")]);
 			usuario.setTipoUsuario(jsonObject.getString("tipoUsuario"));
+			usuario.setTelefone(jsonObject.getString("telefone"));
+			;
 		} catch (JsonException e) {
 			throw new RuntimeException("Erro ao ler JSON de Usuario", e);
 		}

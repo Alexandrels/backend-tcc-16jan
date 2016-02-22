@@ -25,6 +25,7 @@ import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -43,6 +44,8 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Usuario;
+import br.com.easygame.enuns.TipoUsuario;
+import javafx.print.JobSettings;
 
 /**
  * @author Alexandre
@@ -140,7 +143,27 @@ public class UsuarioService {
 		}
 		return "não listou";
 	}
+	@GET
+	@Path("coordenadas/{tipo}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JsonObject listarCoordenadasUsuarios(@PathParam("tipo") int tipo) {
+		try {
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			// aqui um exemplo de como retornar todos os usuarios com JSON
+			List<Usuario> usuarios = usuarioDAO.listar(TipoUsuario.values()[tipo]);
+			JsonArrayBuilder arrayUsuarios = Json.createArrayBuilder();
+			for (Usuario usuario : usuarios) {
+				arrayUsuarios.add(usuario.toUsuarioCoordenadasJSON());
 
+			}
+			builder.add("coordenadas", arrayUsuarios);
+			return builder.build();
+
+		} catch (Exception e) {
+			e.getCause();
+		}
+		return null;
+	}
 	@GET
 	@Path("resources/{nome}")
 	@Produces("image/*")

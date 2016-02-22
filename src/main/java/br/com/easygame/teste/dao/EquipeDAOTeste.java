@@ -26,6 +26,7 @@ import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.dao.UsuarioEquipeDAO;
 import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Usuario;
+import br.com.easygame.enuns.TipoPosicao;
 import br.com.easygame.enuns.TipoUsuario;
 
 public class EquipeDAOTeste {
@@ -47,7 +48,7 @@ public class EquipeDAOTeste {
 
 	@After
 	public void depois() {
-		//entityManager.getTransaction().commit();
+//		entityManager.getTransaction().commit();
 		 entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
@@ -88,7 +89,7 @@ public class EquipeDAOTeste {
 	public void salvarEquipeSemJogadoresRecebeJSON() {
 		JsonObject jsonEquipe = criarEquipeSEMJogadoresJSON();
 		Equipe equipe = new Equipe();
-		equipe.toEquipe(jsonEquipe);
+		equipe = Equipe.toEquipe(jsonEquipe);
 		equipeDAO.salvar(equipe);
 		equipeDAO.flush();
 
@@ -131,7 +132,7 @@ public class EquipeDAOTeste {
 		return equipe.toJSON();
 
 	}
-	
+
 	@Test
 	public void salvarEquipeNovaCOMJogadoresRecebeJSON() {
 		JsonObject jsonEquipe = criarEquipeNovaCOMJogadoresJSON();
@@ -140,6 +141,7 @@ public class EquipeDAOTeste {
 		equipeDAO.flush();
 
 	}
+
 	public JsonObject criarEquipeNovaCOMJogadoresJSON() {
 		Equipe equipe = new Equipe();
 		equipe.setNome("Equipe Nova");
@@ -154,8 +156,6 @@ public class EquipeDAOTeste {
 		return equipe.toJSON();
 
 	}
-	
-	
 
 	@Test
 	public void listarEquipe() {
@@ -178,6 +178,18 @@ public class EquipeDAOTeste {
 		Assert.assertTrue(equipeDAO.existeEquipe(equipe));
 	}
 
+	@Test
+	public void enviarConvite() {
+		Equipe equipe = equipeDAO.pesquisarPorId(1l);
+		Usuario usuario = usuarioDAO.pesquisarPorId(3l);
+		int posicaoConvite = TipoPosicao.ATACANTE.ordinal();
+		equipe.adicionarUsuario(usuario, TipoPosicao.values()[posicaoConvite]);
+		equipeDAO.salvar(equipe);
+		equipeDAO.flush();
+
+	}
+
+	// coisa antiga
 	@Test
 	public void lerObjetoJsonComArrayDentro() {
 		try {
