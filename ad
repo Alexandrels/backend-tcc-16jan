@@ -1,1958 +1,0 @@
-[33mcommit f86410f638c5df8d7cebc34a9051ec68a547db37[m
-Author: AleLinux <alexandrels800@gmail.com>
-Date:   Thu Jan 28 23:43:36 2016 -0200
-
-    Terminado de criar a AgendaService e seu metodos
-
-[1mdiff --git a/.classpath b/.classpath[m
-[1mdeleted file mode 100644[m
-[1mindex e367e1d..0000000[m
-[1m--- a/.classpath[m
-[1m+++ /dev/null[m
-[36m@@ -1,28 +0,0 @@[m
-[31m-<?xml version="1.0" encoding="UTF-8"?>[m
-[31m-<classpath>[m
-[31m-	<classpathentry kind="src" output="target/classes" path="src/main/java">[m
-[31m-		<attributes>[m
-[31m-			<attribute name="optional" value="true"/>[m
-[31m-			<attribute name="maven.pomderived" value="true"/>[m
-[31m-		</attributes>[m
-[31m-	</classpathentry>[m
-[31m-	<classpathentry kind="src" path="resources"/>[m
-[31m-	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">[m
-[31m-		<attributes>[m
-[31m-			<attribute name="maven.pomderived" value="true"/>[m
-[31m-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>[m
-[31m-			<attribute name="owner.project.facets" value="jboss.m2"/>[m
-[31m-		</attributes>[m
-[31m-	</classpathentry>[m
-[31m-	<classpathentry kind="con" path="oracle.eclipse.tools.glassfish.lib.system">[m
-[31m-		<attributes>[m
-[31m-			<attribute name="owner.project.facets" value="jst.web"/>[m
-[31m-		</attributes>[m
-[31m-	</classpathentry>[m
-[31m-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_45">[m
-[31m-		<attributes>[m
-[31m-			<attribute name="owner.project.facets" value="java"/>[m
-[31m-		</attributes>[m
-[31m-	</classpathentry>[m
-[31m-	<classpathentry kind="output" path="target/classes"/>[m
-[31m-</classpath>[m
-[1mdiff --git a/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml b/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml[m
-[1mdeleted file mode 100644[m
-[1mindex 23ae365..0000000[m
-[1m--- a/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml[m
-[1m+++ /dev/null[m
-[36m@@ -1,17 +0,0 @@[m
-[31m-<root>[m
-[31m-  <facet id="jpt.jpa">[m
-[31m-    <node name="libprov">[m
-[31m-      <attribute name="provider-id" value="jpa-no-op-library-provider"/>[m
-[31m-    </node>[m
-[31m-  </facet>[m
-[31m-  <facet id="jst.jsf">[m
-[31m-    <node name="libprov">[m
-[31m-      <attribute name="provider-id" value="jsf-no-op-library-provider"/>[m
-[31m-    </node>[m
-[31m-  </facet>[m
-[31m-  <facet id="jst.jaxrs">[m
-[31m-    <node name="libprov">[m
-[31m-      <attribute name="provider-id" value="jaxrs-no-op-library-provider"/>[m
-[31m-    </node>[m
-[31m-  </facet>[m
-[31m-</root>[m
-[1mdiff --git a/.settings/org.eclipse.wst.common.project.facet.core.xml b/.settings/org.eclipse.wst.common.project.facet.core.xml[m
-[1mdeleted file mode 100644[m
-[1mindex 7f452d3..0000000[m
-[1m--- a/.settings/org.eclipse.wst.common.project.facet.core.xml[m
-[1m+++ /dev/null[m
-[36m@@ -1,13 +0,0 @@[m
-[31m-<?xml version="1.0" encoding="UTF-8"?>[m
-[31m-<faceted-project>[m
-[31m-  <runtime name="GlassFish 4"/>[m
-[31m-  <fixed facet="wst.jsdt.web"/>[m
-[31m-  <installed facet="wst.jsdt.web" version="1.0"/>[m
-[31m-  <installed facet="java" version="1.7"/>[m
-[31m-  <installed facet="jst.web" version="3.1"/>[m
-[31m-  <installed facet="jpt.jpa" version="2.1"/>[m
-[31m-  <installed facet="jst.jsf" version="2.2"/>[m
-[31m-  <installed facet="jst.jaxrs" version="2.0"/>[m
-[31m-  <installed facet="jst.cdi" version="1.0"/>[m
-[31m-  <installed facet="jboss.m2" version="1.0"/>[m
-[31m-</faceted-project>[m
-[1mdiff --git a/banco/easy-game190116.mwb b/banco/easy-game190116.mwb[m
-[1mindex 09a338a..c6933ad 100644[m
-Binary files a/banco/easy-game190116.mwb and b/banco/easy-game190116.mwb differ
-[1mdiff --git a/src/main/java/br/com/easygame/dao/EquipeDAO.java b/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[1mindex 3f7db9a..436f57b 100644[m
-[1m--- a/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[1m+++ b/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[36m@@ -67,7 +67,6 @@[m [mpublic class EquipeDAO {[m
- 		} catch (Exception e) {[m
- 			return null;[m
- 		}[m
-[31m-[m
- 	}[m
- [m
- 	public boolean existeEquipe(Equipe equipe) {[m
-[1mdiff --git a/src/main/java/br/com/easygame/dao/EventoDAO.java b/src/main/java/br/com/easygame/dao/EventoDAO.java[m
-[1mindex b79dd77..3e4fb1f 100644[m
-[1m--- a/src/main/java/br/com/easygame/dao/EventoDAO.java[m
-[1m+++ b/src/main/java/br/com/easygame/dao/EventoDAO.java[m
-[36m@@ -9,7 +9,9 @@[m [mimport java.util.List;[m
- import javax.inject.Inject;[m
- import javax.persistence.EntityManager;[m
- [m
-[32m+[m[32mimport br.com.easygame.entity.Equipe;[m
- import br.com.easygame.entity.Evento;[m
-[32m+[m[32mimport br.com.easygame.enuns.StatusEvento;[m
- [m
- /**[m
-  * @author mobilesys.alexandre[m
-[36m@@ -27,7 +29,7 @@[m [mpublic class EventoDAO {[m
- 	public EventoDAO() {[m
- [m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void apagar(Evento evento) {[m
- 		String sql = "delete from evento_has_equipe where id_equipe = ?";[m
- 		entityManager.createNativeQuery(sql).setParameter(1, evento.getId());[m
-[36m@@ -53,16 +55,24 @@[m [mpublic class EventoDAO {[m
- 	public List<Evento> listar() {[m
- 		try {[m
- 			// cria um entityManager[m
-[31m-			StringBuilder builder = new StringBuilder("SELECT u FROM UsuarioEquipe u ");[m
-[32m+[m			[32mStringBuilder builder = new StringBuilder("SELECT u FROM Evento u ")[m
-[32m+[m					[32m.append(" WHERE u.statusEvento = :statusEvento");[m
- 			// usa o entityManager[m
-[31m-			return entityManager.createQuery(builder.toString(), Evento.class).getResultList();[m
-[32m+[m			[32mreturn entityManager.createQuery(builder.toString(), Evento.class)[m
-[32m+[m					[32m.setParameter("statusEvento", StatusEvento.ATIVO)[m
-[32m+[m					[32m.getResultList();[m
- 		} catch (Exception e) {[m
- 			return new ArrayList<Evento>();[m
- 		}[m
- 	}[m
- [m
- 	public Evento pesquisarPorId(Long id) {[m
-[31m-		return entityManager.find(Evento.class, id);[m
-[32m+[m		[32mtry {[m
-[32m+[m			[32mStringBuilder builder = new StringBuilder("SELECT u FROM Evento u ").append(" WHERE u.id = :id ");[m
-[32m+[m			[32mreturn entityManager.createQuery(builder.toString(), Evento.class).setParameter("id", id).getSingleResult();[m
-[32m+[m		[32m} catch (Exception e) {[m
-[32m+[m			[32mreturn null;[m
-[32m+[m		[32m}[m
- 	}[m
- [m
- 	public void flush() {[m
-[1mdiff --git a/src/main/java/br/com/easygame/entity/Evento.java b/src/main/java/br/com/easygame/entity/Evento.java[m
-[1mindex 8ad7f65..d99bbf1 100644[m
-[1m--- a/src/main/java/br/com/easygame/entity/Evento.java[m
-[1m+++ b/src/main/java/br/com/easygame/entity/Evento.java[m
-[36m@@ -30,13 +30,14 @@[m [mimport javax.persistence.TemporalType;[m
- [m
- import org.apache.commons.collections4.CollectionUtils;[m
- [m
-[32m+[m[32mimport br.com.easygame.enuns.StatusEvento;[m[41m[m
- import br.com.easygame.enuns.TipoEvento;[m
- import br.com.easygame.util.DataUtils;[m
- [m
- @Entity[m
- @Table(name = "evento")[m
- public class Evento implements Serializable {[m
-[31m-	[m
-[32m+[m[41m[m
- 	/**[m
- 	 * [m
- 	 */[m
-[36m@@ -45,168 +46,156 @@[m [mpublic class Evento implements Serializable {[m
- 	@GeneratedValue(strategy = GenerationType.IDENTITY)[m
- 	@Column(name = "id", unique = true, nullable = false)[m
- 	private Long id;[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Column(name = "descricao")[m
- 	private String descricao;[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Temporal(TemporalType.TIMESTAMP)[m
- 	@Column(name = "data_hora")[m
- 	private Date dataHora;[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Enumerated[m
- 	@Column(name = "tipo")[m
- 	private TipoEvento tipoEvento;[m
-[31m-	[m
-[32m+[m[41m[m
- 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)[m
-[31m-	@JoinTable(name = "evento_has_local", joinColumns = {[m
-[31m-			@JoinColumn(name = "id_evento")[m
-[31m-	}, inverseJoinColumns = {[m
-[31m-			@JoinColumn(name = "id_local")[m
-[31m-	})[m
-[32m+[m	[32m@JoinTable(name = "evento_has_local", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {[m[41m[m
-[32m+[m			[32m@JoinColumn(name = "id_local") })[m[41m[m
- 	private Local local;[m
-[31m-	[m
-[32m+[m[41m[m
- 	@ManyToMany(fetch = FetchType.EAGER)[m
-[31m-	@JoinTable(name = "evento_has_equipe", joinColumns = {[m
-[31m-			@JoinColumn(name = "id_evento")[m
-[31m-	}, inverseJoinColumns = {[m
-[31m-			@JoinColumn(name = "id_equipe")[m
-[31m-	})[m
-[31m-	private List<Equipe> equipes = new ArrayList<Equipe>();[m
-[31m-	[m
-[31m-	@OneToMany(fetch = FetchType.EAGER)[m
-[32m+[m	[32m@JoinTable(name = "evento_has_equipe", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {[m[41m[m
-[32m+[m			[32m@JoinColumn(name = "id_equipe") })[m[41m[m
-[32m+[m	[32mprivate List<Equipe> equipes;[m[41m[m
-[32m+[m[41m[m
-[32m+[m	[32m@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)[m[41m[m
- 	@JoinTable(name = "evento_has_notificacao", joinColumns = {[m
-[31m-			@JoinColumn(name = "id_evento")[m
-[31m-	}, inverseJoinColumns = {[m
-[31m-			@JoinColumn(name = "id_notificacao")[m
-[31m-	})[m
-[31m-	private List<Notificacao> notificacoes = new ArrayList<Notificacao>();[m
-[31m-	[m
-[32m+[m			[32m@JoinColumn(name = "id_evento") }, inverseJoinColumns = { @JoinColumn(name = "id_notificacao") })[m[41m[m
-[32m+[m	[32mprivate Notificacao notificacao;[m[41m[m
-[32m+[m[41m[m
- 	@ManyToMany(fetch = FetchType.EAGER)[m
-[31m-	@JoinTable(name = "evento_has_usuario", joinColumns = {[m
-[31m-			@JoinColumn(name = "id_evento")[m
-[31m-	}, inverseJoinColumns = {[m
-[31m-			@JoinColumn(name = "id_usuario")[m
-[31m-	})[m
-[31m-	private List<Usuario> usuarios = new ArrayList<Usuario>();[m
-[31m-	[m
-[32m+[m	[32m@JoinTable(name = "evento_has_usuario", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {[m[41m[m
-[32m+[m			[32m@JoinColumn(name = "id_usuario") })[m[41m[m
-[32m+[m	[32mprivate List<Usuario> usuarios;[m[41m[m
-[32m+[m[41m[m
- 	@ManyToMany(fetch = FetchType.EAGER)[m
- 	@JoinTable(name = "evento_has_recorrencia", joinColumns = {[m
-[31m-			@JoinColumn(name = "id_evento")[m
-[31m-	}, inverseJoinColumns = {[m
-[31m-			@JoinColumn(name = "id_recorrencia")[m
-[31m-	})[m
-[32m+[m			[32m@JoinColumn(name = "id_evento") }, inverseJoinColumns = { @JoinColumn(name = "id_recorrencia") })[m[41m[m
- 	private List<Recorrencia> recorrencias = new ArrayList<Recorrencia>();[m
-[31m-	[m
-[32m+[m[41m[m
- 	@ManyToOne[m
- 	@JoinColumn(name = "id_usuario")[m
- 	private Usuario usuario;[m
-[31m-	[m
-[32m+[m[41m[m
-[32m+[m	[32m@Column(name = "status")[m[41m[m
-[32m+[m	[32mprivate StatusEvento statusEvento = StatusEvento.ATIVO;[m[41m[m
-[32m+[m[41m[m
- 	public Evento() {[m
- 		// TODO Auto-generated constructor stub[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Long getId() {[m
- 		return id;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setId(Long id) {[m
- 		this.id = id;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public String getDescricao() {[m
- 		return descricao;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setDescricao(String descricao) {[m
- 		this.descricao = descricao;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Date getDataHora() {[m
- 		return dataHora;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setDataHora(Date dataHora) {[m
- 		this.dataHora = dataHora;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public TipoEvento getTipoEvento() {[m
- 		return tipoEvento;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setTipoEvento(TipoEvento tipoEvento) {[m
- 		this.tipoEvento = tipoEvento;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public List<Equipe> getEquipes() {[m
- 		return equipes;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setEquipes(List<Equipe> equipes) {[m
- 		this.equipes = equipes;[m
- 	}[m
-[31m-	[m
-[31m-	public List<Notificacao> getNotificacoes() {[m
-[31m-		return notificacoes;[m
-[31m-	}[m
-[31m-	[m
-[31m-	public void setNotificacoes(List<Notificacao> notificacoes) {[m
-[31m-		this.notificacoes = notificacoes;[m
-[31m-	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public List<Usuario> getUsuarios() {[m
- 		return usuarios;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setUsuarios(List<Usuario> usuarios) {[m
- 		this.usuarios = usuarios;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public List<Recorrencia> getRecorrencias() {[m
- 		return recorrencias;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setRecorrencias(List<Recorrencia> recorrencias) {[m
- 		this.recorrencias = recorrencias;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Usuario getUsuario() {[m
- 		return usuario;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setUsuario(Usuario usuario) {[m
- 		this.usuario = usuario;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
-[32m+[m	[32mpublic StatusEvento getStatusEvento() {[m[41m[m
-[32m+[m		[32mreturn statusEvento;[m[41m[m
-[32m+[m	[32m}[m[41m[m
-[32m+[m[41m[m
-[32m+[m	[32mpublic void setStatusEvento(StatusEvento statusEvento) {[m[41m[m
-[32m+[m		[32mthis.statusEvento = statusEvento;[m[41m[m
-[32m+[m	[32m}[m[41m[m
-[32m+[m[41m[m
- 	public Local getLocal() {[m
- 		return local;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setLocal(Local local) {[m
- 		this.local = local;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void adicionarEquipes(List<Equipe> equipes) {[m
- 		if (getEquipes() == null) {[m
- 			setEquipes(new ArrayList<Equipe>());[m
- 		}[m
- 		getEquipes().addAll(equipes);[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void adcionarEquipe(Equipe equipe) {[m
- 		adicionarEquipes(Arrays.asList(equipe));[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void adicionarUsuarios(List<Usuario> usuarios) {[m
- 		if (getUsuarios() == null) {[m
- 			setUsuarios(new ArrayList<Usuario>());[m
- 		}[m
- 		getUsuarios().addAll(usuarios);[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void adicionarUsuario(Usuario usuario) {[m
- 		adicionarUsuarios(Arrays.asList(usuario));[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Override[m
- 	public int hashCode() {[m
- 		final int prime = 31;[m
-[36m@@ -214,7 +203,7 @@[m [mpublic class Evento implements Serializable {[m
- 		result = prime * result + ((id == null) ? 0 : id.hashCode());[m
- 		return result;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Override[m
- 	public boolean equals(Object obj) {[m
- 		if (this == obj)[m
-[36m@@ -231,7 +220,7 @@[m [mpublic class Evento implements Serializable {[m
- 			return false;[m
- 		return true;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public JsonObject toJSON() {[m
- 		JsonObjectBuilder builder = Json.createObjectBuilder();[m
- 		if (getId() != null) {[m
-[36m@@ -239,8 +228,8 @@[m [mpublic class Evento implements Serializable {[m
- 		}[m
- 		builder.add("descricao", getDescricao())[m
- 				.add("dataHora", DataUtils.formatarDate(getDataHora(), "dd/MM/yyyy HH:mm:ss"))[m
-[31m-				.add("tipo", getTipoEvento().ordinal())[m
-[31m-				.add("usuario", getUsuario().getId());[m
-[32m+[m				[32m.add("tipo", getTipoEvento().ordinal()).add("usuario", getUsuario().getId())[m[41m[m
-[32m+[m				[32m.add("statusEvento", getStatusEvento().ordinal());[m[41m[m
- 		if (getLocal() != null) {[m
- 			// avaliar os demais ralcionamentos parecidos, que podem ou não ter[m
- 			// o relacionamento[m
-[36m@@ -260,35 +249,34 @@[m [mpublic class Evento implements Serializable {[m
- 			}[m
- 			builder.add("usuarios", arrayUsuarios);[m
- 		}[m
-[31m-		[m
-[32m+[m[41m[m
- 		return builder.build();[m
- 	}[m
-[31m-	[m
-[31m-	public static Evento toEvento(JsonObject jsonObject) {[m
-[31m-		Evento evento = new Evento();[m
-[31m-		[m
-[31m-		if (jsonObject.containsKey("id")) {[m
-[31m-			evento.setId(Long.valueOf(jsonObject.get("id").toString()));[m
-[31m-		}[m
-[31m-		evento.setDescricao(jsonObject.getString("descricao"));[m
-[31m-		String dataHora = jsonObject.getString("dataHora");[m
-[31m-		evento.setDataHora(DataUtils.parseDate(dataHora, "dd/MM/yyyy HH:mm:ss"));[m
-[31m-		evento.setUsuario(new Usuario(Long.valueOf(jsonObject.getInt("usuario"))));[m
-[31m-		evento.setTipoEvento(TipoEvento.values()[jsonObject.getInt("tipo")]);[m
-[31m-		evento.setLocal(new Local().toLocal(jsonObject.getJsonObject("local")));[m
-[31m-		JsonArray arrayEquipes = jsonObject.getJsonArray("equipes");[m
-[31m-		for (int i = 0; i < arrayEquipes.size(); i++) {[m
-[31m-			// as coisas que ja estiverem no banco do aparelho não reciso[m
-[31m-			// manndar tudo no json[m
-[31m-			Equipe equipe = new Equipe(Long.valueOf(arrayEquipes.getInt((i))));[m
-[31m-			evento.adcionarEquipe(equipe);[m
-[31m-		}[m
-[31m-		JsonArray arrayUsuarios = jsonObject.getJsonArray("usuarios");[m
-[31m-		for (int i = 0; i < arrayUsuarios.size(); i++) {[m
-[31m-			new Usuario(Long.valueOf(arrayUsuarios.getInt(i)));[m
-[31m-		}[m
-[31m-		[m
-[31m-		return evento;[m
-[31m-		[m
-[32m+[m[41m[m
-[32m+[m	[32mpublic static Evento toEvento(JsonObject jsonObject) {[m[41m[m
-[32m+[m		[32mEvento evento = new Evento();[m[41m[m
-[32m+[m[41m[m
-[32m+[m		[32mif (jsonObject.containsKey("id")) {[m[41m[m
-[32m+[m			[32mevento.setId(Long.valueOf(jsonObject.get("id").toString()));[m[41m[m
-[32m+[m		[32m}[m[41m[m
-[32m+[m		[32mevento.setDescricao(jsonObject.getString("descricao"));[m[41m[m
-[32m+[m		[32mString dataHora = jsonObject.getString("dataHora");[m[41m[m
-[32m+[m		[32mevento.setDataHora(DataUtils.parseDate(dataHora, "dd/MM/yyyy HH:mm:ss"));[m[41m[m
-[32m+[m		[32mevento.setUsuario(new Usuario(Long.valueOf(jsonObject.getInt("usuario"))));[m[41m[m
-[32m+[m		[32mevento.setTipoEvento(TipoEvento.values()[jsonObject.getInt("tipo")]);[m[41m[m
-[32m+[m		[32mevento.setLocal(new Local().toLocal(jsonObject.getJsonObject("local")));[m[41m[m
-[32m+[m		[32mevento.setStatusEvento(StatusEvento.values()[jsonObject.getInt("local")]);[m[41m[m
-[32m+[m		[32mJsonArray arrayEquipes = jsonObject.getJsonArray("equipes");[m[41m[m
-[32m+[m		[32mfor (int i = 0; i < arrayEquipes.size(); i++) {[m[41m[m
-[32m+[m			[32mEquipe equipe = new Equipe(Long.valueOf(arrayEquipes.getInt((i))));[m[41m[m
-[32m+[m			[32mevento.adcionarEquipe(equipe);[m[41m[m
-[32m+[m		[32m}[m[41m[m
-[32m+[m		[32mJsonArray arrayUsuarios = jsonObject.getJsonArray("usuarios");[m[41m[m
-[32m+[m		[32mfor (int i = 0; i < arrayUsuarios.size(); i++) {[m[41m[m
-[32m+[m			[32mevento.adicionarUsuario(new Usuario(Long.valueOf(arrayUsuarios.getInt(i))));[m[41m[m
-[32m+[m		[32m}[m[41m[m
-[32m+[m[41m[m
-[32m+[m		[32mreturn evento;[m[41m[m
-[32m+[m[41m[m
- 	}[m
- }[m
-[1mdiff --git a/src/main/java/br/com/easygame/entity/Notificacao.java b/src/main/java/br/com/easygame/entity/Notificacao.java[m
-[1mindex cca0409..82f1b4f 100644[m
-[1m--- a/src/main/java/br/com/easygame/entity/Notificacao.java[m
-[1m+++ b/src/main/java/br/com/easygame/entity/Notificacao.java[m
-[36m@@ -39,8 +39,6 @@[m [mpublic class Notificacao implements Serializable {[m
- [m
- 	@Column(name = "notificado")[m
- 	private SimNao notiifcado;[m
-[31m-	@ManyToOne[m
-[31m-	private Evento evento;[m
- [m
- 	public Notificacao() {[m
- 	}[m
-[36m@@ -69,14 +67,6 @@[m [mpublic class Notificacao implements Serializable {[m
- 		this.notiifcado = notiifcado;[m
- 	}[m
- [m
-[31m-	public Evento getEvento() {[m
-[31m-		return evento;[m
-[31m-	}[m
-[31m-[m
-[31m-	public void setEvento(Evento evento) {[m
-[31m-		this.evento = evento;[m
-[31m-	}[m
-[31m-[m
- 	@Override[m
- 	public int hashCode() {[m
- 		final int prime = 31;[m
-[1mdiff --git a/src/main/java/br/com/easygame/servico/AgendaService.java b/src/main/java/br/com/easygame/servico/AgendaService.java[m
-[1mindex c69c0ae..e3bbcdd 100644[m
-[1m--- a/src/main/java/br/com/easygame/servico/AgendaService.java[m
-[1m+++ b/src/main/java/br/com/easygame/servico/AgendaService.java[m
-[36m@@ -42,6 +42,7 @@[m [mimport org.apache.deltaspike.jpa.api.transaction.Transactional;[m
- [m
- import br.com.easygame.dao.EventoDAO;[m
- import br.com.easygame.entity.Evento;[m
-[32m+[m[32mimport br.com.easygame.enuns.StatusEvento;[m
- [m
- /**[m
-  * @author Alexandre[m
-[36m@@ -84,7 +85,7 @@[m [mpublic class AgendaService {[m
- [m
- 	@GET[m
- 	@Path("{id}")[m
-[31m-	public JsonObject retornaUsuario(@PathParam("id") Long id) {[m
-[32m+[m	[32mpublic JsonObject retornaEvento(@PathParam("id") Long id) {[m
- 		Evento evento = eventoDAO.pesquisarPorId(id);[m
- 		if (evento != null) {[m
- 			return evento.toJSON();[m
-[36m@@ -98,7 +99,9 @@[m [mpublic class AgendaService {[m
- 	@Transactional[m
- 	public void atualizarEvento(@PathParam("id") Long id, JsonObject jsonObject) {[m
- 		Evento eventoBanco = eventoDAO.pesquisarPorId(id);[m
-[31m-		eventoBanco = Evento.toEvento(jsonObject);[m
-[32m+[m		[32mEvento evento = Evento.toEvento(jsonObject);[m
-[32m+[m		[32meventoBanco.setDescricao(evento.getDescricao());[m
-[32m+[m		[32m// TODO falta imlementar o restante da trasnferencia da edição[m
- 		eventoDAO.editar(eventoBanco);[m
- 		eventoDAO.flush();[m
- 	}[m
-[36m@@ -108,6 +111,11 @@[m [mpublic class AgendaService {[m
- 	@Transactional[m
- 	public void apagarEvento(@PathParam("id") Long id) {[m
- 		// TODO criar uma logica para avisar do cancelamento do evento[m
-[32m+[m		[32mEvento evento = eventoDAO.pesquisarPorId(id);[m
-[32m+[m		[32mif (evento != null) {[m
-[32m+[m			[32mevento.setStatusEvento(StatusEvento.CANELADO);[m
-[32m+[m			[32meventoDAO.editar(evento);[m
-[32m+[m		[32m}[m
- [m
- 	}[m
- [m
-[1mdiff --git a/src/main/java/br/com/easygame/teste/dao/EventoDAOTeste.java b/src/main/java/br/com/easygame/teste/dao/EventoDAOTeste.java[m
-[1mindex dd8fff7..dee12fd 100644[m
-[1m--- a/src/main/java/br/com/easygame/teste/dao/EventoDAOTeste.java[m
-[1m+++ b/src/main/java/br/com/easygame/teste/dao/EventoDAOTeste.java[m
-[36m@@ -25,37 +25,37 @@[m [mpublic class EventoDAOTeste {[m
- 	private EquipeDAO equipeDAO;[m
- 	private UsuarioDAO usuarioDAO;[m
- 	private EventoDAO eventoDAO;[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Before[m
- 	public void antes() {[m
- 		entityManager = Persistence.createEntityManagerFactory("easy-game-local").createEntityManager();[m
- 		entityManager.getTransaction().begin();[m
-[31m-		[m
-[32m+[m[41m[m
- 		equipeDAO = new EquipeDAO(entityManager);[m
- 		usuarioDAO = new UsuarioDAO(entityManager);[m
- 		eventoDAO = new EventoDAO(entityManager);[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	@After[m
- 	public void depois() {[m
- 		entityManager.getTransaction().commit();[m
- 		// entityManager.getTransaction().rollback();[m
- 		entityManager.close();[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Test[m
- 	public void salvarEvento() {[m
- 		Local local = new Local();[m
-[31m-		local.setEndereco("Rua Da Bambulha");[m
-[32m+[m		[32mlocal.setEndereco("Rua Da Cagurer");[m[41m[m
- 		local.setNomeLocal("Quandra Sport All");[m
- 		local.setProprietario("Juarez");[m
-[31m-		[m
-[31m-		Equipe equipe = equipeDAO.pesquisarPorId(5l);[m
-[31m-		Usuario usuario = usuarioDAO.pesquisarPorId(5l);[m
-[31m-		[m
-[32m+[m[41m[m
-[32m+[m		[32mEquipe equipe = equipeDAO.pesquisarPorId(1l);[m[41m[m
-[32m+[m		[32mUsuario usuario = usuarioDAO.pesquisarPorId(1l);[m[41m[m
-[32m+[m[41m[m
- 		List<Usuario> todos = usuarioDAO.listarTodos();[m
- 		todos.remove(usuario);[m
-[31m-		[m
-[32m+[m[41m[m
- 		Evento evento = new Evento();[m
- 		evento.setUsuario(usuario);[m
- 		evento.setLocal(local);[m
-[36m@@ -64,40 +64,38 @@[m [mpublic class EventoDAOTeste {[m
- 		evento.adcionarEquipe(equipe);[m
- 		evento.adicionarUsuarios(todos);[m
- 		evento.setTipoEvento(TipoEvento.JOGO);[m
-[31m-		[m
-[32m+[m[41m[m
- 		eventoDAO.salvar(evento);[m
- 		eventoDAO.flush();[m
-[31m-		[m
-[32m+[m[41m[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	/**[m
-[31m-	 * {"descricao":"Churrasco bom chimarrão!","data_hora":"23/01/2016 17:16:06","tipo":0,[m
-[31m-	 * "usuario":{"id":3,"nome":"Emerson","apelido":"Grilo","login":"grilo","senha":"1","latitude":0.0,[m
-[31m-	 * "longitude":0.0,"facebook":0,"posicao":1,"tipoUsuario":"1;"},[m
-[31m-	 * "local":{"nomeLocal":"Sitio Cerejeira","endereco":"Rua Padre Domingos Marine","proprietario":"Tiago"},[m
-[31m-	 * "equipes":[1],[m
-[31m-	 * "usuarios":[1,2]}[m
-[32m+[m	[32m * {"descricao":"Churrasco bom chimarrão!","dataHora":"28/01/2016 21:42:54"[m[41m[m
-[32m+[m	[32m * ,"tipo":0,"usuario":3, "local":{"nomeLocal":"Sitio Cerejeira","endereco":[m[41m[m
-[32m+[m	[32m * "Rua Padre Domingos Marine","proprietario":"Tiago"}, "equipes":[1],[m[41m[m
-[32m+[m	[32m * "usuarios":[1,2,6]}[m[41m[m
- 	 */[m
- 	@Test[m
- 	public void salvarEventoRecebendoJson() {[m
- 		JsonObject eventoJSON = criarJSONEvento();[m
-[31m-		eventoDAO.salvar(new Evento().toEvento(eventoJSON));[m
-[32m+[m		[32meventoDAO.salvar(Evento.toEvento(eventoJSON));[m[41m[m
- 		eventoDAO.flush();[m
-[31m-		[m
-[32m+[m[41m[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public JsonObject criarJSONEvento() {[m
- 		Local local = new Local();[m
-[31m-		local.setEndereco("Rua Padre Domingos Marine");[m
-[32m+[m		[32mlocal.setEndereco("Rua Rui Puppi, 524");[m[41m[m
- 		local.setNomeLocal("Sitio Cerejeira");[m
- 		local.setProprietario("Tiago");[m
-[31m-		[m
-[32m+[m[41m[m
- 		Equipe equipe = equipeDAO.pesquisarPorId(1l);[m
- 		Usuario usuario = usuarioDAO.pesquisarPorId(3l);[m
-[31m-		[m
-[32m+[m[41m[m
- 		List<Usuario> todos = usuarioDAO.listarTodos();[m
- 		todos.remove(usuario);[m
-[31m-		[m
-[32m+[m[41m[m
- 		Evento evento = new Evento();[m
- 		evento.setUsuario(usuario);[m
- 		evento.setLocal(local);[m
-[36m@@ -107,6 +105,18 @@[m [mpublic class EventoDAOTeste {[m
- 		evento.adicionarUsuarios(todos);[m
- 		evento.setTipoEvento(TipoEvento.JOGO);[m
- 		return evento.toJSON();[m
-[31m-		[m
-[32m+[m[41m[m
-[32m+[m	[32m}[m[41m[m
-[32m+[m[41m[m
-[32m+[m	[32m@Test[m[41m[m
-[32m+[m	[32mpublic void listarEventoPorId() {[m[41m[m
-[32m+[m		[32mEvento evento = eventoDAO.pesquisarPorId(2l);[m[41m[m
-[32m+[m		[32mSystem.out.println(evento.toString());[m[41m[m
-[32m+[m	[32m}[m[41m[m
-[32m+[m[41m[m
-[32m+[m	[32m@Test[m[41m[m
-[32m+[m	[32mpublic void listarEventos() {[m[41m[m
-[32m+[m		[32mList<Evento> listar = eventoDAO.listar();[m[41m[m
-[32m+[m		[32mSystem.out.println(listar.size());[m[41m[m
- 	}[m
- }[m
-
-[33mcommit d21a8b00d28f5570e2c5865ea9828e31bf5cda8e[m
-Author: alexandre <alexandre@ale>
-Date:   Wed Jan 27 23:11:39 2016 -0200
-
-    Criado agenda service
-
-[1mdiff --git a/src/main/java/br/com/easygame/dao/EquipeDAO.java b/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[1mindex bab8ee1..3f7db9a 100644[m
-[1m--- a/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[1m+++ b/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[36m@@ -6,10 +6,12 @@[m [mpackage br.com.easygame.dao;[m
- import java.util.ArrayList;[m
- import java.util.List;[m
- [m
-[32m+[m[32mimport javax.inject.Inject;[m
- import javax.persistence.EntityManager;[m
- import javax.persistence.NoResultException;[m
- [m
- import br.com.easygame.entity.Equipe;[m
-[32m+[m[32mimport br.com.easygame.entity.Usuario;[m
- [m
- /**[m
-  * @author mobilesys.alexandre[m
-[36m@@ -19,6 +21,7 @@[m [mpublic class EquipeDAO {[m
- [m
- 	EntityManager entityManager;[m
- [m
-[32m+[m	[32m@Inject[m
- 	public EquipeDAO(EntityManager entityManager) {[m
- 		this.entityManager = entityManager;[m
- 	}[m
-[36m@@ -55,7 +58,16 @@[m [mpublic class EquipeDAO {[m
- 	}[m
- [m
- 	public Equipe pesquisarPorId(Long id) {[m
-[31m-		return entityManager.find(Equipe.class, id);[m
-[32m+[m		[32mtry {[m
-[32m+[m			[32mStringBuilder builder = new StringBuilder("SELECT u FROM Equipe u ")[m
-[32m+[m					[32m.append(" WHERE u.id = :id ");[m
-[32m+[m			[32mreturn entityManager.createQuery(builder.toString(), Equipe.class)[m
-[32m+[m					[32m.setParameter("id", id)[m
-[32m+[m					[32m.getSingleResult();[m
-[32m+[m		[32m} catch (Exception e) {[m
-[32m+[m			[32mreturn null;[m
-[32m+[m		[32m}[m
-[32m+[m
- 	}[m
- [m
- 	public boolean existeEquipe(Equipe equipe) {[m
-[1mdiff --git a/src/main/java/br/com/easygame/dao/EventoDAO.java b/src/main/java/br/com/easygame/dao/EventoDAO.java[m
-[1mindex 57555a7..b79dd77 100644[m
-[1m--- a/src/main/java/br/com/easygame/dao/EventoDAO.java[m
-[1m+++ b/src/main/java/br/com/easygame/dao/EventoDAO.java[m
-[36m@@ -6,11 +6,10 @@[m [mpackage br.com.easygame.dao;[m
- import java.util.ArrayList;[m
- import java.util.List;[m
- [m
-[32m+[m[32mimport javax.inject.Inject;[m
- import javax.persistence.EntityManager;[m
- [m
- import br.com.easygame.entity.Evento;[m
-[31m-import br.com.easygame.entity.UsuarioEquipe;[m
-[31m-import br.com.easygame.entity.UsuarioEquipe;[m
- [m
- /**[m
-  * @author mobilesys.alexandre[m
-[36m@@ -20,6 +19,7 @@[m [mpublic class EventoDAO {[m
- [m
- 	EntityManager entityManager;[m
- [m
-[32m+[m	[32m@Inject[m
- 	public EventoDAO(EntityManager entityManager) {[m
- 		this.entityManager = entityManager;[m
- 	}[m
-[1mdiff --git a/src/main/java/br/com/easygame/entity/Equipe.java b/src/main/java/br/com/easygame/entity/Equipe.java[m
-[1mindex 7ffe457..3154de7 100644[m
-[1m--- a/src/main/java/br/com/easygame/entity/Equipe.java[m
-[1m+++ b/src/main/java/br/com/easygame/entity/Equipe.java[m
-[36m@@ -200,4 +200,21 @@[m [mpublic class Equipe implements Serializable {[m
- [m
- 	}[m
- [m
-[32m+[m	[32m@Override[m[41m[m
-[32m+[m	[32mpublic String toString() {[m[41m[m
-[32m+[m		[32mStringBuilder builder = new StringBuilder();[m[41m[m
-[32m+[m		[32mbuilder.append("Equipe [id=");[m[41m[m
-[32m+[m		[32mbuilder.append(id);[m[41m[m
-[32m+[m		[32mbuilder.append(", nome=");[m[41m[m
-[32m+[m		[32mbuilder.append(nome);[m[41m[m
-[32m+[m		[32mbuilder.append(", dataFundacao=");[m[41m[m
-[32m+[m		[32mbuilder.append(dataFundacao);[m[41m[m
-[32m+[m		[32mbuilder.append(", listUsuarioEquipe=");[m[41m[m
-[32m+[m		[32mbuilder.append(listUsuarioEquipe);[m[41m[m
-[32m+[m		[32mbuilder.append(", usuario=");[m[41m[m
-[32m+[m		[32mbuilder.append(usuario);[m[41m[m
-[32m+[m		[32mbuilder.append("]");[m[41m[m
-[32m+[m		[32mreturn builder.toString();[m[41m[m
-[32m+[m	[32m}[m[41m[m
-[32m+[m[41m[m
- }[m
-[1mdiff --git a/src/main/java/br/com/easygame/entity/Evento.java b/src/main/java/br/com/easygame/entity/Evento.java[m
-[1mindex 49c69ef..8ad7f65 100644[m
-[1m--- a/src/main/java/br/com/easygame/entity/Evento.java[m
-[1m+++ b/src/main/java/br/com/easygame/entity/Evento.java[m
-[36m@@ -264,7 +264,7 @@[m [mpublic class Evento implements Serializable {[m
- 		return builder.build();[m
- 	}[m
- 	[m
-[31m-	public Evento toEvento(JsonObject jsonObject) {[m
-[32m+[m	[32mpublic static Evento toEvento(JsonObject jsonObject) {[m
- 		Evento evento = new Evento();[m
- 		[m
- 		if (jsonObject.containsKey("id")) {[m
-[1mdiff --git a/src/main/java/br/com/easygame/servico/AgendaService.java b/src/main/java/br/com/easygame/servico/AgendaService.java[m
-[1mnew file mode 100644[m
-[1mindex 0000000..c69c0ae[m
-[1m--- /dev/null[m
-[1m+++ b/src/main/java/br/com/easygame/servico/AgendaService.java[m
-[36m@@ -0,0 +1,197 @@[m
-[32m+[m[32m/**[m
-[32m+[m[32m *[m[41m [m
-[32m+[m[32m */[m
-[32m+[m[32mpackage br.com.easygame.servico;[m
-[32m+[m
-[32m+[m[32mimport java.awt.Graphics2D;[m
-[32m+[m[32mimport java.awt.image.BufferedImage;[m
-[32m+[m[32mimport java.io.ByteArrayInputStream;[m
-[32m+[m[32mimport java.io.File;[m
-[32m+[m[32mimport java.io.IOException;[m
-[32m+[m[32mimport java.io.InputStream;[m
-[32m+[m[32mimport java.net.URI;[m
-[32m+[m[32mimport java.util.Iterator;[m
-[32m+[m[32mimport java.util.List;[m
-[32m+[m
-[32m+[m[32mimport javax.ejb.Stateless;[m
-[32m+[m[32mimport javax.ejb.TransactionManagement;[m
-[32m+[m[32mimport javax.ejb.TransactionManagementType;[m
-[32m+[m[32mimport javax.imageio.ImageIO;[m
-[32m+[m[32mimport javax.imageio.ImageReadParam;[m
-[32m+[m[32mimport javax.imageio.ImageReader;[m
-[32m+[m[32mimport javax.imageio.stream.ImageInputStream;[m
-[32m+[m[32mimport javax.inject.Inject;[m
-[32m+[m[32mimport javax.inject.Named;[m
-[32m+[m[32mimport javax.json.Json;[m
-[32m+[m[32mimport javax.json.JsonArrayBuilder;[m
-[32m+[m[32mimport javax.json.JsonObject;[m
-[32m+[m[32mimport javax.ws.rs.Consumes;[m
-[32m+[m[32mimport javax.ws.rs.DELETE;[m
-[32m+[m[32mimport javax.ws.rs.GET;[m
-[32m+[m[32mimport javax.ws.rs.POST;[m
-[32m+[m[32mimport javax.ws.rs.PUT;[m
-[32m+[m[32mimport javax.ws.rs.Path;[m
-[32m+[m[32mimport javax.ws.rs.PathParam;[m
-[32m+[m[32mimport javax.ws.rs.Produces;[m
-[32m+[m[32mimport javax.ws.rs.WebApplicationException;[m
-[32m+[m[32mimport javax.ws.rs.core.MediaType;[m
-[32m+[m[32mimport javax.ws.rs.core.Response;[m
-[32m+[m[32mimport javax.ws.rs.core.UriBuilder;[m
-[32m+[m
-[32m+[m[32mimport org.apache.deltaspike.jpa.api.transaction.Transactional;[m
-[32m+[m
-[32m+[m[32mimport br.com.easygame.dao.EventoDAO;[m
-[32m+[m[32mimport br.com.easygame.entity.Evento;[m
-[32m+[m
-[32m+[m[32m/**[m
-[32m+[m[32m * @author Alexandre[m
-[32m+[m[32m *[m
-[32m+[m[32m */[m
-[32m+[m[32m@Named[m
-[32m+[m[32m@Path(value = "agenda")[m
-[32m+[m[32m@Stateless[m
-[32m+[m[32m@TransactionManagement(TransactionManagementType.BEAN)[m
-[32m+[m[32mpublic class AgendaService {[m
-[32m+[m
-[32m+[m	[32mprivate EventoDAO eventoDAO;[m
-[32m+[m
-[32m+[m	[32mpublic AgendaService() {[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@Inject[m
-[32m+[m	[32mpublic AgendaService(EventoDAO eventoDAO) {[m
-[32m+[m		[32mthis.eventoDAO = eventoDAO;[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m/**[m
-[32m+[m	[32m *[m[41m [m
-[32m+[m	[32m * @param json[m
-[32m+[m	[32m * @return[m
-[32m+[m	[32m * @throws Exception[m
-[32m+[m	[32m */[m
-[32m+[m	[32m@POST[m
-[32m+[m	[32m@Consumes(MediaType.APPLICATION_JSON)[m
-[32m+[m	[32m@Transactional[m
-[32m+[m	[32mpublic Response cadastrarEvento(JsonObject json) throws Exception {[m
-[32m+[m		[32mResponse response;[m
-[32m+[m		[32mEvento evento = Evento.toEvento(json);[m
-[32m+[m		[32meventoDAO.salvar(evento);[m
-[32m+[m		[32meventoDAO.flush();[m
-[32m+[m
-[32m+[m		[32mURI uri = UriBuilder.fromUri("evento/{id}").build(evento.getId());[m
-[32m+[m		[32mreturn response = Response.created(uri).build();[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@GET[m
-[32m+[m	[32m@Path("{id}")[m
-[32m+[m	[32mpublic JsonObject retornaUsuario(@PathParam("id") Long id) {[m
-[32m+[m		[32mEvento evento = eventoDAO.pesquisarPorId(id);[m
-[32m+[m		[32mif (evento != null) {[m
-[32m+[m			[32mreturn evento.toJSON();[m
-[32m+[m		[32m}[m
-[32m+[m
-[32m+[m		[32mthrow new WebApplicationException(javax.ws.rs.core.Response.Status.NOT_FOUND);[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@PUT[m
-[32m+[m	[32m@Path("{id}")[m
-[32m+[m	[32m@Transactional[m
-[32m+[m	[32mpublic void atualizarEvento(@PathParam("id") Long id, JsonObject jsonObject) {[m
-[32m+[m		[32mEvento eventoBanco = eventoDAO.pesquisarPorId(id);[m
-[32m+[m		[32meventoBanco = Evento.toEvento(jsonObject);[m
-[32m+[m		[32meventoDAO.editar(eventoBanco);[m
-[32m+[m		[32meventoDAO.flush();[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@DELETE[m
-[32m+[m	[32m@Path("{id}")[m
-[32m+[m	[32m@Transactional[m
-[32m+[m	[32mpublic void apagarEvento(@PathParam("id") Long id) {[m
-[32m+[m		[32m// TODO criar uma logica para avisar do cancelamento do evento[m
-[32m+[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@GET[m
-[32m+[m	[32m@Produces(MediaType.APPLICATION_JSON)[m
-[32m+[m	[32mpublic String listarUsuarios() {[m
-[32m+[m		[32mtry {[m
-[32m+[m			[32m// aqui um exemplo de como retornar todos os usuarios com JSON[m
-[32m+[m			[32mList<Evento> eventos = eventoDAO.listar();[m
-[32m+[m			[32mJsonArrayBuilder arrayBuilder = Json.createArrayBuilder();[m
-[32m+[m			[32mfor (Evento evento : eventos) {[m
-[32m+[m				[32marrayBuilder.add(evento.toJSON());[m
-[32m+[m
-[32m+[m			[32m}[m
-[32m+[m			[32mreturn arrayBuilder.build().toString();[m
-[32m+[m
-[32m+[m		[32m} catch (Exception e) {[m
-[32m+[m			[32me.getCause();[m
-[32m+[m		[32m}[m
-[32m+[m		[32mreturn "não listou";[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@GET[m
-[32m+[m	[32m@Path("resources/{nome}")[m
-[32m+[m	[32m@Produces("image/*")[m
-[32m+[m	[32mpublic Response recuperaImagem(@PathParam("nome") String nomeImagem) throws IOException {[m
-[32m+[m		[32mInputStream is = AgendaService.class.getResourceAsStream("/" + nomeImagem + ".jpg");[m
-[32m+[m		[32mif (is == null) {[m
-[32m+[m			[32mthrow new WebApplicationException(javax.ws.rs.core.Response.Status.NOT_FOUND);[m
-[32m+[m		[32m}[m
-[32m+[m		[32mbyte[] dados;[m
-[32m+[m		[32mdados = new byte[is.available()];[m
-[32m+[m		[32mis.read(dados);[m
-[32m+[m		[32msalvarImagem(dados);[m
-[32m+[m		[32mis.close();[m
-[32m+[m		[32mreturn Response.ok(dados).type("image/jpg").build();[m
-[32m+[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@POST[m
-[32m+[m	[32m@Path("resources/{nome}")[m
-[32m+[m	[32m@Produces("image/*")[m
-[32m+[m	[32mpublic Response criarImagem(@PathParam("nome") String nomeImagem) throws IOException {[m
-[32m+[m		[32mInputStream is = AgendaService.class.getResourceAsStream("/" + nomeImagem + ".jpg");[m
-[32m+[m		[32mif (is == null) {[m
-[32m+[m			[32mthrow new WebApplicationException(javax.ws.rs.core.Response.Status.NOT_FOUND);[m
-[32m+[m		[32m}[m
-[32m+[m		[32mbyte[] dados;[m
-[32m+[m		[32mdados = new byte[is.available()];[m
-[32m+[m		[32mis.read(dados);[m
-[32m+[m		[32mis.close();[m
-[32m+[m
-[32m+[m		[32mreturn Response.ok(dados).type("image/jpg").build();[m
-[32m+[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32mpublic void salvarImagem(byte[] bytes) throws IOException {[m
-[32m+[m		[32mByteArrayInputStream bis = new ByteArrayInputStream(bytes);[m
-[32m+[m		[32mIterator<?> readers = ImageIO.getImageReadersByFormatName("jpg");[m
-[32m+[m
-[32m+[m		[32m// ImageIO is a class containing static methods for locating[m
-[32m+[m		[32m// ImageReaders[m
-[32m+[m		[32m// and ImageWriters, and performing simple encoding and decoding.[m
-[32m+[m
-[32m+[m		[32mImageReader reader = (ImageReader) readers.next();[m
-[32m+[m		[32mObject source = bis;[m
-[32m+[m		[32mImageInputStream iis = ImageIO.createImageInputStream(source);[m
-[32m+[m		[32mreader.setInput(iis, true);[m
-[32m+[m		[32mImageReadParam param = reader.getDefaultReadParam();[m
-[32m+[m
-[32m+[m		[32mBufferedImage image = reader.read(0, param);[m
-[32m+[m		[32m// got an image file[m
-[32m+[m
-[32m+[m		[32mBufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null),[m
-[32m+[m				[32mBufferedImage.TYPE_INT_RGB);[m
-[32m+[m		[32m// bufferedImage is the RenderedImage to be written[m
-[32m+[m
-[32m+[m		[32mGraphics2D g2 = bufferedImage.createGraphics();[m
-[32m+[m		[32mg2.drawImage(image, null, null);[m
-[32m+[m
-[32m+[m		[32mFile imageFile = new File("/home/alexandre/teste.jpg");[m
-[32m+[m		[32mImageIO.write(bufferedImage, "jpg", imageFile);[m
-[32m+[m
-[32m+[m		[32mSystem.out.println(imageFile.getPath());[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m[32m}[m
-[1mdiff --git a/src/main/java/br/com/easygame/servico/EquipeService.java b/src/main/java/br/com/easygame/servico/EquipeService.java[m
-[1mindex c50dd46..1117f8e 100644[m
-[1m--- a/src/main/java/br/com/easygame/servico/EquipeService.java[m
-[1m+++ b/src/main/java/br/com/easygame/servico/EquipeService.java[m
-[36m@@ -59,8 +59,7 @@[m [mpublic class EquipeService {[m
- 	@Transactional[m
- 	public Response cadastrarEquipe(JsonObject jsonObject) throws Exception {[m
- 		Response response;[m
-[31m-		Equipe equipe = new Equipe();[m
-[31m-		equipe.toEquipe(jsonObject);[m
-[32m+[m		[32mEquipe equipe = Equipe.toEquipe(jsonObject);[m
- 		if (equipeDAO.existeEquipe(equipe)) {[m
- 			throw new WebApplicationException(javax.ws.rs.core.Response.Status.CONFLICT);[m
- 		}[m
-[36m@@ -73,10 +72,10 @@[m [mpublic class EquipeService {[m
- [m
- 	@GET[m
- 	@Path("{id}")[m
-[31m-	public Equipe retornaEquipe(@PathParam("id") String id) {[m
-[31m-		Equipe equipe = equipeDAO.pesquisarPorId(Long.valueOf(id));[m
-[32m+[m	[32mpublic JsonObject retornaEquipe(@PathParam("id") Long id) {[m
-[32m+[m		[32mEquipe equipe = equipeDAO.pesquisarPorId(id);[m
- 		if (equipe != null) {[m
-[31m-			return equipe;[m
-[32m+[m			[32mreturn equipe.toJSON();[m
- 		}[m
- [m
- 		throw new WebApplicationException(javax.ws.rs.core.Response.Status.NOT_FOUND);[m
-[36m@@ -85,28 +84,26 @@[m [mpublic class EquipeService {[m
- 	@PUT[m
- 	@Path("{id}")[m
- 	@Transactional[m
-[31m-	public void atualizarEquipe(@PathParam("id") String id, JsonObject jsonObject) {[m
-[31m-		Equipe equipeBanco = retornaEquipe(id);[m
-[31m-		Equipe equipe = new Equipe();[m
-[31m-		equipe.toEquipe(jsonObject);[m
-[32m+[m	[32mpublic void atualizarEquipe(@PathParam("id") Long id, JsonObject jsonObject) {[m
-[32m+[m		[32mEquipe equipeBanco = equipeDAO.pesquisarPorId(id);[m
-[32m+[m		[32mEquipe equipe = Equipe.toEquipe(jsonObject);[m
- 		// TODO falta validar melhor se equipe ja nãoexiste mesmodepois de[m
- 		// editar[m
- 		if (!equipeBanco.naoAlterouNomeDaequipeDoUsuario(equipe)) {[m
-[31m-			equipeBanco.toEquipe(jsonObject);[m
-[32m+[m			[32mequipe = equipeBanco;[m
- 			if (equipeDAO.existeEquipe(equipeBanco)) {[m
- 				throw new WebApplicationException(javax.ws.rs.core.Response.Status.CONFLICT);[m
- 			}[m
- 		}[m
-[31m-		equipeBanco.toEquipe(jsonObject);[m
-[31m-		equipeDAO.editar(equipeBanco);[m
-[32m+[m		[32mequipeDAO.editar(equipe);[m
- 		equipeDAO.flush();[m
- 	}[m
- [m
- 	@DELETE[m
- 	@Path("{id}")[m
- 	@Transactional[m
-[31m-	public void apagarEquipe(@PathParam("id") String id) {[m
-[31m-		Equipe equipeBanco = retornaEquipe(id);[m
-[32m+[m	[32mpublic void apagarEquipe(@PathParam("id") Long id) {[m
-[32m+[m		[32mEquipe equipeBanco = equipeDAO.pesquisarPorId(id);[m
- 		// TODO falta criar o metodo de exclusão sócopiar do usuarioDAO[m
- [m
- 	}[m
-[1mdiff --git a/src/main/java/br/com/easygame/teste/dao/EquipeDAOTeste.java b/src/main/java/br/com/easygame/teste/dao/EquipeDAOTeste.java[m
-[1mindex 53fc869..b091e37 100644[m
-[1m--- a/src/main/java/br/com/easygame/teste/dao/EquipeDAOTeste.java[m
-[1m+++ b/src/main/java/br/com/easygame/teste/dao/EquipeDAOTeste.java[m
-[36m@@ -114,8 +114,7 @@[m [mpublic class EquipeDAOTeste {[m
- 	@Test[m
- 	public void salvarEquipeCOMJogadoresRecebeJSON() {[m
- 		JsonObject jsonEquipe = criarEquipeCOMJogadoresJSON();[m
-[31m-		Equipe equipe = new Equipe();[m
-[31m-		equipe.toEquipe(jsonEquipe);[m
-[32m+[m		[32mEquipe equipe = Equipe.toEquipe(jsonEquipe);[m
- 		equipeDAO.editar(equipe);[m
- 		equipeDAO.flush();[m
- [m
-[36m@@ -155,6 +154,8 @@[m [mpublic class EquipeDAOTeste {[m
- 		return equipe.toJSON();[m
- [m
- 	}[m
-[32m+[m[41m	[m
-[32m+[m[41m	[m
- [m
- 	@Test[m
- 	public void listarEquipe() {[m
-
-[33mcommit 4497e54676853bfba06d4ddb23b9f9cded3d6583[m
-Author: yeahsistemas <alexandrels800@gmail.com>
-Date:   Wed Jan 27 14:40:37 2016 -0200
-
-    Update .gitignore
-
-[1mdiff --git a/.gitignore b/.gitignore[m
-[1mindex c1ae600..e1bff6f 100644[m
-[1m--- a/.gitignore[m
-[1m+++ b/.gitignore[m
-[36m@@ -1,5 +1,3 @@[m
-[31m-/target/[m
-[31m-[m
-[32m+[m[32m/target/*[m[41m[m
- /.settings[m
-[31m-/target/[m
-[31m-*[m
-\ No newline at end of file[m
-[32m+[m[32m/target/[m[41m[m
-
-[33mcommit bf7aa9e94c51c940b77c54722abd9aa9d6f8d9b3[m
-Author: yeahsistemas <alexandrels800@gmail.com>
-Date:   Wed Jan 27 13:52:33 2016 -0200
-
-    ds
-
-[1mdiff --git a/pom.xml b/pom.xml[m
-[1mindex 7568698..55a1397 100644[m
-[1m--- a/pom.xml[m
-[1m+++ b/pom.xml[m
-[36m@@ -37,6 +37,32 @@[m
- 			<artifactId>commons-collections4</artifactId>[m
- 			<version>4.1</version>[m
- 		</dependency>[m
-[32m+[m		[32m<dependency>[m
-[32m+[m			[32m<groupId>org.apache.deltaspike.core</groupId>[m
-[32m+[m			[32m<artifactId>deltaspike-core-api</artifactId>[m
-[32m+[m			[32m<version>${deltaspike.version}</version>[m
-[32m+[m			[32m<scope>compile</scope>[m
-[32m+[m		[32m</dependency>[m
-[32m+[m
-[32m+[m		[32m<dependency>[m
-[32m+[m			[32m<groupId>org.apache.deltaspike.core</groupId>[m
-[32m+[m			[32m<artifactId>deltaspike-core-impl</artifactId>[m
-[32m+[m			[32m<version>${deltaspike.version}</version>[m
-[32m+[m			[32m<scope>runtime</scope>[m
-[32m+[m		[32m</dependency>[m
-[32m+[m		[32m<dependency>[m
-[32m+[m			[32m<groupId>org.apache.deltaspike.modules</groupId>[m
-[32m+[m			[32m<artifactId>deltaspike-jpa-module-api</artifactId>[m
-[32m+[m			[32m<version>${deltaspike.version}</version>[m
-[32m+[m			[32m<scope>compile</scope>[m
-[32m+[m		[32m</dependency>[m
-[32m+[m
-[32m+[m		[32m<dependency>[m
-[32m+[m			[32m<groupId>org.apache.deltaspike.modules</groupId>[m
-[32m+[m			[32m<artifactId>deltaspike-jpa-module-impl</artifactId>[m
-[32m+[m			[32m<version>${deltaspike.version}</version>[m
-[32m+[m			[32m<scope>runtime</scope>[m
-[32m+[m		[32m</dependency>[m
- [m
- 	</dependencies>[m
- 	<repositories>[m
-[1mdiff --git a/src/main/java/br/com/easygame/dao/EquipeDAO.java b/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[1mindex 9ccd4cc..bab8ee1 100644[m
-[1m--- a/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[1m+++ b/src/main/java/br/com/easygame/dao/EquipeDAO.java[m
-[36m@@ -7,8 +7,8 @@[m [mimport java.util.ArrayList;[m
- import java.util.List;[m
- [m
- import javax.persistence.EntityManager;[m
-[32m+[m[32mimport javax.persistence.NoResultException;[m
- [m
-[31m-import br.com.easygame.conexao.ProducerEntityManager;[m
- import br.com.easygame.entity.Equipe;[m
- [m
- /**[m
-[36m@@ -57,7 +57,22 @@[m [mpublic class EquipeDAO {[m
- 	public Equipe pesquisarPorId(Long id) {[m
- 		return entityManager.find(Equipe.class, id);[m
- 	}[m
-[31m-	[m
-[32m+[m
-[32m+[m	[32mpublic boolean existeEquipe(Equipe equipe) {[m
-[32m+[m		[32mtry {[m
-[32m+[m			[32mStringBuilder builder = new StringBuilder(" SELECT u.id FROM Equipe u ").append(" WHERE u.nome =  :nome")[m
-[32m+[m					[32m.append(" AND u.usuario = :usuario ");[m
-[32m+[m			[32mentityManager.createQuery(builder.toString(), Long.class).setParameter("nome", equipe.getNome())[m
-[32m+[m					[32m.setParameter("usuario", equipe.getUsuario()).setMaxResults(1).getSingleResult();[m
-[32m+[m			[32mreturn true;[m
-[32m+[m
-[32m+[m		[32m} catch (NoResultException e) {[m
-[32m+[m			[32mreturn false;[m
-[32m+[m		[32m} catch (Exception e) {[m
-[32m+[m			[32mreturn false;[m
-[32m+[m		[32m}[m
-[32m+[m	[32m}[m
-[32m+[m
- 	public void flush() {[m
- 		entityManager.flush();[m
- 	}[m
-[1mdiff --git a/src/main/java/br/com/easygame/dao/UsuarioDAO.java b/src/main/java/br/com/easygame/dao/UsuarioDAO.java[m
-[1mindex a9b7bb0..e2fb905 100644[m
-[1m--- a/src/main/java/br/com/easygame/dao/UsuarioDAO.java[m
-[1m+++ b/src/main/java/br/com/easygame/dao/UsuarioDAO.java[m
-[36m@@ -116,4 +116,7 @@[m [mpublic class UsuarioDAO {[m
- 			return false;[m
- 		}[m
- 	}[m
-[32m+[m	[32mpublic void joinTransaction() {[m
-[32m+[m		[32mentityManager.joinTransaction();[m
-[32m+[m	[32m}[m
- }[m
-[1mdiff --git a/src/main/java/br/com/easygame/entity/Equipe.java b/src/main/java/br/com/easygame/entity/Equipe.java[m
-[1mindex bfecb3b..7ffe457 100644[m
-[1m--- a/src/main/java/br/com/easygame/entity/Equipe.java[m
-[1m+++ b/src/main/java/br/com/easygame/entity/Equipe.java[m
-[36m@@ -32,7 +32,7 @@[m [mimport br.com.easygame.util.DataUtils;[m
- @Table(name = "equipe")[m
- @Entity[m
- public class Equipe implements Serializable {[m
-[31m-	[m
-[32m+[m[41m[m
- 	/**[m
- 	 * [m
- 	 */[m
-[36m@@ -41,71 +41,77 @@[m [mpublic class Equipe implements Serializable {[m
- 	@GeneratedValue(strategy = GenerationType.IDENTITY)[m
- 	@Column(name = "id", unique = true, nullable = false)[m
- 	private Long id;[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Column(name = "nome")[m
- 	private String nome;[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Temporal(TemporalType.TIMESTAMP)[m
- 	@Column(name = "data_fundacao")[m
- 	private Date dataFundacao;[m
-[31m-	[m
-[31m-	@OneToMany(mappedBy = "equipe", cascade = {[m
-[31m-			CascadeType.ALL[m
-[31m-	})[m
-[32m+[m[41m[m
-[32m+[m	[32m@OneToMany(mappedBy = "equipe", cascade = { CascadeType.ALL })[m[41m[m
- 	private List<UsuarioEquipe> listUsuarioEquipe = new ArrayList<>();[m
-[31m-	[m
-[32m+[m[41m[m
- 	@ManyToOne[m
- 	@JoinColumn(name = "id_usuario")[m
- 	private Usuario usuario;[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Equipe() {[m
- 		// TODO Auto-generated constructor stub[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Equipe(Long id) {[m
- 		this.id = id;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Long getId() {[m
- 		return id;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setId(Long id) {[m
- 		this.id = id;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public String getNome() {[m
- 		return nome;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setNome(String nome) {[m
- 		this.nome = nome;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Date getDataFundacao() {[m
- 		return dataFundacao;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setDataFundacao(Date dataFundacao) {[m
- 		this.dataFundacao = dataFundacao;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public List<UsuarioEquipe> getListUsuarioEquipe() {[m
- 		return listUsuarioEquipe;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setListUsuarioEquipe(List<UsuarioEquipe> listUsuarioEquipe) {[m
- 		this.listUsuarioEquipe = listUsuarioEquipe;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Usuario getUsuario() {[m
- 		return usuario;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setUsuario(Usuario usuario) {[m
- 		this.usuario = usuario;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
-[32m+[m	[32mpublic boolean naoAlterouNomeDaequipeDoUsuario(Equipe equipe) {[m[41m[m
-[32m+[m		[32mif (getNome().equals(equipe.getNome()) && getUsuario().equals(equipe.usuario)) {[m[41m[m
-[32m+[m			[32mreturn true;[m[41m[m
-[32m+[m		[32m}[m[41m[m
-[32m+[m		[32mreturn false;[m[41m[m
-[32m+[m[41m[m
-[32m+[m	[32m}[m[41m[m
-[32m+[m[41m[m
- 	@Override[m
- 	public int hashCode() {[m
- 		final int prime = 31;[m
-[36m@@ -113,7 +119,7 @@[m [mpublic class Equipe implements Serializable {[m
- 		result = prime * result + ((id == null) ? 0 : id.hashCode());[m
- 		return result;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Override[m
- 	public boolean equals(Object obj) {[m
- 		if (this == obj)[m
-[36m@@ -130,7 +136,7 @@[m [mpublic class Equipe implements Serializable {[m
- 			return false;[m
- 		return true;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void adicionarUsuario(Usuario usuario, TipoPosicao posicao) {[m
- 		UsuarioEquipe usuarioEquipe = new UsuarioEquipe();[m
- 		usuarioEquipe.setDataContratacao(new Date());[m
-[36m@@ -140,38 +146,38 @@[m [mpublic class Equipe implements Serializable {[m
- 		if (!listUsuarioEquipe.contains(usuarioEquipe)) {[m
- 			listUsuarioEquipe.add(usuarioEquipe);[m
- 		}[m
-[31m-		[m
-[32m+[m[41m[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void adicionarUsuarioEquipe(UsuarioEquipe usuarioEquipe) {[m
- 		if (getListUsuarioEquipe() == null) {[m
- 			setListUsuarioEquipe(new ArrayList<UsuarioEquipe>());[m
- 		}[m
-[32m+[m		[32musuarioEquipe.setEquipe(this);[m[41m[m
- 		getListUsuarioEquipe().add(usuarioEquipe);[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public JsonObject toJSON() {[m
- 		JsonObjectBuilder builder = Json.createObjectBuilder();[m
- 		if (getId() != null) {[m
- 			builder.add("id", getId());[m
- 		}[m
-[31m-		builder.add("nome", getNome())[m
-[31m-				.add("dataFundacao", DataUtils.formatarDate(getDataFundacao(), "dd/MM/yyyy"))[m
-[32m+[m		[32mbuilder.add("nome", getNome()).add("dataFundacao", DataUtils.formatarDate(getDataFundacao(), "dd/MM/yyyy"))[m[41m[m
- 				.add("usuario", getUsuario().getId());[m
- 		if (CollectionUtils.isNotEmpty(getListUsuarioEquipe())) {[m
- 			JsonArrayBuilder arrayUsuarioEquipe = Json.createArrayBuilder();[m
- 			for (UsuarioEquipe usuarioEquipe : listUsuarioEquipe) {[m
- 				arrayUsuarioEquipe.add(usuarioEquipe.toJSON());[m
- 			}[m
-[31m-			builder.add("arrayUsuarioEquipe", arrayUsuarioEquipe);[m
-[32m+[m			[32mbuilder.add("listaUsuarioEquipe", arrayUsuarioEquipe);[m[41m[m
- 		}[m
-[31m-		[m
-[32m+[m[41m[m
- 		return builder.build();[m
- 	}[m
-[31m-	[m
-[31m-	public Equipe toEquipe(JsonObject jsonObject) {[m
-[31m-		Equipe equipe = new Equipe();[m
-[32m+[m[41m[m
-[32m+[m	[32mpublic static Equipe toEquipe(JsonObject jsonObject) {[m[41m[m
- 		try {[m
-[32m+[m			[32mEquipe equipe = new Equipe();[m[41m[m
- 			if (jsonObject.containsKey("id")) {[m
- 				equipe.setId(Long.valueOf(jsonObject.getInt("id")));[m
- 			}[m
-[36m@@ -179,20 +185,19 @@[m [mpublic class Equipe implements Serializable {[m
- 			String dataFundacao = jsonObject.getString("dataFundacao");[m
- 			equipe.setDataFundacao(DataUtils.parseDate(dataFundacao, "dd/MM/yyyy"));[m
- 			equipe.setUsuario(new Usuario(Long.valueOf(jsonObject.getInt("usuario"))));[m
-[31m-			if (jsonObject.containsKey("arrayUsuarioEquipe")) {[m
-[31m-				JsonArray arrayUsuarioEquipe = jsonObject.getJsonArray("arrayUsuarioEquipe");[m
-[32m+[m			[32mif (jsonObject.containsKey("listaUsuarioEquipe")) {[m[41m[m
-[32m+[m				[32mJsonArray arrayUsuarioEquipe = jsonObject.getJsonArray("listaUsuarioEquipe");[m[41m[m
- 				for (int i = 0; i < arrayUsuarioEquipe.size(); i++) {[m
- 					JsonObject jsonUsuarioEquipe = arrayUsuarioEquipe.getJsonObject(i);[m
-[31m-					UsuarioEquipe usuarioEquipe = new UsuarioEquipe().toUsuarioEquipe(jsonUsuarioEquipe);[m
-[32m+[m					[32mUsuarioEquipe usuarioEquipe = UsuarioEquipe.toUsuarioEquipe(jsonUsuarioEquipe);[m[41m[m
- 					equipe.adicionarUsuarioEquipe(usuarioEquipe);[m
- 				}[m
- 			}[m
-[31m-			[m
- 			return equipe;[m
- 		} catch (JsonException e) {[m
- 			throw new RuntimeException("Erro ao ler JSON de Usuario", e);[m
- 		}[m
-[31m-		[m
-[32m+[m[41m[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- }[m
-[1mdiff --git a/src/main/java/br/com/easygame/entity/Usuario.java b/src/main/java/br/com/easygame/entity/Usuario.java[m
-[1mindex bd1ced4..c9abe35 100644[m
-[1m--- a/src/main/java/br/com/easygame/entity/Usuario.java[m
-[1m+++ b/src/main/java/br/com/easygame/entity/Usuario.java[m
-[36m@@ -27,12 +27,12 @@[m [mimport br.com.easygame.enuns.TipoUsuario;[m
- [m
- /**[m
-  * @author mobilesys.alexandre[m
-[31m- * 		[m
-[32m+[m[32m *[m[41m [m
-  */[m
- @Table(name = "usuario")[m
- @Entity[m
- public class Usuario implements Serializable {[m
-[31m-	[m
-[32m+[m
- 	/**[m
- 	 * [m
- 	 */[m
-[36m@@ -41,14 +41,14 @@[m [mpublic class Usuario implements Serializable {[m
- 	@GeneratedValue(strategy = GenerationType.IDENTITY)[m
- 	@Column(name = "id", unique = true, nullable = false)[m
- 	private Long id;[m
-[31m-	[m
-[32m+[m
- 	public Usuario(Long id) {[m
- 		this.id = id;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public Usuario() {[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	@Column(name = "login")[m
- 	private String login;[m
- 	@Column(name = "senha")[m
-[36m@@ -67,13 +67,13 @@[m [mpublic class Usuario implements Serializable {[m
- 	private String apelido;[m
- 	@Column(name = "posicao")[m
- 	private TipoPosicao tipoPosicao;[m
-[31m-	[m
-[32m+[m
- 	@OneToMany(mappedBy = "usuario")[m
- 	private List<Evento> eventos;[m
-[31m-	[m
-[32m+[m
- 	@OneToMany(mappedBy = "usuario")[m
- 	private List<Equipe> equipes;[m
-[31m-	[m
-[32m+[m
- 	/*[m
- 	 * um ou mais tipos[m
- 	 */[m
-[36m@@ -92,7 +92,7 @@[m [mpublic class Usuario implements Serializable {[m
- 			this.tipoUsuario = builder.toString();[m
- 		}[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public List<TipoUsuario> ajustaNovosTiposUsuarioComJaExistentes(List<TipoUsuario> novosTiposUsuario) {[m
- 		List<TipoUsuario> tiposDoUsuario = recuperarTipoUsuario();[m
- 		for (TipoUsuario novoTipoUsuario : novosTiposUsuario) {[m
-[36m@@ -101,9 +101,9 @@[m [mpublic class Usuario implements Serializable {[m
- 			}[m
- 		}[m
- 		return tiposDoUsuario;[m
-[31m-		[m
-[32m+[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	/**[m
- 	 * Recuperar um ou mais tipos desse usuario[m
- 	 * [m
-[36m@@ -116,103 +116,103 @@[m [mpublic class Usuario implements Serializable {[m
- 			tiposUsuarios.add(TipoUsuario.values()[Integer.valueOf(string)]);[m
- 		}[m
- 		return tiposUsuarios;[m
-[31m-		[m
-[32m+[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public List<TipoUsuario> tiposDoUsuario() {[m
-[31m-		[m
-[32m+[m
- 		return null;[m
-[31m-		[m
-[32m+[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public SimNao getFacebook() {[m
- 		return facebook;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setFacebook(SimNao facebook) {[m
- 		this.facebook = facebook;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public String getApelido() {[m
- 		return apelido;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setApelido(String apelido) {[m
- 		this.apelido = apelido;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public String getLogin() {[m
- 		return login;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setLogin(String login) {[m
- 		this.login = login;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public String getSenha() {[m
- 		return senha;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setSenha(String senha) {[m
- 		this.senha = senha;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public Long getId() {[m
- 		return id;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setId(Long id) {[m
- 		this.id = id;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public Double getLatitude() {[m
- 		return latitude;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setLatitude(Double latitude) {[m
- 		this.latitude = latitude;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public Double getLongitude() {[m
- 		return longitude;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setLongitude(Double longitude) {[m
- 		this.longitude = longitude;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public String getTipoUsuario() {[m
- 		return tipoUsuario;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setTipoUsuario(String tipoUsuario) {[m
- 		this.tipoUsuario = tipoUsuario;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public TipoPosicao getTipoPosicao() {[m
- 		return tipoPosicao;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setTipoPosicao(TipoPosicao tipoPosicao) {[m
- 		this.tipoPosicao = tipoPosicao;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public String getNome() {[m
- 		return nome;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setNome(String nome) {[m
- 		this.nome = nome;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public List<Equipe> getEquipes() {[m
- 		return equipes;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public void setEquipes(List<Equipe> equipes) {[m
- 		this.equipes = equipes;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	@Override[m
- 	public int hashCode() {[m
- 		final int prime = 31;[m
-[36m@@ -220,7 +220,7 @@[m [mpublic class Usuario implements Serializable {[m
- 		result = prime * result + ((id == null) ? 0 : id.hashCode());[m
- 		return result;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	@Override[m
- 	public boolean equals(Object obj) {[m
- 		if (this == obj)[m
-[36m@@ -237,14 +237,14 @@[m [mpublic class Usuario implements Serializable {[m
- 			return false;[m
- 		return true;[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	@Override[m
- 	public String toString() {[m
- 		return "Usuario [id=" + id + ", login=" + login + ", senha=" + senha + ", nome=" + nome + ", latitude="[m
- 				+ latitude + ", longitude=" + longitude + ", tipoUsuario=" + tipoUsuario + ", facebook=" + facebook[m
- 				+ ", apelido=" + apelido + ", tipoPosicao=" + tipoPosicao + "]";[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	public JsonObject toJSON() {[m
- 		JsonObjectBuilder builder = Json.createObjectBuilder();[m
- 		if (getId() != null) {[m
-[36m@@ -254,11 +254,11 @@[m [mpublic class Usuario implements Serializable {[m
- 				.add("latitude", getLatitude() != null ? getLatitude() : 0)[m
- 				.add("longitude", getLongitude() != null ? getLongitude() : 0).add("facebook", getFacebook().ordinal())[m
- 				.add("posicao", getTipoPosicao().ordinal()).add("tipoUsuario", getTipoUsuario());[m
-[31m-				[m
-[32m+[m
- 		return builder.build();[m
- 	}[m
-[31m-	[m
-[31m-	public Usuario toUsuario(JsonObject jsonObject) {[m
-[32m+[m
-[32m+[m	[32mpublic static Usuario toUsuario(JsonObject jsonObject) {[m
- 		Usuario usuario = new Usuario();[m
- 		try {[m
- 			if (jsonObject.containsKey("id")) {[m
-[36m@@ -273,11 +273,11 @@[m [mpublic class Usuario implements Serializable {[m
- 			usuario.setSenha(jsonObject.getString("senha"));[m
- 			usuario.setTipoPosicao(TipoPosicao.values()[jsonObject.getInt("posicao")]);[m
- 			usuario.setTipoUsuario(jsonObject.getString("tipoUsuario"));[m
-[31m-			return usuario;[m
- 		} catch (JsonException e) {[m
- 			throw new RuntimeException("Erro ao ler JSON de Usuario", e);[m
- 		}[m
-[31m-		[m
-[32m+[m		[32mreturn usuario;[m
-[32m+[m
- 	}[m
-[31m-	[m
-[32m+[m
- }[m
-[1mdiff --git a/src/main/java/br/com/easygame/entity/UsuarioEquipe.java b/src/main/java/br/com/easygame/entity/UsuarioEquipe.java[m
-[1mindex 1d0b27e..b2476fc 100644[m
-[1m--- a/src/main/java/br/com/easygame/entity/UsuarioEquipe.java[m
-[1m+++ b/src/main/java/br/com/easygame/entity/UsuarioEquipe.java[m
-[36m@@ -28,12 +28,12 @@[m [mimport br.com.easygame.util.DataUtils;[m
- [m
- /**[m
-  * @author Alexandre[m
-[31m- * 		[m
-[32m+[m[32m *[m[41m [m
-  */[m
- @Table(name = "usuario_has_equipe")[m
- @Entity[m
- public class UsuarioEquipe implements Serializable {[m
-[31m-	[m
-[32m+[m[41m[m
- 	/**[m
- 	 * [m
- 	 */[m
-[36m@@ -55,51 +55,51 @@[m [mpublic class UsuarioEquipe implements Serializable {[m
- 	@Column(name = "data_contratacao")[m
- 	private Date dataContratacao;[m
- 	@Column(name = "pendente")[m
-[31m-	private SimNao pendente;[m
-[32m+[m	[32mprivate SimNao pendente = SimNao.SIM;[m[41m[m
- 	@Temporal(TemporalType.DATE)[m
- 	@Column(name = "data_convite")[m
- 	private Date dataConvite;[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Usuario getUsuario() {[m
- 		return usuario;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setUsuario(Usuario usuario) {[m
- 		this.usuario = usuario;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Equipe getEquipe() {[m
- 		return equipe;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setEquipe(Equipe equipe) {[m
- 		this.equipe = equipe;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public TipoPosicao getPosicao() {[m
- 		return posicao;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setPosicao(TipoPosicao posicao) {[m
- 		this.posicao = posicao;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Date getDataContratacao() {[m
- 		return dataContratacao;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setDataContratacao(Date dataContratacao) {[m
- 		this.dataContratacao = dataContratacao;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public Long getId() {[m
- 		return id;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public void setId(Long id) {[m
- 		this.id = id;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public SimNao getPendente() {[m
- 		return pendente;[m
- 	}[m
-[36m@@ -125,34 +125,38 @@[m [mpublic class UsuarioEquipe implements Serializable {[m
- 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());[m
- 		return result;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	public JsonObject toJSON() {[m
- 		JsonObjectBuilder builder = Json.createObjectBuilder();[m
- 		if (getId() != null) {[m
- 			builder.add("id", getId());[m
- 		}[m
-[31m-		builder.add("usuario", getUsuario().getId())[m
-[31m-				.add("equipe", getEquipe().getId())[m
-[31m-				.add("posicao", getPosicao().ordinal())[m
-[31m-				.add("dataContratacao", DataUtils.formatarDate(getDataContratacao(), "dd/MM/yyy"));[m
-[31m-				[m
-[32m+[m		[32mbuilder.add("usuario", getUsuario().getId());[m[41m[m
-[32m+[m		[32mif (getEquipe().getId() != null) {[m[41m[m
-[32m+[m			[32mbuilder.add("equipe", getEquipe().getId());[m[41m[m
-[32m+[m		[32m}[m[41m[m
-[32m+[m		[32mbuilder.add("posicao", getPosicao().ordinal()).add("dataContratacao",[m[41m[m
-[32m+[m				[32mDataUtils.formatarDate(getDataContratacao(), "dd/MM/yyy"));[m[41m[m
-[32m+[m[41m[m
- 		return builder.build();[m
- 	}[m
-[31m-	[m
-[31m-	public UsuarioEquipe toUsuarioEquipe(JsonObject jsonObject) {[m
-[32m+[m[41m[m
-[32m+[m	[32mpublic static UsuarioEquipe toUsuarioEquipe(JsonObject jsonObject) {[m[41m[m
- 		UsuarioEquipe usuarioEquipe = new UsuarioEquipe();[m
- 		if (jsonObject.containsKey("id")) {[m
- 			usuarioEquipe.setId(Long.valueOf(jsonObject.getInt("id")));[m
- 		}[m
- 		usuarioEquipe.setUsuario(new Usuario(Long.valueOf(jsonObject.getInt("usuario"))));[m
-[31m-		usuarioEquipe.setEquipe(new Equipe(Long.valueOf(jsonObject.getInt("equipe"))));[m
-[32m+[m		[32mif (jsonObject.containsKey("equipe")) {[m[41m[m
-[32m+[m			[32musuarioEquipe.setEquipe(new Equipe(Long.valueOf(jsonObject.getInt("equipe"))));[m[41m[m
-[32m+[m		[32m}[m[41m[m
- 		String dataContratacao = jsonObject.getString("dataContratacao");[m
- 		usuarioEquipe.setPosicao(TipoPosicao.values()[jsonObject.getInt("posicao")]);[m
- 		usuarioEquipe.setDataContratacao(DataUtils.parseDate(dataContratacao, "dd/MM/yyyy"));[m
- 		return usuarioEquipe;[m
-[31m-		[m
-[32m+[m[41m[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- 	@Override[m
- 	public boolean equals(Object obj) {[m
- 		if (this == obj)[m
-[36m@@ -176,5 +180,5 @@[m [mpublic class UsuarioEquipe implements Serializable {[m
- 			return false;[m
- 		return true;[m
- 	}[m
-[31m-	[m
-[32m+[m[41m[m
- }[m
-[1mdiff --git a/src/main/java/br/com/easygame/servico/EquipeService.java b/src/main/java/br/com/easygame/servico/EquipeService.java[m
-[1mindex 4884fc8..c50dd46 100644[m
-[1m--- a/src/main/java/br/com/easygame/servico/EquipeService.java[m
-[1m+++ b/src/main/java/br/com/easygame/servico/EquipeService.java[m
-[36m@@ -3,75 +3,122 @@[m
-  */[m
- package br.com.easygame.servico;[m
- [m
-[32m+[m[32mimport java.net.URI;[m
- import java.util.List;[m
- [m
-[32m+[m[32mimport javax.ejb.Stateless;[m
-[32m+[m[32mimport javax.ejb.TransactionManagement;[m
-[32m+[m[32mimport javax.ejb.TransactionManagementType;[m
- import javax.inject.Inject;[m
- import javax.inject.Named;[m
- import javax.json.Json;[m
- import javax.json.JsonArrayBuilder;[m
-[32m+[m[32mimport javax.json.JsonObject;[m
- import javax.ws.rs.Consumes;[m
-[32m+[m[32mimport javax.ws.rs.DELETE;[m
- import javax.ws.rs.GET;[m
- import javax.ws.rs.POST;[m
-[32m+[m[32mimport javax.ws.rs.PUT;[m
- import javax.ws.rs.Path;[m
-[32m+[m[32mimport javax.ws.rs.PathParam;[m
- import javax.ws.rs.Produces;[m
-[32m+[m[32mimport javax.ws.rs.WebApplicationException;[m
- import javax.ws.rs.core.MediaType;[m
- import javax.ws.rs.core.Response;[m
-[32m+[m[32mimport javax.ws.rs.core.UriBuilder;[m
-[32m+[m
-[32m+[m[32mimport org.apache.deltaspike.jpa.api.transaction.Transactional;[m
- [m
- import br.com.easygame.dao.EquipeDAO;[m
- import br.com.easygame.dao.UsuarioDAO;[m
-[31m-import br.com.easygame.entity.Usuario;[m
-[32m+[m[32mimport br.com.easygame.entity.Equipe;[m
- [m
- /**[m
-[31m- * @author Alexandre[m
-[31m- * TEste de commit[m
-[32m+[m[32m * @author Alexandre TEste de commit[m
-  */[m
- @Named[m
- @Path(value = "equipe")[m
-[31m-	public class EquipeService {[m
-[32m+[m[32m@Stateless[m
-[32m+[m[32m@TransactionManagement(TransactionManagementType.BEAN)[m
-[32m+[m[32mpublic class EquipeService {[m
- 	private EquipeDAO equipeDAO;[m
- 	private UsuarioDAO usuarioDAO;[m
-[31m-	[m
-[32m+[m
- 	public EquipeService() {[m
- 	}[m
-[31m-	[m
-[32m+[m
- 	@Inject[m
- 	public EquipeService(EquipeDAO equipeDAO, UsuarioDAO usuarioDAO) {[m
- 		this.equipeDAO = equipeDAO;[m
-[31m-		this.usuarioDAO = usuarioDAO; [m
-[32m+[m		[32mthis.usuarioDAO = usuarioDAO;[m
- 	}[m
- [m
-[31m-	//fez tudo OK HTTP CREATED 201[m
-[32m+[m	[32m// fez tudo OK HTTP CREATED 201[m
- 	@POST[m
- 	@Consumes(MediaType.APPLICATION_JSON)[m
-[31m-	public Response cadastrarEquipe(String json) throws Exception {[m
-[31m-		try {[m
-[31m-//			Equipe equipeJson = Equipe.toEquipe(json);[m
-[31m-//			equipeDAO.salvar(equipeJson);[m
-[31m-//[m
-[31m-//			Response response = Response.status(Response.Status.CREATED)[m
-[31m-//					.entity("sadjgdagsdjh")[m
-[31m-//					.location(UriBuilder.fromUri("dsds").build(equipeJson.getId())).build();[m
-[31m-			//localhost:8080/easy-game/equipe/19[m
-[31m-//			return response;[m
-[31m-		} catch (Exception e) {[m
-[31m-			e.getCause();[m
-[31m-			Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)[m
-[31m-					.entity("json").build();[m
-[32m+[m	[32m@Transactional[m
-[32m+[m	[32mpublic Response cadastrarEquipe(JsonObject jsonObject) throws Exception {[m
-[32m+[m		[32mResponse response;[m
-[32m+[m		[32mEquipe equipe = new Equipe();[m
-[32m+[m		[32mequipe.toEquipe(jsonObject);[m
-[32m+[m		[32mif (equipeDAO.existeEquipe(equipe)) {[m
-[32m+[m			[32mthrow new WebApplicationException(javax.ws.rs.core.Response.Status.CONFLICT);[m
- 		}[m
-[31m-		//return Json.createObjectBuilder().add("erro", "Não salvou o equipe").build().toString();[m
-[31m-		return null;[m
-[32m+[m		[32mequipeDAO.salvar(equipe);[m
-[32m+[m		[32mequipeDAO.flush();[m
-[32m+[m
-[32m+[m		[32mURI uri = UriBuilder.fromUri("equipe/{id}").build(equipe.getId());[m
-[32m+[m		[32mreturn response = Response.created(uri).entity(equipe).build();[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@GET[m
-[32m+[m	[32m@Path("{id}")[m
-[32m+[m	[32mpublic Equipe retornaEquipe(@PathParam("id") String id) {[m
-[32m+[m		[32mEquipe equipe = equipeDAO.pesquisarPorId(Long.valueOf(id));[m
-[32m+[m		[32mif (equipe != null) {[m
-[32m+[m			[32mreturn equipe;[m
-[32m+[m		[32m}[m
-[32m+[m
-[32m+[m		[32mthrow new WebApplicationException(javax.ws.rs.core.Response.Status.NOT_FOUND);[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@PUT[m
-[32m+[m	[32m@Path("{id}")[m
-[32m+[m	[32m@Transactional[m
-[32m+[m	[32mpublic void atualizarEquipe(@PathParam("id") String id, JsonObject jsonObject) {[m
-[32m+[m		[32mEquipe equipeBanco = retornaEquipe(id);[m
-[32m+[m		[32mEquipe equipe = new Equipe();[m
-[32m+[m		[32mequipe.toEquipe(jsonObject);[m
-[32m+[m		[32m// TODO falta validar melhor se equipe ja nãoexiste mesmodepois de[m
-[32m+[m		[32m// editar[m
-[32m+[m		[32mif (!equipeBanco.naoAlterouNomeDaequipeDoUsuario(equipe)) {[m
-[32m+[m			[32mequipeBanco.toEquipe(jsonObject);[m
-[32m+[m			[32mif (equipeDAO.existeEquipe(equipeBanco)) {[m
-[32m+[m				[32mthrow new WebApplicationException(javax.ws.rs.core.Response.Status.CONFLICT);[m
-[32m+[m			[32m}[m
-[32m+[m		[32m}[m
-[32m+[m		[32mequipeBanco.toEquipe(jsonObject);[m
-[32m+[m		[32mequipeDAO.editar(equipeBanco);[m
-[32m+[m		[32mequipeDAO.flush();[m
-[32m+[m	[32m}[m
-[32m+[m
-[32m+[m	[32m@DELETE[m
-[32m+[m	[32m@Path("{id}")[m
-[32m+[m	[32m@Transactional[m
-[32m+[m	[32mpublic void apagarEquipe(@PathParam("id") String id) {[m
-[32m+[m		[32mEquipe equipeBanco = retornaEquipe(id);[m
-[32m+[m		[32m// TODO falta criar o metodo de exclusão sócopiar do usuarioDAO[m
-[32m+[m
- 	}[m
- [m
- 	@GET[m
- 	@Produces(MediaType.APPLICATION_JSON)[m
- 	public String listarEquipes() {[m
- 		try {[m
-[31m-			List<Usuario> usuarios = usuarioDAO.listarTodos();[m
-[32m+[m			[32mList<Equipe> equipes = equipeDAO.listar();[m
- 			JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();[m
-[31m-			for (Usuario usuario : usuarios) {[m
-[31m-				arrayBuilder.add(Json.createObjectBuilder().add("id", usuario.getId().toString())[m
-[31m-						.add("login", usuario.getLogin()).add("senha", usuar
