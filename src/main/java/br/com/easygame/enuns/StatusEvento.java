@@ -3,7 +3,7 @@ package br.com.easygame.enuns;
 public enum StatusEvento {
 
 	ATIVO("Ativo"), 
-	CANELADO("Cancelado ");
+	CANELADO("Cancelado");
 
 	private StatusEvento(String descricao) {
 		this.descricao = descricao;
