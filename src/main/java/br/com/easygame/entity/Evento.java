@@ -226,7 +226,7 @@ public class Evento implements Serializable {
 			builder.add("id", getId());
 		}
 		builder.add("descricao", getDescricao())
-				.add("dataHora", DataUtils.formatarDate(getDataHora(), "dd/MM/yyyy HH:mm:ss"))
+//				.add("dataHora", DataUtils.formatarDate(getDataHora(), "dd/MM/yyyy HH:mm:ss"))
 				.add("tipo", getTipoEvento().ordinal()).add("usuario", getUsuario().getId())
 				.add("statusEvento", getStatusEvento().ordinal());
 		if (getLocal() != null) {

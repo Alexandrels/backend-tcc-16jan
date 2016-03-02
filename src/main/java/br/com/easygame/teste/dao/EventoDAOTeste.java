@@ -47,11 +47,11 @@ public class EventoDAOTeste {
 	public void salvarEvento() {
 		Local local = new Local();
 		local.setEndereco("Rua Da Cagurer");
-		local.setNomeLocal("Quandra Sport All");
-		local.setProprietario("Juarez");
+		local.setNomeLocal("Quadra Sitio Cerejeira");
+		local.setProprietario("Ganzales");
 
 		Equipe equipe = equipeDAO.pesquisarPorId(1l);
-		Usuario usuario = usuarioDAO.pesquisarPorId(1l);
+		Usuario usuario = usuarioDAO.pesquisarPorId(2l);
 
 		List<Usuario> todos = usuarioDAO.listarTodos();
 		todos.remove(usuario);

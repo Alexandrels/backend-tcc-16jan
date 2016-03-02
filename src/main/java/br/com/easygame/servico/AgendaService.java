@@ -25,6 +25,7 @@ import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -121,7 +122,7 @@ public class AgendaService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String listarUsuarios() {
+	public JsonObject listarEventos() {
 		try {
 			// aqui um exemplo de como retornar todos os usuarios com JSON
 			List<Evento> eventos = eventoDAO.listar();
@@ -130,12 +131,14 @@ public class AgendaService {
 				arrayBuilder.add(evento.toJSON());
 
 			}
-			return arrayBuilder.build().toString();
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			builder.add("eventos", arrayBuilder);
+			return builder.build();
 
 		} catch (Exception e) {
 			e.getCause();
 		}
-		return "não listou";
+		return Json.createObjectBuilder().add("erro", "erro ao listar eventos").build();
 	}
 
 	@GET

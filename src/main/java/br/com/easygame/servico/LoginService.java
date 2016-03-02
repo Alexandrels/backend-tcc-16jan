@@ -13,7 +13,9 @@ import javax.json.JsonReader;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import br.com.easygame.dao.UsuarioDAO;
 
@@ -38,21 +40,26 @@ public class LoginService {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String validarLogin(String json) throws Exception {
+	public Response validarLogin(String json) throws Exception {
 		try {
+			boolean autenticar = false;
 			JsonReader jsonReader = Json.createReader(new StringReader(json));
 			JsonObject jsonObject = jsonReader.readObject();
 			String login = jsonObject.getString("login");
 			String senha = jsonObject.getString("senha");
 			if (login != null && senha != null) {
-				boolean autenticar = usuarioDAO.autenticar(login, senha);
-				return Json.createObjectBuilder().add("retorno", autenticar).build().toString();
+				autenticar = usuarioDAO.autenticar(login, senha);
 			}
+			if (autenticar) {
+				throw new WebApplicationException(javax.ws.rs.core.Response.Status.FORBIDDEN);
+			}
+
+			return Response.status(200).build();
 
 		} catch (Exception e) {
 			e.getCause();
 		}
-		return Json.createObjectBuilder().add("erro", "Não conseguiu autenticar no banco").build().toString();
+		return Response.status(403).build();
 	}
 
 }
