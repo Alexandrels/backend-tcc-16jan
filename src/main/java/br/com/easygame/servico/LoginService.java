@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -40,7 +41,8 @@ public class LoginService {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response validarLogin(String json) throws Exception {
+	public JsonObject validarLogin(String json) throws Exception {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
 		try {
 			boolean autenticar = false;
 			JsonReader jsonReader = Json.createReader(new StringReader(json));
@@ -50,16 +52,16 @@ public class LoginService {
 			if (login != null && senha != null) {
 				autenticar = usuarioDAO.autenticar(login, senha);
 			}
-			if (autenticar) {
+			if (!autenticar) {
 				throw new WebApplicationException(javax.ws.rs.core.Response.Status.FORBIDDEN);
 			}
-
-			return Response.status(200).build();
+			
+			return builder.add("objeto", "ok").build();
 
 		} catch (Exception e) {
 			e.getCause();
 		}
-		return Response.status(403).build();
+		return builder.add("erro", "erro").build() ;
 	}
 
 }

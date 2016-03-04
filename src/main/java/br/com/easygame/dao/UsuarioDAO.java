@@ -54,7 +54,8 @@ public class UsuarioDAO {
 
 	public boolean autenticar(String login, String senha) {
 		try {
-			StringBuilder builder = new StringBuilder("SELECT u FROM Usuario u ").append(" WHERE u.login = :login ")
+			StringBuilder builder = new StringBuilder("SELECT u FROM Usuario u ")
+					.append(" WHERE u.login = :login ")
 					.append(" AND u.senha = :senha ");
 			// usa o entityManager
 			entityManager.createQuery(builder.toString(), Usuario.class).setParameter("login", login)

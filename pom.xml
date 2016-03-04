@@ -116,7 +116,7 @@
 		<eclipselink.version>2.5.1</eclipselink.version>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<deltaspike.version>1.0.3</deltaspike.version>
-	</properties>
+</properties>
 	<build>
 		<plugins>
 			<plugin>

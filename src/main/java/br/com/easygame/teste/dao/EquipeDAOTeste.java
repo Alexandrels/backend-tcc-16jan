@@ -48,8 +48,8 @@ public class EquipeDAOTeste {
 
 	@After
 	public void depois() {
-//		entityManager.getTransaction().commit();
-		 entityManager.getTransaction().rollback();
+		entityManager.getTransaction().commit();
+//		 entityManager.getTransaction().rollback();
 		entityManager.close();
 	}
 
@@ -97,7 +97,7 @@ public class EquipeDAOTeste {
 
 	public JsonObject criarEquipeSEMJogadoresJSON() {
 		Equipe equipe = new Equipe();
-		equipe.setNome("Clube do Remo");
+		equipe.setNome("Garotos Unidos F.C.");
 		equipe.setDataFundacao(LocalDate.now().toDate());
 		equipe.setUsuario(new Usuario(2l));
 

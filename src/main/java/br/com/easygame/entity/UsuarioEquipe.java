@@ -131,7 +131,8 @@ public class UsuarioEquipe implements Serializable {
 		if (getId() != null) {
 			builder.add("id", getId());
 		}
-		builder.add("usuario", getUsuario().getId());
+		builder.add("usuario", getUsuario().getId())
+		.add("usuarioNome", getUsuario().getNome());
 		if (getEquipe().getId() != null) {
 			builder.add("equipe", getEquipe().getId());
 		}

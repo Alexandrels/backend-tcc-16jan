@@ -274,10 +274,12 @@ public class Usuario implements Serializable {
 		if (getId() != null) {
 			builder.add("id", getId());
 		}
-		builder.add("nome", getNome()).add("apelido", getApelido()).add("apelido", getApelido())
+		builder.add("nome", getNome())
+				.add("apelido", getApelido())
 				.add("latitude", getLatitude() != null ? getLatitude() : 0)
 				.add("longitude", getLongitude() != null ? getLongitude() : 0)
-				.add("posicao", getTipoPosicao().ordinal()).add("telefone", getTelefone());
+				.add("posicao", getTipoPosicao().ordinal())
+				.add("telefone", getTelefone());
 
 		return builder.build();
 	}

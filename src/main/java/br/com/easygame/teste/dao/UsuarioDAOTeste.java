@@ -50,10 +50,10 @@ public class UsuarioDAOTeste {
 	@Test
 	public void salvarUsuarioTipoJogador() {
 		Usuario usuario = new Usuario();
-		usuario.setNome("Cristiano");
-		usuario.setApelido("Fuba");
+		usuario.setNome("Joao");
+		usuario.setApelido("joao");
 		usuario.setFacebook(SimNao.NAO);
-		usuario.setLogin("fuba");
+		usuario.setLogin("joao");
 		usuario.setTipoPosicao(TipoPosicao.ATACANTE);
 		usuario.setSenha("1");
 		usuario.salvarTipoUsuario(Arrays.asList(TipoUsuario.JOGADOR));

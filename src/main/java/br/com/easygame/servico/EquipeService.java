@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -75,9 +76,11 @@ public class EquipeService {
 	@GET
 	@Path("{id}")
 	public JsonObject retornaEquipe(@PathParam("id") Long id) {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
 		Equipe equipe = equipeDAO.pesquisarPorId(id);
 		if (equipe != null) {
-			return equipe.toJSON();
+			builder.add("objeto", equipe.toJSON());
+			return builder.build();
 		}
 
 		throw new WebApplicationException(javax.ws.rs.core.Response.Status.NOT_FOUND);
@@ -112,7 +115,8 @@ public class EquipeService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String listarEquipes() {
+	public JsonObject listarEquipes() {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
 		try {
 			List<Equipe> equipes = equipeDAO.listar();
 			JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -120,14 +124,15 @@ public class EquipeService {
 				arrayBuilder.add(equipe.toJSON());
 
 			}
-			return arrayBuilder.build().toString();
+			builder.add("objeto", Json.createObjectBuilder().add("array", arrayBuilder.build()));
+			return builder.build();
 
 		} catch (Exception e) {
 			e.getCause();
 		}
-		return "não listou";
+		return Json.createObjectBuilder().add("erro", "Não listou as equipes").build();
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("convite")
@@ -137,13 +142,13 @@ public class EquipeService {
 		Long idEquipe = Long.valueOf(jsonObject.getInt("equipe"));
 		Long idUsuario = Long.valueOf(jsonObject.getInt("usuario"));
 		int posicaoConvite = jsonObject.getInt("posicaoConvite");
-		
+
 		Equipe equipe = equipeDAO.pesquisarPorId(idEquipe);
 		Usuario usuario = usuarioDAO.pesquisarPorId(idUsuario);
 		TipoPosicao tipoPosicao = TipoPosicao.values()[posicaoConvite];
-		
+
 		equipe.adicionarUsuario(usuario, tipoPosicao);
-		
+
 		equipeDAO.editar(equipe);
 		equipeDAO.flush();
 	}

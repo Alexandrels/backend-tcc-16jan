@@ -143,12 +143,14 @@ public class UsuarioService {
 		}
 		return "não listou";
 	}
+
 	@GET
 	@Path("coordenadas/{tipo}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JsonObject listarCoordenadasUsuarios(@PathParam("tipo") int tipo) {
 		try {
 			JsonObjectBuilder builder = Json.createObjectBuilder();
+			JsonObjectBuilder coordenadasJson = Json.createObjectBuilder();
 			// aqui um exemplo de como retornar todos os usuarios com JSON
 			List<Usuario> usuarios = usuarioDAO.listar(TipoUsuario.values()[tipo]);
 			JsonArrayBuilder arrayUsuarios = Json.createArrayBuilder();
@@ -156,14 +158,15 @@ public class UsuarioService {
 				arrayUsuarios.add(usuario.toUsuarioCoordenadasJSON());
 
 			}
-			builder.add("coordenadas", arrayUsuarios);
-			return builder.build();
+			coordenadasJson.add("coordenadas", arrayUsuarios);
+			return builder.add("objeto", coordenadasJson).build();
 
 		} catch (Exception e) {
 			e.getCause();
 		}
 		return null;
 	}
+
 	@GET
 	@Path("resources/{nome}")
 	@Produces("image/*")
