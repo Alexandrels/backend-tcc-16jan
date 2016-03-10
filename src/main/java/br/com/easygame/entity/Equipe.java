@@ -140,7 +140,7 @@ public class Equipe implements Serializable {
 
 	public void adicionarUsuario(Usuario usuario, TipoPosicao posicao) {
 		UsuarioEquipe usuarioEquipe = new UsuarioEquipe();
-		usuarioEquipe.setDataContratacao(new Date());
+		usuarioEquipe.setDataContratacao(null);
 		usuarioEquipe.setEquipe(this);
 		usuarioEquipe.setPosicao(posicao);
 		usuarioEquipe.setUsuario(usuario);

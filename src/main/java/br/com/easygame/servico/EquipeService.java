@@ -137,20 +137,28 @@ public class EquipeService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("convite")
 	@Transactional
-	public void cadastrarUsuarioConvidado(JsonObject jsonObject) throws Exception {
-		Response response;
-		Long idEquipe = Long.valueOf(jsonObject.getInt("equipe"));
-		Long idUsuario = Long.valueOf(jsonObject.getInt("usuario"));
-		int posicaoConvite = jsonObject.getInt("posicaoConvite");
+	public JsonObject cadastrarUsuarioConvidado(JsonObject jsonObject) {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		try {
 
-		Equipe equipe = equipeDAO.pesquisarPorId(idEquipe);
-		Usuario usuario = usuarioDAO.pesquisarPorId(idUsuario);
-		TipoPosicao tipoPosicao = TipoPosicao.values()[posicaoConvite];
+			Response response;
+			Long idEquipe = Long.valueOf(jsonObject.getInt("equipe"));
+			Long idUsuario = Long.valueOf(jsonObject.getInt("usuario"));
+			int posicaoConvite = jsonObject.getInt("posicaoConvite");
 
-		equipe.adicionarUsuario(usuario, tipoPosicao);
+			Equipe equipe = equipeDAO.pesquisarPorId(idEquipe);
+			Usuario usuario = usuarioDAO.pesquisarPorId(idUsuario);
+			TipoPosicao tipoPosicao = TipoPosicao.values()[posicaoConvite];
 
-		equipeDAO.editar(equipe);
-		equipeDAO.flush();
+			equipe.adicionarUsuario(usuario, tipoPosicao);
+
+			equipeDAO.editar(equipe);
+			equipeDAO.flush();
+			
+			return builder.add("objeto", Json.createObjectBuilder().add("convite", "sucesso")).build();
+		} catch (Exception e) {
+			return builder.add("objeto", Json.createObjectBuilder().add("convite", "erro")).build();
+		}
 	}
 
 }

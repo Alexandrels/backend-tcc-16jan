@@ -136,8 +136,7 @@ public class UsuarioEquipe implements Serializable {
 		if (getEquipe().getId() != null) {
 			builder.add("equipe", getEquipe().getId());
 		}
-		builder.add("posicao", getPosicao().ordinal()).add("dataContratacao",
-				DataUtils.formatarDate(getDataContratacao(), "dd/MM/yyy"));
+		builder.add("posicao", getPosicao().ordinal());
 
 		return builder.build();
 	}
