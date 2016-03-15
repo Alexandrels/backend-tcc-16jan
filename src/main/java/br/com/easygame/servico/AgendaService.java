@@ -41,7 +41,9 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
+import br.com.easygame.dao.EquipeDAO;
 import br.com.easygame.dao.EventoDAO;
+import br.com.easygame.entity.Equipe;
 import br.com.easygame.entity.Evento;
 import br.com.easygame.enuns.StatusEvento;
 
@@ -56,13 +58,15 @@ import br.com.easygame.enuns.StatusEvento;
 public class AgendaService {
 
 	private EventoDAO eventoDAO;
+	private EquipeDAO equipeDAO;
 
 	public AgendaService() {
 	}
 
 	@Inject
-	public AgendaService(EventoDAO eventoDAO) {
+	public AgendaService(EventoDAO eventoDAO,EquipeDAO equipeDAO) {
 		this.eventoDAO = eventoDAO;
+		this.equipeDAO = equipeDAO;
 	}
 
 	/**
@@ -132,8 +136,32 @@ public class AgendaService {
 
 			}
 			JsonObjectBuilder builder = Json.createObjectBuilder();
-			builder.add("eventos", arrayBuilder);
+			builder.add("objeto", Json.createObjectBuilder().add("array", arrayBuilder.build()));
 			return builder.build();
+
+		} catch (Exception e) {
+			e.getCause();
+		}
+		return Json.createObjectBuilder().add("erro", "erro ao listar eventos").build();
+	}
+	
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JsonObject listarEventosPorEquipe(@PathParam("id") Long id) {
+		try {
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			JsonObjectBuilder eventosJson = Json.createObjectBuilder();
+			// aqui um exemplo de como retornar todos os usuarios com JSON
+			Equipe equipe = equipeDAO.pesquisarPorId(id);
+			List<Evento> eventos = eventoDAO.listar(equipe);
+			JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+			for (Evento evento : eventos) {
+				arrayBuilder.add(evento.toJSON());
+
+			}
+			eventosJson.add("eventos", arrayBuilder);
+			return builder.add("objeto", eventosJson).build();
 
 		} catch (Exception e) {
 			e.getCause();

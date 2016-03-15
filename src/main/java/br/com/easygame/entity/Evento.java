@@ -226,8 +226,9 @@ public class Evento implements Serializable {
 			builder.add("id", getId());
 		}
 		builder.add("descricao", getDescricao())
-//				.add("dataHora", DataUtils.formatarDate(getDataHora(), "dd/MM/yyyy HH:mm:ss"))
-				.add("tipo", getTipoEvento().ordinal()).add("usuario", getUsuario().getId())
+				.add("dataHora", DataUtils.formatarDate(getDataHora(), "dd/MM/yyyy HH:mm:ss"))
+				.add("tipo", getTipoEvento().ordinal())
+				.add("usuario", getUsuario().getId())
 				.add("statusEvento", getStatusEvento().ordinal());
 		if (getLocal() != null) {
 			// avaliar os demais ralcionamentos parecidos, que podem ou não ter
@@ -264,7 +265,7 @@ public class Evento implements Serializable {
 		evento.setUsuario(new Usuario(Long.valueOf(jsonObject.getInt("usuario"))));
 		evento.setTipoEvento(TipoEvento.values()[jsonObject.getInt("tipo")]);
 		evento.setLocal(new Local().toLocal(jsonObject.getJsonObject("local")));
-		evento.setStatusEvento(StatusEvento.values()[jsonObject.getInt("local")]);
+		evento.setStatusEvento(StatusEvento.values()[jsonObject.getInt("statusEvento")]);
 		JsonArray arrayEquipes = jsonObject.getJsonArray("equipes");
 		for (int i = 0; i < arrayEquipes.size(); i++) {
 			Equipe equipe = new Equipe(Long.valueOf(arrayEquipes.getInt((i))));

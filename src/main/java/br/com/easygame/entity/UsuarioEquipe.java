@@ -134,9 +134,11 @@ public class UsuarioEquipe implements Serializable {
 		builder.add("usuario", getUsuario().getId())
 		.add("usuarioNome", getUsuario().getNome());
 		if (getEquipe().getId() != null) {
-			builder.add("equipe", getEquipe().getId());
+			builder.add("equipe", getEquipe().getId())
+			.add("equipeNome", getEquipe().getNome());
 		}
-		builder.add("posicao", getPosicao().ordinal());
+		builder.add("posicao", getPosicao().ordinal())
+		.add("dataConvite", DataUtils.formatarDate(getDataConvite(), "dd/MM/yyyy"));
 
 		return builder.build();
 	}

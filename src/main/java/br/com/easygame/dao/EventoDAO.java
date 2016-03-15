@@ -65,13 +65,29 @@ public class EventoDAO {
 			return new ArrayList<Evento>();
 		}
 	}
-
+	
 	public Evento pesquisarPorId(Long id) {
 		try {
-			StringBuilder builder = new StringBuilder("SELECT u FROM Evento u ").append(" WHERE u.id = :id ");
+			StringBuilder builder = new StringBuilder("SELECT u FROM Evento u ")
+					.append(" WHERE u.id = :id ");
 			return entityManager.createQuery(builder.toString(), Evento.class).setParameter("id", id).getSingleResult();
 		} catch (Exception e) {
 			return null;
+		}
+	}
+	public List<Evento> listar(Equipe equipe) {
+		try {
+			// cria um entityManager
+			StringBuilder builder = new StringBuilder("SELECT u FROM Evento u ")
+					.append(" WHERE u.statusEvento = :statusEvento")
+					.append(" AND u.equipes = :equipe ");
+			// usa o entityManager
+			return entityManager.createQuery(builder.toString(), Evento.class)
+					.setParameter("statusEvento", StatusEvento.ATIVO)
+					.setParameter("equipe",equipe)
+					.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<Evento>();
 		}
 	}
 

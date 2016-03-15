@@ -6,6 +6,7 @@ package br.com.easygame.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -25,6 +26,7 @@ public class UsuarioEquipeDAO {
 
 	EntityManager entityManager;
 
+	@Inject
 	public UsuarioEquipeDAO(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
@@ -74,6 +76,39 @@ public class UsuarioEquipeDAO {
 					.append(" WHERE u.pendente = :sim ");
 			TypedQuery<UsuarioEquipe> tq = entityManager.createQuery(jpql.toString(), UsuarioEquipe.class);
 			tq.setParameter("sim", SimNao.SIM);
+			List<UsuarioEquipe> resultList = tq.getResultList();
+
+			return resultList;
+		} catch (Exception e) {
+			return new ArrayList<UsuarioEquipe>();
+		}
+	}
+	public List<UsuarioEquipe> listarUsuariosConvitesPendentes(Equipe equipe) {
+		try {
+			// cria um entityManager
+			StringBuilder jpql = new StringBuilder("SELECT u FROM UsuarioEquipe u ")
+					.append(" WHERE u.pendente = :sim ")
+					.append(" AND u.equipe = :equipe");
+			TypedQuery<UsuarioEquipe> tq = entityManager.createQuery(jpql.toString(), UsuarioEquipe.class);
+			tq.setParameter("sim", SimNao.SIM)
+			.setParameter("equipe", equipe);
+			List<UsuarioEquipe> resultList = tq.getResultList();
+
+			return resultList;
+		} catch (Exception e) {
+			return new ArrayList<UsuarioEquipe>();
+		}
+	}
+	
+	public List<UsuarioEquipe> listarUsuariosConvitesPendentes(Usuario usuario) {
+		try {
+			// cria um entityManager
+			StringBuilder jpql = new StringBuilder("SELECT u FROM UsuarioEquipe u ")
+					.append(" WHERE u.pendente = :sim ")
+					.append(" AND u.usuario = :usuario");
+			TypedQuery<UsuarioEquipe> tq = entityManager.createQuery(jpql.toString(), UsuarioEquipe.class);
+			tq.setParameter("sim", SimNao.SIM)
+			.setParameter("usuario", usuario);
 			List<UsuarioEquipe> resultList = tq.getResultList();
 
 			return resultList;

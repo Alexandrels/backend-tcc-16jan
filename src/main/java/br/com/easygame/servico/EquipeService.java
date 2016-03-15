@@ -32,8 +32,11 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import br.com.easygame.dao.EquipeDAO;
 import br.com.easygame.dao.UsuarioDAO;
+import br.com.easygame.dao.UsuarioEquipeDAO;
 import br.com.easygame.entity.Equipe;
+import br.com.easygame.entity.Evento;
 import br.com.easygame.entity.Usuario;
+import br.com.easygame.entity.UsuarioEquipe;
 import br.com.easygame.enuns.TipoPosicao;
 
 /**
@@ -46,14 +49,16 @@ import br.com.easygame.enuns.TipoPosicao;
 public class EquipeService {
 	private EquipeDAO equipeDAO;
 	private UsuarioDAO usuarioDAO;
+	private UsuarioEquipeDAO usuarioEquipeDAO;
 
 	public EquipeService() {
 	}
 
 	@Inject
-	public EquipeService(EquipeDAO equipeDAO, UsuarioDAO usuarioDAO) {
+	public EquipeService(EquipeDAO equipeDAO, UsuarioDAO usuarioDAO,UsuarioEquipeDAO usuarioEquipeDAO) {
 		this.equipeDAO = equipeDAO;
 		this.usuarioDAO = usuarioDAO;
+		this.usuarioEquipeDAO = usuarioEquipeDAO;
 	}
 
 	// fez tudo OK HTTP CREATED 201
@@ -131,6 +136,30 @@ public class EquipeService {
 			e.getCause();
 		}
 		return Json.createObjectBuilder().add("erro", "Não listou as equipes").build();
+	}
+	
+	@GET
+	@Path("pendentes/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JsonObject listarJogadoresConvitePendente(@PathParam("id") Long id) {
+		try {
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			JsonObjectBuilder eventosJson = Json.createObjectBuilder();
+			// aqui um exemplo de como retornar todos os usuarios com JSON
+			Equipe equipe = equipeDAO.pesquisarPorId(id);
+			List<UsuarioEquipe> pendentes = usuarioEquipeDAO.listarUsuariosConvitesPendentes(equipe);
+			JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+			for (UsuarioEquipe usuarioEquipe : pendentes) {
+				arrayBuilder.add(usuarioEquipe.toJSON());
+
+			}
+			eventosJson.add("pendentes", arrayBuilder);
+			return builder.add("objeto", eventosJson).build();
+
+		} catch (Exception e) {
+			e.getCause();
+		}
+		return Json.createObjectBuilder().add("erro", "erro ao listar pendentes").build();
 	}
 
 	@POST
