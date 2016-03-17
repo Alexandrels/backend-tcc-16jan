@@ -45,7 +45,6 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import br.com.easygame.dao.UsuarioDAO;
 import br.com.easygame.entity.Usuario;
 import br.com.easygame.enuns.TipoUsuario;
-import javafx.print.JobSettings;
 
 /**
  * @author Alexandre

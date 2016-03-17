@@ -10,7 +10,8 @@ package br.com.easygame.enuns;
 public enum TipoUsuario {
 	
 	TECNICO("Administrador Time"),
-	JOGADOR("Usuario Comum");
+	JOGADOR("Usuario Comum"),
+	QUADRA("Quadra Poliesportiva");
 	
 	private TipoUsuario(String descricao) {
 		this.descricao = descricao;

@@ -189,5 +189,28 @@ public class EquipeService {
 			return builder.add("objeto", Json.createObjectBuilder().add("convite", "erro")).build();
 		}
 	}
+	
+	@GET
+	@Path("coordenadas")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JsonObject listarCoordenadasEquipes() {
+		try {
+			JsonObjectBuilder builder = Json.createObjectBuilder();
+			JsonObjectBuilder coordenadasJson = Json.createObjectBuilder();
+			// aqui um exemplo de como retornar todos os usuarios com JSON
+			List<Equipe> equipes = equipeDAO.listar();
+			JsonArrayBuilder arrayEquipes = Json.createArrayBuilder();
+			for (Equipe equipe : equipes) {
+				arrayEquipes.add(equipe.toJSONCoordenadasEquipes());
+
+			}
+			coordenadasJson.add("coordenadasEquipe", arrayEquipes);
+			return builder.add("objeto", coordenadasJson).build();
+
+		} catch (Exception e) {
+			e.getCause();
+		}
+		return null;
+	}
 
 }

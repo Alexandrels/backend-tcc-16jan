@@ -11,6 +11,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -174,6 +175,19 @@ public class Equipe implements Serializable {
 			}
 			builder.add("listaUsuarioEquipe", arrayUsuarioEquipe);
 		}
+
+		return builder.build();
+	}
+
+	public JsonObject toJSONCoordenadasEquipes() {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		if (getId() != null) {
+			builder.add("id", getId());
+		}
+		builder.add("nome", getNome())
+				.add("dataFundacao", DataUtils.formatarDate(getDataFundacao(), "dd/MM/yyyy"))
+				.add("latitude", getUsuario().getLatitude() != null ? getUsuario().getLatitude() : 0)
+				.add("longitude", getUsuario().getLongitude() != null ? getUsuario().getLongitude() : 0);
 
 		return builder.build();
 	}
